@@ -1,7 +1,7 @@
 // products.component.ts
 
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -38,6 +38,9 @@ import { ProductListResponse } from '@app/models/product-list-response.model';
 export class ProductsComponent implements OnInit {
     readonly pageSize = 8;
 
+    @ViewChildren('productRow', { read: ElementRef })
+    rows!: QueryList<ElementRef>;
+
     // -------------------
     // UI STATE
     // -------------------
@@ -51,6 +54,7 @@ export class ProductsComponent implements OnInit {
 
     statusFilter: 'ALL' | 'PUBLISHED' | 'DRAFT' | 'ARCHIVED' = 'ALL';
     showArchived = false;
+    highlightProductId: string | null = null;
 
     getProductImageUrl = getProductImageUrl;
 
@@ -139,6 +143,14 @@ export class ProductsComponent implements OnInit {
     ngOnInit(): void {
         this.initForm();
 
+        this.route.queryParams.subscribe(params => {
+            this.highlightProductId = params['highlight'] || null;
+        });
+
+        // if (nav?.extras?.state) {
+        //     this.highlightProductId = nav.extras.state['highlightProductId'] || null;
+        // }
+
         this.searchCtrl.valueChanges
         .pipe(
             debounceTime(300),
@@ -154,86 +166,124 @@ export class ProductsComponent implements OnInit {
             });
         });
 
-
         this.productsVm$ = merge(
-        this.route.queryParams,
-        this.refresh$
+            this.route.queryParams,
+            this.refresh$
         ).pipe(
-        map(() => {
-            const params = this.route.snapshot.queryParamMap;
+            map(() => {
+                const params = this.route.snapshot.queryParamMap;
 
-            const statusParam = params.get('status');
+                const statusParam = params.get('status');
 
-            const status: 'ALL' | 'PUBLISHED' | 'DRAFT' | 'ARCHIVED' =
-                statusParam === 'PUBLISHED' ||
-                statusParam === 'DRAFT' ||
-                statusParam === 'ARCHIVED'
-                    ? statusParam
-                    : 'ALL';
+                const status: 'ALL' | 'PUBLISHED' | 'DRAFT' | 'ARCHIVED' =
+                    statusParam === 'PUBLISHED' ||
+                    statusParam === 'DRAFT' ||
+                    statusParam === 'ARCHIVED'
+                        ? statusParam
+                        : 'ALL';
 
-            const showArchived = params.get('archived') === 'true';
-                
-            // sync UI
-            this.statusFilter = status;
-            this.showArchived = showArchived;
+                const showArchived = params.get('archived') === 'true';
+                    
+                // sync UI
+                this.statusFilter = status;
+                this.showArchived = showArchived;
 
-            return {
-                page: Number(params.get('page')) || 1,
-                search: params.get('q') || '',
-                status,
-                showArchived,
-            };
-        }),
+                return {
+                    page: Number(params.get('page')) || 1,
+                    search: params.get('q') || '',
+                    status,
+                    showArchived,
+                };
+            }),
 
-        tap(({ page }) => {
-            this.currentPage = page;
-        }),
+            tap(({ page }) => {
+                this.currentPage = page;
+            }),
 
-        switchMap(({ page, search, status, showArchived }) => {
-            const apiStatus:
-                | 'DRAFT'
-                | 'PUBLISHED'
-                | 'ARCHIVED'
-                | undefined =
-                status === 'ALL' ? undefined : status;
+            switchMap(({ page, search, status, showArchived }) => {
+                const apiStatus:
+                    | 'DRAFT'
+                    | 'PUBLISHED'
+                    | 'ARCHIVED'
+                    | undefined =
+                    status === 'ALL' ? undefined : status;
 
-            return this.productSrv.getProducts({
-                page,
-                limit: this.pageSize,
-                search,
-                status: apiStatus,
-            }).pipe(
-                tap(res => {
-                const totalPages = res.meta
-                    ? Math.ceil(res.meta.total / res.meta.limit)
-                    : 1;
+                return this.productSrv.getProducts({
+                    page,
+                    limit: this.pageSize,
+                    search,
+                    status: apiStatus,
+                }).pipe(
+                    tap(res => {
+                        const totalPages = res.meta
+                            ? Math.ceil(res.meta.total / res.meta.limit)
+                            : 1;
 
-                if (page > totalPages && totalPages > 0) {
-                    this.router.navigate([], {
-                    queryParams: { page: totalPages },
-                    queryParamsHandling: 'merge',
-                    });
-                }
-                }),
+                        if (page > totalPages && totalPages > 0) {
+                            this.router.navigate([], {
+                            queryParams: { page: totalPages },
+                            queryParamsHandling: 'merge',
+                            });
+                        }
+                    }),
 
-                map(res => ({
-                loading: false,
-                products: res.data ?? [],
-                totalPages: res.meta
-                    ? Math.ceil(res.meta.total / res.meta.limit)
-                    : 1,
-                })),
+                    map(res => ({
+                        loading: false,
+                        products: res.data ?? [],
+                        totalPages: res.meta
+                            ? Math.ceil(res.meta.total / res.meta.limit)
+                            : 1,
+                    })),
 
-                startWith({
-                loading: true,
-                products: [] as Product[],
-                totalPages: 1,
-                })
-            );
-        })
+                    tap(() => {
+                        setTimeout(() => this.scrollToHighlighted(), 0);
+                    }),
 
-
+                    startWith({
+                        loading: true,
+                        products: [] as Product[],
+                        totalPages: 1,
+                    })
+                );
+            })
         );
+        
+    }
+
+    ngAfterViewInit() {
+        this.rows.changes.subscribe(() => {
+            this.scrollToHighlighted();
+        });
+
+        // initial load
+        setTimeout(() => this.scrollToHighlighted(), 0);
+    }
+
+    scrollToHighlighted() {
+        if (!this.highlightProductId) return;
+
+        const el = this.rows.find(
+            r => r.nativeElement.dataset.id === this.highlightProductId
+        );
+
+        // ❗ If not found, DO NOTHING (wait for next render)
+        if (!el) return;
+
+        el.nativeElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+
+        // ✅ clear ONLY after success
+        setTimeout(() => {
+            this.highlightProductId = null;
+
+            this.router.navigate([], {
+                queryParams: { highlight: null },
+                queryParamsHandling: 'merge'
+            });
+
+        }, 2000);
     }
 
 

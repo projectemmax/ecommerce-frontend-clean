@@ -592,14 +592,18 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
             // ==========================
             // STEP 4: API CALL
             // ==========================
+            let savedProductId = this.productId;
+
             if (this.isEditMode) {
                 await firstValueFrom(
                     this.productService.updateProduct(this.productId, payload)
                 );
             } else {
-                await firstValueFrom(
+                const created = await firstValueFrom(
                     this.productService.createProduct(payload)
                 );
+
+                savedProductId = created.data.id; // 👈 adjust based on your API response
             }
 
             // ==========================
@@ -624,7 +628,13 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
             // ==========================
 
             if (after === 'list') {
-                this.router.navigate(['/admin/products']);
+
+                this.router.navigate(['/admin/products'], {
+                    queryParams: {
+                        ...this.route.snapshot.queryParams,
+                        highlight: savedProductId
+                    }
+                });
             }
 
             if (after === 'new' && !this.isEditMode ) {

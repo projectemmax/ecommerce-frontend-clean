@@ -127,11 +127,15 @@
                             <!-- PRODUCT CARD -->
                             <div
                                 class="col-3 mb-3"
-                                *ngFor="let product of vm.products; trackBy: trackById">
+                                *ngFor="let product of vm.products; trackBy: trackById"
+                                #productRow
+                                [attr.data-id]="product.id">
 
-                                <div class="card h-100 shadow-sm"
+                                <div 
+                                    class="card h-100 shadow-sm"
                                     [class.border-primary]="selectedIds.has(product.id)"
-                                    [class.bg-light]="selectedIds.has(product.id)">
+                                    [class.bg-light]="selectedIds.has(product.id)"
+                                    [class.highlight]="product.id === highlightProductId">
 
                                     <div class="position-absolute top-0 start-0 m-2 form-check form-check-flat">
                                         <input
@@ -154,9 +158,17 @@
                                             {{ product.name }}
                                         </h5>
 
-                                        <small *ngIf="!product.variants?.length" class="text-muted">
+                                        <small class="text-muted">
                                             SKU: {{ product.sku }}
                                         </small>
+
+                                        <ng-container *ngIf="(product.variants || []) as variants">
+                                            <div *ngIf="variants.length > 0" class="mb-2">
+                                                <span class="badge bg-info text-white">
+                                                {{ variants.length }} variants
+                                                </span>
+                                            </div>
+                                        </ng-container>
 
                                         <p *ngIf="product.variants?.length; else noVariantPrice" class="mt-2 mb-1 fw-bold">
                                             {{ getMinPrice(product.variants) | currency:'PHP' }} -

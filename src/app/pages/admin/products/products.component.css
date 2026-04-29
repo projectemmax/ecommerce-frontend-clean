@@ -16,3 +16,28 @@
 .form-check .form-check-label {
     padding-left: 30px;
 }
+
+.card.highlight {
+  animation: highlightFlash 1.5s ease;
+  border: 2px solid #ffc107;
+}
+
+@keyframes highlightFlash {
+  0% { background-color: #fff3cd; }
+  100% { background-color: transparent; }
+}
+
+@keyframes highlightFade {
+  0% {
+    background-color: #fff3cd;
+    transform: scale(1);
+  }
+  30% {
+    background-color: #ffe69c;
+    transform: scale(1.03);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
