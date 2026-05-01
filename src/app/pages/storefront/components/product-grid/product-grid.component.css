@@ -39,3 +39,9 @@
 .product-card .actions {
   margin-top: auto; /* pushes Add button to bottom */
 }
+.product-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;     /* 👈 number of lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
