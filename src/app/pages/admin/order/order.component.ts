@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, interval, Subject, takeUntil } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -63,6 +63,7 @@ export class OrderComponent implements OnInit {
     page = 1;
     limit = 10;
     loading = false;
+    private destroy$ = new Subject<void>();
 
     constructor(
         private ordersService: AdminOrdersService,
@@ -78,6 +79,18 @@ export class OrderComponent implements OnInit {
             this.page = 1;
             this.loadOrders();
         });
+
+        interval(5000)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+                this.loadOrders(false);
+            });
+
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     onTabChange(index: number) {
@@ -86,8 +99,8 @@ export class OrderComponent implements OnInit {
         this.loadOrders();
     }
 
-    loadOrders() {
-        this.loading = true;
+    loadOrders(showLoader = true) {
+        if (showLoader) this.loading = true;
 
         this.ordersService
         .getOrders({
@@ -100,10 +113,11 @@ export class OrderComponent implements OnInit {
             next: (res: any) => {
                 this.orders = res.data;
                 this.total = res.meta.total;
-                this.loading = false;
+
+                if (showLoader) this.loading = false;
             },
             error: () => {
-                this.loading = false;
+                if (showLoader) this.loading = false;
             },
         });
     }
