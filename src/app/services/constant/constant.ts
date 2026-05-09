@@ -82,6 +82,12 @@ export const Constant = {
             BULK_REJECT: 'admin/reviews/bulk-reject',
         },
 
+        MEDIA: {
+            BASE: 'admin/media',
+            UPLOAD: 'admin/media/upload',
+            BY_ID: (id: string) => `admin/media/${id}`,
+        },
+
     },
 
     // =========================

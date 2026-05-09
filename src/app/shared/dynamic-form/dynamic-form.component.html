@@ -40,10 +40,27 @@
                     </div>
 
                     <!-- TEXT -->
-                    <div *ngIf="field.type === 'text'">
-                        <label class="form-label">{{ field.label }}</label>
+                    <div *ngIf="field.type === 'text'" class="form-group">
+                        <label>{{ field.label }}</label>
                         <input class="form-control"
                             [formControlName]="normalizeKey(field.key)" />
+                    </div>
+
+                    <!-- TEXTAREA -->
+                    <div *ngIf="field.type === 'textarea'" class="form-group">
+                        <label>{{ field.label }}</label>
+
+                        <textarea
+                            class="form-control"
+                            rows="4"
+                            style="resize: vertical;"
+                            [formControlName]="normalizeKey(field.key)"
+                            [placeholder]="field.placeholder || ''">
+                        </textarea>
+
+                        <small *ngIf="field.help" class="text-muted d-block mt-1">
+                            {{ field.help }}
+                        </small>
                     </div>
 
                     <!-- SELECT -->
@@ -60,62 +77,161 @@
                     <!-- ARRAY -->
                     <div *ngIf="field.type === 'array'">
                         <label class="form-label">{{ field.label }}</label>
-                        <div 
-                            [formArrayName]="normalizeKey(field.key)"
-                            cdkDropList
-                            (cdkDropListDropped)="drop(field.key, $event)"
-                        >
-                            <div 
-                            *ngFor="let ctrl of getArray(field.key).controls; let i = index"
-                            class="d-flex mb-2 align-items-center"
-                            cdkDrag
-                            >
-                            <!-- drag handle -->
-                            <span class="me-2 text-muted" cdkDragHandle style="cursor: grab">
-                                ☰
-                            </span>
-                            <input 
-                                class="form-control me-2"
-                                [class.border-warning]="isArrayItemChanged(field.key, i)"
-                                [class.is-invalid]="isInvalidArrayItem(field.key, i)"
-                                [formControlName]="i"
-                            />
-                            <div *ngIf="isInvalidArrayItem(field.key, i)" class="text-danger small mt-1">
-                                <span *ngIf="!getArray(field.key).at(i).value">
-                                    This field is required
-                                </span>
 
-                                <span *ngIf="isDuplicateArrayItem(field.key, i)">
-                                    Duplicate value not allowed
-                                </span>
+                        <!-- ============================= -->
+                        <!-- 🟢 SIMPLE ARRAY (string[]) -->
+                        <!-- ============================= -->
+                        <ng-container *ngIf="!field.itemSchema">
+
+                            <div 
+                                [formArrayName]="normalizeKey(field.key)"
+                                cdkDropList
+                                (cdkDropListDropped)="drop(field.key, $event)"
+                            >
+                                <div
+                                    *ngFor="let ctrl of getArray(field.key).controls; let i = index"
+                                    class="d-flex mb-2 align-items-center"
+                                    cdkDrag
+                                >
+                                    <span class="me-2 drag-handle" cdkDragHandle>☰</span>
+
+                                    <input
+                                    class="form-control me-2"
+                                    [formControlName]="i"
+                                    />
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger btn-sm"
+                                        (click)="removeItem(field.key, i)"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
                             </div>
-                            <button 
+
+                            <button
                                 type="button"
-                                class="btn btn-danger btn-sm"
-                                (click)="removeItem(field.key, i)">
-                                ✕
-                            </button>
-                            </div>
-                        </div>
-                        <button type="button"
                                 class="btn btn-outline-primary btn-sm"
-                                (click)="addItem(field.key)">
-                            + Add
-                        </button>
+                                (click)="addItem(field.key)"
+                            >
+                                + Add Item
+                            </button>
+
+                        </ng-container>
+
+                        <!-- ============================= -->
+                        <!-- 🔵 OBJECT ARRAY (shopOffers) -->
+                        <!-- ============================= -->
+                        <ng-container *ngIf="field.itemSchema">
+
+                            <div 
+                                [formArrayName]="normalizeKey(field.key)"
+                                cdkDropList
+                                (cdkDropListDropped)="drop(field.key, $event)"
+                            >
+
+                                <div
+                                    *ngFor="let ctrl of getArray(field.key).controls; let i = index"
+                                    [formGroupName]="i"
+                                    class="card p-3 mb-3"
+                                    cdkDrag
+                                >
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                                        <!-- DRAG HANDLE -->
+                                        <span
+                                            class="drag-handle"
+                                            cdkDragHandle
+                                            style="cursor: grab;"
+                                        >
+                                            ☰ Drag
+                                        </span>
+
+                                        <!-- REMOVE BUTTON -->
+                                        <button
+                                            type="button"
+                                            class="btn btn-danger btn-sm"
+                                            (click)="removeArrayItem(field.key, i)"
+                                        >
+                                            Remove
+                                        </button>
+
+                                    </div>
+
+
+                                    <div *ngFor="let subField of field.itemSchema">
+
+                                        <!-- IMAGE -->
+                                        <div *ngIf="subField.type === 'image'" class="form-group">
+                                            <label>{{ subField.label }}</label>
+                                            
+                                            <div class="image-preview mb-2">
+                                                <img
+                                                    *ngIf="ctrl.get(normalizeKey(subField.key))?.value"
+                                                    [src]="ctrl.get(normalizeKey(subField.key))?.value"
+                                                    class="w-100 h-150 object-fit-cover rounded"
+                                                />
+                                            </div>
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary btn-sm"
+                                                (click)="openMediaPickerForArray(field, i, subField)"
+                                            >
+                                                Select Image
+                                            </button>
+                                        </div>
+
+                                        <!-- TEXT -->
+                                        <div *ngIf="subField.type === 'text'" class="form-group">
+                                            <label class="form-label">{{ subField.label }}</label>
+
+                                            <input
+                                                class="form-control"
+                                                [formControlName]="normalizeKey(subField.key)"
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger btn-sm mt-2"
+                                        (click)="removeArrayItem(field.key, i)"
+                                    >
+                                        Remove Item
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-primary btn-sm"
+                                (click)="addArrayItem(field)"
+                            >
+                                + Add Item
+                            </button>
+
+                        </ng-container>
+
                     </div>
 
-                    <div *ngIf="field.type === 'number'" class="mb-3">
-                        <label class="form-label">{{ field.label }}</label>
+                    <div *ngIf="field.type === 'number'" class="form-group mb-3">
+                        <label>{{ field.label }}</label>
 
                         <div class="input-group">
                             <span class="input-group-text">₱</span>
 
                             <input
-                            type="number"
-                            min="0"
-                            class="form-control"
-                            [formControlName]="normalizeKey(field.key)"
-                            [placeholder]="field.placeholder || ''"
+                                type="number"
+                                min="0"
+                                class="form-control"
+                                [formControlName]="normalizeKey(field.key)"
+                                [placeholder]="field.placeholder || ''"
                             />
                         </div>
 
@@ -129,25 +245,34 @@
 
                         <label class="form-label fw-semibold">{{ field.label }}</label>
 
-                        <app-reusable-image-upload
-                            [images]="getImageFieldValue(field.key)"
-                            (imagesChange)="onImageChange(field.key, $event)">
-                        </app-reusable-image-upload>
-
-                        <div *ngIf="showImageSaveButton && hasImageChanges()" class="mt-3">
-                            <button 
-                                class="btn btn-primary"
-                                [disabled]="loading || !hasImageChanges()" 
-                                (click)="emitImageSave()">
-
-                                <span *ngIf="!loading">Save Images</span>
-
-                                <span *ngIf="loading">
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                    Saving...
-                                </span>
-                            </button>
+                        <!-- Preview -->
+                        <div class="image-preview mb-2">
+                            <img
+                                *ngIf="getImagePreview(field.key)"
+                                [src]="getImagePreview(field.key)"
+                                class="w-100 h-150 object-fit-cover rounded"
+                            />
                         </div>
+
+                        <!-- Select Button -->
+                        <button
+                            type="button"
+                            class="btn btn-primary btn-sm"
+                            (click)="openMediaPicker(field)"
+                        >
+                            Select Image
+                        </button>
+
+                        <!-- Remove -->
+                        <button
+                            *ngIf="getImagePreview(field.key)"
+                            type="button"
+                            class="btn btn-danger btn-sm ms-2"
+                            (click)="removeImage(field.key)"
+                        >
+                            Remove
+                        </button>
+
                         
                     </div>
 
@@ -193,3 +318,26 @@
 </div>
 
 </form>
+
+<div *ngIf="showMediaPicker" class="media-modal">
+
+  <div class="media-modal-content">
+
+    <!-- HEADER -->
+    <div class="media-header">
+      <h5>Select Image</h5>
+      <button class="close-btn" (click)="closeMediaPicker()">✕</button>
+    </div>
+
+    <!-- BODY (just render component) -->
+    <div class="media-body">
+        <app-media-picker
+            *ngIf="activeImageField || activeArrayField"
+            [folder]="activeFolder"
+            (selected)="onMediaSelected($event)">
+        </app-media-picker>
+    </div>
+
+  </div>
+
+</div>

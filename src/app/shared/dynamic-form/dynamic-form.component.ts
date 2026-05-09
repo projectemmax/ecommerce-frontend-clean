@@ -7,11 +7,18 @@ import { debounceTime, distinctUntilChanged, Subscription } from "rxjs";
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { UploadService } from '../../core/services/upload.service';
 import { ReusableImageUploadComponent } from "../reusable-image-upload/reusable-image-upload.component";
+import { MediaPickerComponent } from "../media-picker/media-picker.component";
 
 @Component({
   selector: 'app-dynamic-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DragDropModule, ReusableImageUploadComponent],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    DragDropModule, 
+    ReusableImageUploadComponent, 
+    MediaPickerComponent
+],
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.css']
 })
@@ -35,6 +42,17 @@ export class DynamicFormComponent implements OnInit, OnChanges{
     initialValue: any = {};
     imageState: Record<string, any[]> = {};
     private initialized = false;
+
+    showMediaPicker = false;
+    activeImageField?: string;
+    activeFolder: string = 'general';
+
+    //SHOP OFFERS STATE
+    activeArrayField?: {
+        key: string;
+        index: number;
+        subKey: string;
+    };
     
 
     asFormControl(ctrl: any): FormControl {
@@ -118,9 +136,30 @@ export class DynamicFormComponent implements OnInit, OnChanges{
             const value = this.getNestedValue(field.key);
 
             if (field.type === 'array') {
-            group[normalizedKey] = this.fb.array(
-                (value || []).map((v: any) => this.fb.control(v))
-            );
+
+    // 🟢 OBJECT ARRAY
+    if (field.itemSchema) {
+        group[normalizedKey] = this.fb.array(
+            (value || []).map((item: any) =>
+                this.fb.group(
+                    field.itemSchema!.reduce((acc: any, subField) => {
+                        acc[this.normalizeKey(subField.key)] =
+                            [item[subField.key] ?? null];
+                        return acc;
+                    }, {})
+                )
+            )
+        );
+
+    // 🔵 SIMPLE ARRAY (string[])
+    } else {
+        group[normalizedKey] = this.fb.array(
+            (value || []).map((item: any) =>
+                this.fb.control(item ?? '')
+            )
+        );
+    }
+
 
             } else if (field.type === 'number') {
             group[normalizedKey] = [value ?? 0];
@@ -169,8 +208,12 @@ export class DynamicFormComponent implements OnInit, OnChanges{
 
     addItem(key: string) {
         const arr = this.getArray(key);
+
+        if (!arr) return; // 🔥 safety guard
+
         const hasEmpty = arr.controls.some(c => !c.value || c.value.trim() === '');
-        if (hasEmpty) return; // 🚫 prevent adding if empty exists
+        if (hasEmpty) return;
+
         arr.push(this.fb.control('', { nonNullable: true }));
     }
 
@@ -246,14 +289,40 @@ export class DynamicFormComponent implements OnInit, OnChanges{
 
         Object.keys(value).forEach(key => {
             const v = value[key];
-            const field = this.schema.fields.find(f => f.key === key);
+            const field = this.schema.fields.find(f => this.normalizeKey(f.key) === key);
+
+            if (!field) {
+                cleaned[key] = v;
+                return;
+            }
 
             if (field?.type === 'array') {
-                cleaned[key] = v.filter((item: string) => item && item.trim() !== '');
+
+                // 🟢 OBJECT ARRAY (shopOffers)
+                if (field.itemSchema) {
+                    cleaned[field.key] = v.map((item: any) => {
+                        const obj: any = {};
+
+                        field.itemSchema!.forEach(subField => {
+                            const normalizedSubKey = this.normalizeKey(subField.key);
+                            obj[subField.key] = item[normalizedSubKey];
+                        });
+
+                        return obj;
+                    });
+
+                // 🔵 STRING ARRAY (trust_badges)
+                } else {
+                    cleaned[field.key] = v.filter((item: string) =>
+                        item && item.trim() !== ''
+                    );
+                }
+
             } else if (field?.type === 'number') {
-                cleaned[key] = v === null || v === '' ? 0 : Number(v);
+                cleaned[field.key] = v === null || v === '' ? 0 : Number(v);
+
             } else {
-                cleaned[key] = v;
+                cleaned[field.key] = v;
             }
         });
 
@@ -304,39 +373,6 @@ export class DynamicFormComponent implements OnInit, OnChanges{
         event.preventDefault();
     }
 
-    
-
-    //REUSABLE COMPONENT UPLOAD IMAGE
-    getImageFieldValue(key: string) {
-
-        // 1. user uploaded image
-        if (this.imageState && key in this.imageState) {
-            return this.imageState[key]; // even if []
-        }
-
-        // 2. fallback to existing value
-        const normalizedKey = this.normalizeKey(key);
-        const value = this.form.get(normalizedKey)?.value;
-
-        if (!value) return [];
-
-        return [
-            {
-            preview: value,
-            isPrimary: true
-            }
-        ];
-    }
-
-    onImageChange(key: string, images: any[]) {
-        console.log('🔥 IMAGE CHANGE TRIGGERED', key, images);
-
-        this.imageState[key] = images;
-
-        this.imageChanged.emit({ key, images });
-        this.isDirty = true;
-    }
-
     getNestedValue(key: string): any {
         const parts = key.split('.');
         const parentKey = parts[0];
@@ -355,30 +391,100 @@ export class DynamicFormComponent implements OnInit, OnChanges{
         return key.replace(/\./g, '__'); // or '_'
     }
 
-    hasImageChanges(): boolean {
-        if (!this.imageState) return false;
+    // MEDIA PICKER
+    openMediaPicker(field: DynamicField) {
+        this.activeImageField = field.key;
+        this.activeFolder = field.folder || 'general';
+        this.showMediaPicker = true;
+    }
 
-        return Object.keys(this.imageState).some(key => {
-            const images = this.imageState[key];
-            const original = this.getNestedValue(key);
+    closeMediaPicker() {
+        this.showMediaPicker = false;
+        this.activeImageField = undefined;
+    }
 
-            // 🔥 Case 1: user removed image
-            if ((!images || images.length === 0) && original) {
-            return true;
-            }
+    onMediaSelected(url: string) {
 
-            // 🔥 Case 2: user uploaded new image
-            if (images && images.some(img => img.file)) {
-            return true;
-            }
+        // 🔥 ARRAY CASE
+        if (this.activeArrayField) {
+            const arr = this.getArray(this.activeArrayField.key);
+            const group = arr.at(this.activeArrayField.index) as FormGroup;
 
-            return false;
+            group.patchValue({
+            [this.normalizeKey(this.activeArrayField.subKey)]: url
+            });
+
+            this.activeArrayField = undefined;
+
+            const cleaned = this.cleanFormValue(this.form.value);
+            this.submitted.emit(cleaned);
+
+            this.closeMediaPicker();
+            return;
+        }
+
+        // 🔁 SINGLE IMAGE (existing logic)
+        if (!this.activeImageField) return;
+
+        const normalizedKey = this.normalizeKey(this.activeImageField);
+
+        this.form.patchValue({
+            [normalizedKey]: url
         });
+
+        const cleaned = this.cleanFormValue(this.form.value);
+        this.submitted.emit(cleaned);
+
+        this.closeMediaPicker();
     }
 
-    emitImageSave() {
-        if (this.loading) return;
-        this.submitted.emit({});
+    getImagePreview(key: string): string | null {
+        const normalizedKey = this.normalizeKey(key);
+        return this.form.get(normalizedKey)?.value || null;
     }
+
+    removeImage(key: string) {
+        const normalizedKey = this.normalizeKey(key);
+
+        this.form.patchValue({
+            [normalizedKey]: null
+        });
+
+        this.isDirty = true;
+    }
+
+    // SHOP OFFERS
+
+    addArrayItem(field: DynamicField) {
+        if (!field.itemSchema) return;
+
+        const group = this.fb.group(
+            field.itemSchema.reduce((acc: any, subField) => {
+            acc[this.normalizeKey(subField.key)] = [null];
+            return acc;
+            }, {})
+        );
+
+        this.getArray(field.key).push(group);
+        this.isDirty = true;
+    }
+
+    removeArrayItem(fieldKey: string, index: number) {
+        this.getArray(fieldKey).removeAt(index);
+        this.isDirty = true;
+    }
+
+    openMediaPickerForArray(field: any, index: number, subField: any) {
+        this.activeImageField = undefined;
+        this.activeArrayField = {
+            key: field.key,
+            index,
+            subKey: subField.key
+        };
+
+        this.activeFolder = subField.folder || 'general';
+        this.showMediaPicker = true;
+    }
+    
 
 }

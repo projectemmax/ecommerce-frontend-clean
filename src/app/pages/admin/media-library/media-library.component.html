@@ -1,0 +1,23 @@
+<div class="p-4">
+    <!-- Upload -->
+    <input type="file" (change)="onUpload($event)" />
+
+    <!-- Grid -->
+    <div class="grid grid-cols-5 gap-4 mt-4">
+        <div
+            *ngFor="let m of media"
+            (click)="select(m)"
+            class="border p-2 cursor-pointer relative"
+            [class.border-blue-500]="selected?.id === m.id"
+        >
+            <img [src]="m.url" class="w-full h-32 object-cover" />
+
+            <button
+                (click)="delete(m); $event.stopPropagation()"
+                class="absolute top-1 right-1 bg-red-500 text-white px-2"
+            >
+                X
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+/* WRAPPER */
+.media-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* TOOLBAR */
+.media-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* TABS */
+.media-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab-btn {
+  border: none;
+  background: #f1f1f1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tab-btn.active {
+  background: #0d6efd;
+  color: white;
+}
+
+/* ACTIONS */
+.media-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* UPLOAD BUTTON */
+.upload-btn {
+  background: #0d6efd;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* GRID */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+/* ITEM */
+.media-item {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* IMAGE */
+.media-item img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  transition: 0.3s ease;
+}
+
+/* OVERLAY (hidden by default) */
+.media-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 6px;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+/* SHOW ON HOVER */
+.media-item:hover img {
+  opacity: 0.6;
+}
+
+.media-item:hover .media-overlay {
+  opacity: 1;
+}
+.upload-btn.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+
+
+.media-item {
+  position: relative;
+}
+
+.delete-btn {
+  background: red;
+  color: white;
+  border: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.confirm-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.confirm-box {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 320px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
