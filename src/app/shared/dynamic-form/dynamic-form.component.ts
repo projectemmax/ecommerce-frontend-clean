@@ -484,7 +484,7 @@ export class DynamicFormComponent implements OnInit, OnChanges{
 
         this.activeFolder = subField.folder || 'general';
         this.showMediaPicker = true;
-    }
+    }    
     
 
 }
