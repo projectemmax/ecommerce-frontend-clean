@@ -64,7 +64,7 @@ export class HeroComponent implements OnInit {
                                 suggestions: res?.data || res || [],
                             }))
                         );
-                }
+                    }
                 )
             )
             .subscribe(({ query, suggestions }) => {
