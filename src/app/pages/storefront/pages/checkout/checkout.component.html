@@ -73,6 +73,9 @@
                     <!-- NAME + STATUS -->
                     <div class="col-4">
                         <div>{{ item.productName }}</div>
+                        <small *ngIf="item.variantName" class="text-muted">
+                            {{ item.variantName }}
+                        </small>
 
                         <!-- 🔥 STOCK WARNING -->
                         <div *ngIf="item.availableStock && item.availableStock <= 5"

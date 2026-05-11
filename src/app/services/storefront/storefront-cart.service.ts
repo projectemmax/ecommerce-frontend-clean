@@ -52,12 +52,19 @@ export class StorefrontCartService {
         }
 
         // 🔹 Add to Cart
-        addToCart(productId: string, quantity = 1) {
-            console.log('REQUEST BODY', { productId, quantity });
+        addToCart(productId: string, quantity = 1, variantId?: string) {
+            const body = {
+                productId,
+                quantity,
+                ...(variantId && { variantId }),
+            };
+
+            console.log('REQUEST BODY', body);
+
             return this.http
                 .post<any>(
                 `${Constant.API_BASE_URL}/cart/items`,
-                { productId, quantity }
+                body
                 )
                 .pipe(
                 tap(res => {
@@ -86,9 +93,9 @@ export class StorefrontCartService {
         }
 
     // 🔹 Remove Item
-    remove(productId: string) {
+    remove(orderItemId: string) {
         return this.http
-            .delete<any>(`${Constant.API_BASE_URL}/cart/items/${productId}`)
+            .delete<any>(`${Constant.API_BASE_URL}/cart/items/${orderItemId}`)
             .pipe(
             tap(res => {
                 this.cartItemsSubject.next(res.data.items ?? []);

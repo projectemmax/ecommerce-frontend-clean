@@ -68,7 +68,7 @@
               </p>
 
               <h5 class="fw-bold mb-3">
-                ₱{{ product.price | number: '1.2-2' }}
+                ₱{{ getDisplayPrice(product) | number: '1.2-2' }}
               </h5>
 
               <!-- RATING -->
@@ -115,7 +115,7 @@
                 <!-- ADD TO CART -->
                 <button
                     class="btn border border-secondary rounded-pill px-4 py-2 mb-2 text-primary"
-                    [disabled]="product.stock === 0 || isAddingToCart"
+                    [disabled]="getAvailableStock(product) === 0 || isAddingToCart || (hasVariants(product) && !selectedVariant)"
                     (click)="addToCart(product)">
 
                     <i *ngIf="!isAddingToCart"
@@ -127,6 +127,43 @@
 
                     {{ isAddingToCart ? 'Adding...' : 'Add to cart' }}
                 </button>
+
+                <!-- VARIANTS -->
+                <div class="variant-picker mt-3 mb-3">
+                    <div class="fw-bold mb-2">Variants</div>
+
+                    <ng-container *ngIf="product.variants?.length; else noVariants">
+                        <div class="variant-options">
+                            <button
+                                *ngFor="let variant of product.variants"
+                                type="button"
+                                class="variant-option"
+                                [class.active]="selectedVariant?.id === variant.id"
+                                [disabled]="variant.stock === 0"
+                                (click)="onSelectVariant(variant)">
+                                <span class="variant-label">
+                                    {{ getVariantLabel(variant) }}
+                                </span>
+
+                                <span class="variant-meta">
+                                    ₱{{ variant.price | number: '1.2-2' }}
+                                    ·
+                                    {{ variant.stock > 0 ? variant.stock + ' left' : 'Out of stock' }}
+                                </span>
+                            </button>
+                        </div>
+
+                        <div *ngIf="!selectedVariant" class="text-muted small mt-2">
+                            Select a variant before adding this product to cart.
+                        </div>
+                    </ng-container>
+
+                    <ng-template #noVariants>
+                        <div class="text-muted small">
+                            No variants configured for this product.
+                        </div>
+                    </ng-template>
+                </div>
 
               <ng-container *ngIf="addToCartResult$ | async as result">
                 <div *ngIf="result.success" class="alert alert-success">
@@ -140,17 +177,22 @@
               </ng-container>
 
                 <div class="mt-2">
-                    <span *ngIf="getAvailableStock(product) === 0"
+                    <span *ngIf="hasVariants(product) && !selectedVariant"
+                        class="badge bg-secondary">
+                        Select Variant
+                    </span>
+
+                    <span *ngIf="!(hasVariants(product) && !selectedVariant) && getAvailableStock(product) === 0"
                         class="badge bg-danger">
                         Out of Stock
                     </span>
 
-                    <span *ngIf="getAvailableStock(product) > 0 && getAvailableStock(product) <= 5"
+                    <span *ngIf="!(hasVariants(product) && !selectedVariant) && getAvailableStock(product) > 0 && getAvailableStock(product) <= 5"
                         class="badge bg-warning text-dark">
-                        Only {{ product.stock }} left
+                        Only {{ getAvailableStock(product) }} left
                     </span>
 
-                    <span *ngIf="getAvailableStock(product) > 5"
+                    <span *ngIf="!(hasVariants(product) && !selectedVariant) && getAvailableStock(product) > 5"
                         class="badge bg-success">
                         In Stock
                     </span>

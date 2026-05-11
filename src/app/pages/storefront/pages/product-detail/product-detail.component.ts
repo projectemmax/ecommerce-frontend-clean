@@ -28,7 +28,7 @@ import { ReviewStatus } from '@app/models/storefront/review.model';
 import { FormsModule } from '@angular/forms';
 import { SiteConfigService } from '@app/core/services/site-config.service';
 import { ProductVariant } from '@app/models/product-variant.model';
-import { getProductImageUrl } from '@app/core/utils/image.util';
+import { getImageUrlCloudinary, getProductImageUrl } from '@app/core/utils/image.util';
 
 @Component({
   standalone: true,
@@ -151,7 +151,7 @@ export class ProductDetailComponent {
         this.addToCartError = null;
 
         return this.cartService
-            .addToCart(product.id, this.quantity)
+            .addToCart(product.id, this.quantity, this.selectedVariant?.id)
             .pipe(
             map(() => ({
                 success: true,
@@ -173,6 +173,11 @@ export class ProductDetailComponent {
     );
 
     addToCart(product: Product) {
+        if (this.hasVariants(product) && !this.selectedVariant) {
+            this.stockWarning = 'Please select a variant first.';
+            return;
+        }
+
         this.addToCartTrigger$.next(product);
     }
     
@@ -453,6 +458,26 @@ export class ProductDetailComponent {
         this.selectedImageUrl = imageUrl;
     }
 
+    hasVariants(product: Product): boolean {
+        return !!product.variants?.length;
+    }
+
+    getDisplayPrice(product: Product): number {
+        return Number(this.selectedVariant?.price ?? product.price ?? 0);
+    }
+
+    getVariantLabel(variant: ProductVariant): string {
+        if (Array.isArray(variant.attributes)) {
+            return variant.attributes.filter(Boolean).join(' / ');
+        }
+
+        if (variant.attributes && typeof variant.attributes === 'object') {
+            return Object.values(variant.attributes).filter(Boolean).join(' / ');
+        }
+
+        return variant.sku;
+    }
+
     getAvailableStock(product: Product): number {
         if (product.variants?.length) {
             return this.selectedVariant?.stock ?? 0;
@@ -463,6 +488,9 @@ export class ProductDetailComponent {
 
     onSelectVariant(variant: ProductVariant) {
         this.selectedVariant = variant;
+        this.selectedImageUrl = variant.image
+            ? getImageUrlCloudinary(variant.image, 600)
+            : this.selectedImageUrl;
 
         this.quantity = 1; // reset quantity
 

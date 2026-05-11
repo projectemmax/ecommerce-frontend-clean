@@ -53,7 +53,7 @@ export class CartComponent implements OnInit {
     }
 
     remove(item: StorefrontCartItem) {
-        this.cartService.remove(item.productId).subscribe();
+        this.cartService.remove(item.id).subscribe();
     }
 
     trackByItemId(index: number, item: StorefrontCartItem) {

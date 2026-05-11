@@ -183,7 +183,7 @@ export class CheckoutComponent implements OnInit {
     applyValidation(res: any) {
         this.cartItems.forEach(item => {
             const vItem = res.data.items.find(
-                (v: any) => v.productId === item.productId
+                (v: any) => v.orderItemId === item.id
             );
 
             if (!vItem) {
