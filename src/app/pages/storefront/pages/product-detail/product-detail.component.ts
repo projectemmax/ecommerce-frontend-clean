@@ -102,8 +102,7 @@ export class ProductDetailComponent {
     slug$ = this.route.paramMap.pipe(
         map(params => params.get('slug')!),
         tap(() => {
-            this.quantity = 1;
-            this.selectedImageUrl = null;
+            this.resetProductState();
         })
     );
 
@@ -521,6 +520,12 @@ export class ProductDetailComponent {
         }
 
         return product.sku || 'N/A';
+    }
+
+    resetProductState() {
+        this.selectedVariant = null;
+        this.selectedImageUrl = null;
+        this.quantity = 1;
     }
 
 }
