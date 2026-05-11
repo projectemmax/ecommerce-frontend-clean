@@ -75,6 +75,7 @@ export class ProductDetailComponent {
     ReviewStatus = ReviewStatus;
     stockWarning: string | null = null;
     selectedVariant: ProductVariant | null = null;
+    selectedImageUrl: string | null = null;
 
     getProductImageUrl = getProductImageUrl;
 
@@ -100,7 +101,10 @@ export class ProductDetailComponent {
     /** route param */
     slug$ = this.route.paramMap.pipe(
         map(params => params.get('slug')!),
-        tap(() => this.quantity = 1)
+        tap(() => {
+            this.quantity = 1;
+            this.selectedImageUrl = null;
+        })
     );
 
     hasPurchased$ = this.slug$.pipe(
@@ -418,7 +422,35 @@ export class ProductDetailComponent {
         if (!path) {
         return 'assets/no-image.png';
         }
+
+        if (path.startsWith('http')) {
+            return path;
+        }
+
         return `${Constant.UPLOADS_BASE_URL}${path.replace('/uploads/', '')}`;
+    }
+
+    getMainImageUrl(product: Product): string {
+        return this.selectedImageUrl || this.getProductImageUrl(product);
+    }
+
+    getProductThumbnails(product: Product): string[] {
+        if (product.images?.length) {
+            return [...product.images]
+                .sort((a, b) => {
+                    if (a.isPrimary) return -1;
+                    if (b.isPrimary) return 1;
+
+                    return (a.order ?? 0) - (b.order ?? 0);
+                })
+                .map(image => this.getImageUrl(image.url));
+        }
+
+        return [this.getProductImageUrl(product)];
+    }
+
+    selectProductImage(imageUrl: string) {
+        this.selectedImageUrl = imageUrl;
     }
 
     getAvailableStock(product: Product): number {

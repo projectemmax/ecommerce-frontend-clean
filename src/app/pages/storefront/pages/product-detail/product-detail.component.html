@@ -32,10 +32,25 @@
             <div class="col-lg-6">
               <div class="product-image-container border rounded">
                 <img
-                  [src]="getProductImageUrl(product)"
+                  [src]="getMainImageUrl(product)"
                   class="img-fluid rounded"
                   alt="{{ product.name }}"
                 />
+              </div>
+
+              <div
+                *ngIf="getProductThumbnails(product) as thumbnails"
+                class="product-thumbnails mt-3">
+                <button
+                  *ngFor="let imageUrl of thumbnails"
+                  type="button"
+                  class="product-thumbnail"
+                  [class.active]="getMainImageUrl(product) === imageUrl"
+                  (click)="selectProductImage(imageUrl)">
+                  <img
+                    [src]="imageUrl"
+                    [alt]="product.name + ' thumbnail'">
+                </button>
               </div>
             </div>
 
