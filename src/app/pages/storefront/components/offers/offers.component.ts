@@ -13,6 +13,12 @@ export class OffersComponent {
 
     readonly fallbackImage = '/assets/storefront/medical-ppe.jpg';
 
+    offerClasses = [
+        'bg-secondary border-primary',
+        'bg-dark border-dark',
+        'bg-primary border-secondary'
+    ];
+
     constructor(
         private siteConfig: SiteConfigService
     ) {}

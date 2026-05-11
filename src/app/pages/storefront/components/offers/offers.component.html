@@ -7,12 +7,8 @@
                 class="col-md-6 col-lg-4">
                 <a href="#" class="text-decoration-none">
                     <div 
-                        class="service-item rounded border border-secondary h-100"
-                        [ngClass]="{
-                            'bg-secondary border border-secondary': i === 0,
-                            'bg-dark border border-dark': i === 1,
-                            'bg-primary border border-primary': i === 2
-                        }">
+                        class="service-item border rounded h-100"
+                        [ngClass]="offerClasses[i % offerClasses.length]">
                         <img
                             [src]="offer.image || fallbackImage"
                             class="img-fluid rounded-top w-100 offer-image"
