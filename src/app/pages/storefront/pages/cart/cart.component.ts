@@ -6,8 +6,7 @@ import { StorefrontCartItem } from '@app/models/storefront/storefront-cart-item.
 import { Observable } from 'rxjs';
 import { Constant } from '@app/services/constant/constant';
 import { Router } from '@angular/router';
-import { getProductImageUrl, getImageUrl } from '@app/core/utils/image.util'
-import { SiteConfigService } from '@app/core/services/site-config.service';
+import { getImageUrlCloudinary } from '@app/core/utils/image.util'
 import { QuantitySelectorComponent } from '@app/pages/storefront/components/quantity-selector/quantity-selector.component';
 
 @Component({
@@ -24,8 +23,7 @@ export class CartComponent implements OnInit {
 
     quantityErrors: Record<string, string | null> = {};
 
-    getProductImageUrl = getProductImageUrl;
-    getImageUrl = getImageUrl;
+    getImageUrlCloudinary = getImageUrlCloudinary;
 
     constructor(
         private cartService: StorefrontCartService,
