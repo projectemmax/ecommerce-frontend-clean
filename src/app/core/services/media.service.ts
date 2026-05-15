@@ -22,13 +22,22 @@ export class MediaService {
 
     constructor(private http: HttpClient) {}
 
+    private getApiUsage(usage?: string): string | undefined {
+        if (!usage || usage === 'all' || usage === 'shop-offer') {
+            return undefined;
+        }
+
+        return usage;
+    }
+
     upload(file: File, folder?: string, usage?: string) {
         const formData = new FormData();
         formData.append('file', file);
 
+        const apiUsage = this.getApiUsage(usage);
         let params = new HttpParams();
         if (folder) params = params.set('folder', folder);
-        if (usage && usage !== 'all') params = params.set('usage', usage);
+        if (apiUsage) params = params.set('usage', apiUsage);
 
         return this.http.post(
             `${this.baseUrl}/${Constant.ADMIN.MEDIA.UPLOAD}`,
@@ -38,12 +47,13 @@ export class MediaService {
     }
 
     getAll(page = 1, limit = 20, folder?: string, usage?: string) {
+        const apiUsage = this.getApiUsage(usage);
         let params = new HttpParams()
             .set('page', page)
             .set('limit', limit);
 
         if (folder) params = params.set('folder', folder);
-        if (usage && usage !== 'all') params = params.set('usage', usage);
+        if (apiUsage) params = params.set('usage', apiUsage);
 
         return this.http.get<ApiResponse<Media[]>>(
             `${this.baseUrl}/${Constant.ADMIN.MEDIA.BASE}`,
