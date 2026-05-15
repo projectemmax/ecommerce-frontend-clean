@@ -7,7 +7,6 @@ import { switchMap, map, finalize, concatMap} from 'rxjs/operators';
 import { StorefrontProductService } from
   '@app/services/storefront/storefront-product.service';
 import { AuthService } from '@app/core/auth/auth.service';
-import { Constant } from '@app/services/constant/constant';
 
 import { RatingComponent } from '../../components/rating/rating.component';
 import { ReviewListComponent } from '../../components/review-list/review-list.component';
@@ -28,7 +27,7 @@ import { ReviewStatus } from '@app/models/storefront/review.model';
 import { FormsModule } from '@angular/forms';
 import { SiteConfigService } from '@app/core/services/site-config.service';
 import { ProductVariant } from '@app/models/product-variant.model';
-import { getImageUrlCloudinary, getProductImageUrl } from '@app/core/utils/image.util';
+import { getImageUrl as resolveImageUrl, getImageUrlCloudinary, getProductImageUrl } from '@app/core/utils/image.util';
 
 @Component({
   standalone: true,
@@ -433,11 +432,7 @@ export class ProductDetailComponent {
         return 'assets/no-image.png';
         }
 
-        if (path.startsWith('http')) {
-            return path;
-        }
-
-        return `${Constant.UPLOADS_BASE_URL}${path.replace('/uploads/', '')}`;
+        return resolveImageUrl(path);
     }
 
     getMainImageUrl(product: Product): string {

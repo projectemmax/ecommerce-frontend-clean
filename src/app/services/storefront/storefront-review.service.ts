@@ -16,7 +16,7 @@ export class StorefrontReviewService {
 
     getProductReviews(slug: string) {
         return this.http.get<ReviewResponse>(
-        `/api/products/${slug}/reviews`
+        `${Constant.API_BASE_URL}/products/${slug}/reviews`
         );
     }
 
@@ -32,7 +32,7 @@ export class StorefrontReviewService {
 
     submitReview(slug: string, payload: any) {
         return this.http.post<Review>(
-        `/api/reviews/${slug}`,
+        `${this.baseUrl}/${slug}`,
         payload
         );
     }
@@ -46,7 +46,7 @@ export class StorefrontReviewService {
 
     uploadReviewImages(reviewId: string, formData: FormData) {
         return this.http.post(
-        `/api/reviews/${reviewId}/images`,
+        `${this.baseUrl}/${reviewId}/images`,
         formData,
         {
             reportProgress: true,

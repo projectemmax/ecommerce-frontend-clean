@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Review } from '@app/models/storefront/review.model';
 import { RatingComponent } from '../rating/rating.component';
 import { StorefrontReviewService } from '@app/services/storefront/storefront-review.service';
+import { getImageUrl } from '@app/core/utils/image.util';
 
 @Component({
   selector: 'app-review-list',
@@ -13,6 +14,7 @@ import { StorefrontReviewService } from '@app/services/storefront/storefront-rev
 })
 export class ReviewListComponent {
   @Input() reviews: Review[] = [];
+  getImageUrl = getImageUrl;
 
   constructor(private storefrontReviewService: StorefrontReviewService) {}
 
@@ -33,4 +35,3 @@ export class ReviewListComponent {
   }
 
 }
-

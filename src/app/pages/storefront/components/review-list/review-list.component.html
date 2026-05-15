@@ -52,7 +52,7 @@
       <div *ngIf="review.images?.length" class="mt-2 d-flex gap-2">
         <img
           *ngFor="let img of review.images"
-          [src]="img.url"
+          [src]="getImageUrl(img.url)"
           class="img-thumbnail"
           style="width:80px;height:80px;object-fit:cover"
         />
