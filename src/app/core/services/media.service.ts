@@ -11,6 +11,7 @@ export interface Media {
   filename: string;
   size?: number;
   folder?: string;
+  usage?: string;
   createdAt: string;
 }
 

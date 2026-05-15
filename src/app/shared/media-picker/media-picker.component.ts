@@ -52,16 +52,32 @@ export class MediaPickerComponent implements OnInit, OnChanges {
 
     loadMedia() {
         this.mediaService
-            .getAll(1, 50, this.currentFolder, this.currentUsage)
+            .getAll(1, 50)
             .subscribe({
                 next: res => {
-                    this.media = res || [];
+                    this.media = this.filterMedia(res || []);
                 },
                 error: () => {
                     this.media = [];
                     this.toast.error('Failed to load media');
                 }
             });
+    }
+
+    private filterMedia(media: Media[]): Media[] {
+        return media.filter(item => {
+            const folderMatches =
+                !item.folder ||
+                !this.currentFolder ||
+                item.folder === this.currentFolder;
+
+            const usageMatches =
+                this.currentUsage === 'all' ||
+                !item.usage ||
+                item.usage === this.currentUsage;
+
+            return folderMatches && usageMatches;
+        });
     }
 
     pick(media: Media) {
