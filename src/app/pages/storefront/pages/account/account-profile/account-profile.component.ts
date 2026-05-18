@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Constant } from '@app/services/constant/constant';
+import { getImageUrl } from '@app/core/utils/image.util';
 import { AccountService } from '@app/services/storefront/storefront-account.service'
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -73,7 +73,7 @@ export class AccountProfileComponent implements OnInit {
         if (!this.avatar) {
         return 'assets/img/avatar-placeholder.png';
         }
-        return Constant.UPLOADS_BASE_URL + this.avatar;
+        return getImageUrl(this.avatar);
     }
 
     onFileSelected(event: any) {
@@ -108,7 +108,7 @@ export class AccountProfileComponent implements OnInit {
         this.accountService.uploadAvatar(file).subscribe({
             next: (res: any) => {
 
-                this.avatar = res.avatar;
+                this.avatar = res?.data?.avatar ?? res?.avatar ?? null;
 
                 // 🔥 sync sidebar instantly
                 this.accountService.loadProfile();

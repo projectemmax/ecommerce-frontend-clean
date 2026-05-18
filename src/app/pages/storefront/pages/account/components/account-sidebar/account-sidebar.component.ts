@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Constant } from '@app/services/constant/constant';
+import { getImageUrl } from '@app/core/utils/image.util';
 import { AccountService } from '@app/services/storefront/storefront-account.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class AccountSidebarComponent implements OnInit {
     if (!avatar) {
       return 'assets/img/avatar-placeholder.png';
     }
-    return Constant.UPLOADS_BASE_URL + avatar;
+    return getImageUrl(avatar);
   }
 
 }
