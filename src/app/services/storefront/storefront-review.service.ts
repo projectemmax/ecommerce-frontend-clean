@@ -15,9 +15,13 @@ export class StorefrontReviewService {
     constructor(private http: HttpClient) {}
 
     getProductReviews(slug: string) {
-        return this.http.get<ReviewResponse>(
-        `${Constant.API_BASE_URL}/products/${slug}/reviews`
-        );
+        return this.http
+            .get<ApiResponse<ReviewResponse>>(
+                `${Constant.API_BASE_URL}/products/${slug}/reviews`
+            )
+            .pipe(
+                map(res => res.data)
+            );
     }
 
     getMyReview(slug: string): Observable<Review | null> {
@@ -31,10 +35,14 @@ export class StorefrontReviewService {
     }
 
     submitReview(slug: string, payload: any) {
-        return this.http.post<Review>(
-        `${this.baseUrl}/${slug}`,
-        payload
-        );
+        return this.http
+            .post<ApiResponse<Review>>(
+                `${this.baseUrl}/${slug}`,
+                payload
+            )
+            .pipe(
+                map(res => res.data)
+            );
     }
 
     voteReview(reviewId: string) {
