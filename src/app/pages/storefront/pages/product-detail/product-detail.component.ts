@@ -335,6 +335,10 @@ export class ProductDetailComponent {
         shareReplay(1)
     );
 
+    getReviews(data: any) {
+        return data?.reviews ?? data?.data?.reviews ?? [];
+    }
+
     /** my review (auth-guarded) */
     myReview$ = this.slug$.pipe(
         switchMap(slug => {

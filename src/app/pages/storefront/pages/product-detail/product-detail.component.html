@@ -237,7 +237,7 @@
                         id="tab-reviews">
                         <ng-container *ngIf="reviews$ | async as data">
                             <app-review-list
-                            [reviews]="data.reviews">
+                            [reviews]="getReviews(data)">
                             </app-review-list>
                         </ng-container>
                     </div>

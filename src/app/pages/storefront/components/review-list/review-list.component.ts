@@ -30,7 +30,7 @@ export class ReviewListComponent {
   vote(review: Review) {
     this.storefrontReviewService.voteReview(review.id)
       .subscribe((res: any) => {
-        review.helpfulCount = res.helpfulCount;
+        review.helpfulCount = res?.helpfulCount ?? review.helpfulCount;
       });
   }
 

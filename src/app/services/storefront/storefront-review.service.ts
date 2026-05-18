@@ -16,11 +16,11 @@ export class StorefrontReviewService {
 
     getProductReviews(slug: string) {
         return this.http
-            .get<ApiResponse<ReviewResponse>>(
+            .get<ApiResponse<ReviewResponse> | ReviewResponse>(
                 `${Constant.API_BASE_URL}/products/${slug}/reviews`
             )
             .pipe(
-                map(res => res.data)
+                map((res: any) => res?.data?.reviews ? res.data : res)
             );
     }
 
@@ -49,6 +49,8 @@ export class StorefrontReviewService {
         return this.http.post(
         `${this.baseUrl}/${reviewId}/vote`,
         {}
+        ).pipe(
+            map((res: any) => res?.data ?? res)
         );
     }
 
