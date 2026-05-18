@@ -67,13 +67,11 @@ export class MediaPickerComponent implements OnInit, OnChanges {
     private filterMedia(media: Media[]): Media[] {
         return media.filter(item => {
             const folderMatches =
-                !item.folder ||
                 !this.currentFolder ||
                 item.folder === this.currentFolder;
 
             const usageMatches =
                 this.currentUsage === 'all' ||
-                !item.usage ||
                 item.usage === this.currentUsage;
 
             return folderMatches && usageMatches;
@@ -97,7 +95,7 @@ export class MediaPickerComponent implements OnInit, OnChanges {
 
         this.isUploading = true;
 
-        this.mediaService.upload(file, this.folder, usage).subscribe({
+        this.mediaService.upload(file, this.currentFolder, usage).subscribe({
             next: () => {
                 this.toast.success('Upload successful');
                 this.loadMedia();

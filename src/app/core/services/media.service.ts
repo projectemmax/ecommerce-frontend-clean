@@ -24,7 +24,7 @@ export class MediaService {
     constructor(private http: HttpClient) {}
 
     private getApiUsage(usage?: string): string | undefined {
-        if (!usage || usage === 'all' || usage === 'shop-offer') {
+        if (!usage || usage === 'all') {
             return undefined;
         }
 
