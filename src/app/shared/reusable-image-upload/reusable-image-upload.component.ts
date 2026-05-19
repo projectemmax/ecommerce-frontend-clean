@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CommonModule } from '@angular/common';
+import { ProductService } from '@app/services/product/product.service';
 
 export interface UploadImage {
-  file?: File | null;
-  preview: string;
-  isPrimary?: boolean;
+    url: string;
+    publicId?: string;
+    isPrimary?: boolean;
 }
 
 @Component({
@@ -21,21 +22,29 @@ export class ReusableImageUploadComponent {
 
     @Output() imagesChange = new EventEmitter<UploadImage[]>();
 
+    constructor(
+        private productService: ProductService
+    ) {}
+
     onSelect(event: any) {
         event.addedFiles.forEach((file: File) => {
-        const reader = new FileReader();
+            this.productService
+                .uploadTempImage(file)
+                .subscribe({
+                    next: (res: any) => {
+                        console.log('UPLOAD RESPONSE', res);
+                        this.images.push({
+                            url: res.url,
+                            publicId: res.publicId,
+                            isPrimary: this.images.length === 0
+                        });
+                        this.emit();
 
-        reader.onload = () => {
-            this.images.push({
-                file,
-                preview: reader.result as string,
-                isPrimary: this.images.length === 0
-            });
-
-            this.emit();
-        };
-
-        reader.readAsDataURL(file);
+                    },
+                    error: (err) => {
+                        console.error('UPLOAD FAILED', err);
+                    }
+                });
         });
     }
 

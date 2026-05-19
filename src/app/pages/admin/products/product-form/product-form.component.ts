@@ -80,7 +80,7 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
         fields: [
             { key: 'name', type: 'text', label: 'Product Name', required: true },
             { key: 'description', type: 'textarea', label: 'Description' },
-            { key: 'sku', type: 'text', label: 'Base product SKU', required: true },
+            { key: 'sku', type: 'text', label: 'Base product SKU', required: false },
             { key: 'categoryId', type: 'select', label: 'Category', required: true }
             ]
         },
@@ -111,7 +111,17 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
     async ngOnInit() {
         this.buildForm();
 
-        this.form.get('sku')?.valueChanges.subscribe(() => {
+        this.form.get('name')?.valueChanges.subscribe(() => {
+            if (!this.isEditMode) {
+                this.form.patchValue(
+                    {
+                        sku: this.generateBaseSku()
+                    },
+                    {
+                        emitEvent: false
+                    }
+                );
+            }
             this.regenerateVariants();
         });
 
@@ -134,8 +144,24 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
 
         // 🔥 Listen AFTER everything is ready
         this.form.get('categoryId')?.valueChanges.subscribe(() => {
+            // Restore existing variant enable/disable logic
             this.updateVariantToggleState();
             this.applyVariantState();
+
+            // Generate SKU
+            if (!this.isEditMode) {
+
+                this.form.patchValue(
+                    {
+                        sku: this.generateBaseSku()
+                    },
+                    {
+                        emitEvent: false
+                    }
+                );
+            }
+            // Refresh variant SKU
+            this.regenerateVariants();
         });
 
         this.form.get('hasVariants')?.valueChanges.subscribe((checked) => {
@@ -259,7 +285,7 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
                 description: product.description,
                 price: product.price,
                 stock: product.stock,
-                sku: product.sku,
+                sku: this.generateBaseSku(),
                 categoryId: product.categoryId,
                 hasVariants: !!product.variants?.length,
                 isFeatured: product.isFeatured ?? false,
@@ -329,7 +355,8 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
             this.images = product.images?.map((img: any) => ({
                 id: img.id,
                 file: null,
-                preview: getImageUrl(img.url),
+                url: getImageUrlCloudinary(img.url),
+                publicId: img.publicId,
                 isPrimary: img.isPrimary,
                 order: img.order
             })) || [];
@@ -470,7 +497,10 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
         try {
             const formValue = this.form.getRawValue();
 
+            formValue.sku = this.generateBaseSku();
+
             delete formValue.hasVariants;
+   
 
             // ==========================
             // VALIDATION (PUBLISH ONLY)
@@ -496,39 +526,27 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
             // ==========================
             // STEP 1: Upload NEW images
             // ==========================
-            const uploadedImages = await Promise.all(
-                this.images
-                .filter(img => img.file)
-                .map(img =>
-                    firstValueFrom(
-                        this.productService.uploadProductImage(this.productId, img.file!)
-                    )
-                )
-            );
+            // const uploadedImages = await Promise.all(
+            //     this.images
+            //     .filter(img => img.file)
+            //     .map(img =>
+            //         firstValueFrom(
+            //             this.productService.uploadProductImage(this.productId, img.file!)
+            //         )
+            //     )
+            // );
 
             // ==========================
             // STEP 2: Merge images
             // ==========================
-            let uploadIndex = 0;
+            //let uploadIndex = 0;
 
-            let finalImages = this.images.map((img, index) => {
-                if (img.file) {
-                    const uploaded = uploadedImages[uploadIndex++];
-
-                    return {
-                        url: uploaded.data.imageUrl, // ✅ Cloudinary URL
-                        isPrimary: img.isPrimary,
-                        order: index
-                    };
-                }
-
-                return {
-                    id: img.id,
-                    url: img.preview,
-                    isPrimary: img.isPrimary,
-                    order: index
-                };
-            });
+            const finalImages = this.images.map((img, index) => ({
+                id: img.id,
+                url: img.url,
+                isPrimary: img.isPrimary,
+                order: index
+            }));
 
             // ✅ Ensure at least 1 primary image
             if (finalImages.length && !finalImages.some(i => i.isPrimary)) {
@@ -752,25 +770,54 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
         const categoryId = this.form.get('categoryId')?.value;
         const category = this.categories.find(c => c.id === categoryId);
 
-        if (!category?.name) return '';
+        if (!category?.name) {
+            return 'GEN';
+        }
 
         return category.name
-            .replace(/[^a-zA-Z0-9 ]/g, '')
             .split(' ')
-            .map((w: string) => w[0])
+            .map((word: string) => word.substring(0, 2))
             .join('')
             .toUpperCase();
+
     }
 
-    generateFullSku(attributes: string[]): string {
-
-        const baseSku = this.form.get('sku')?.value || '';
+    generateFullSku(attributes: string[]) {
+        const baseSku = this.generateBaseSku();
         const attrCode = this.generateSku(attributes);
 
-        return [baseSku, attrCode]
-            .filter(Boolean)
-            .join('-')
-            .toUpperCase();
+        return [
+            baseSku,
+            attrCode
+        ]
+        .filter(Boolean)
+        .join('-');
+
+    }
+
+    generateBaseSku(): string {
+        const productName = this.form.get('name')?.value || '';
+
+        const words = productName
+                .split(' ')
+                .filter(Boolean)
+                .slice(0, 2);
+
+        const productCode =
+            words
+                .map(
+                    (w: string) =>
+                        w.substring(0, 3)
+                )
+                .join('');
+
+        return [
+            this.getCategoryCode(),
+            productCode
+        ]
+        .filter(Boolean)
+        .join('-')
+        .toUpperCase();
     }
 
     // Variant Table

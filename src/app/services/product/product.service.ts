@@ -88,12 +88,11 @@ export class ProductService {
         payload: ProductPayload
     ): Observable<ApiResponse<Product>> {
 
-        const { sku, ...safePayload } = payload;
-
         return this.http.put<ApiResponse<Product>>(
-        `${this.baseUrl}/${id}`,
-        safePayload
+            `${this.baseUrl}/${id}`,
+            payload
         );
+
     }
 
     bulkUpdateStatus(payload: {
@@ -155,17 +154,25 @@ export class ProductService {
         );
     }
 
-    // uploadTempImage(file: File): Observable<{ url: string }> {
-    //     const formData = new FormData();
-    //     formData.append('file', file);
+    uploadTempImage(
+        file: File
+    ): Observable<{ url: string; publicId?: string }> {
 
-    //     return this.http
-    //         .post<any>(`${this.baseUrl}/upload`, formData)
-    //         .pipe(
-    //         map(res => ({
-    //             url: res.data.url
-    //         }))
-    //     );
-    // }
+        const formData = new FormData();
+
+        formData.append('file', file);
+
+        return this.http
+            .post<any>(
+                `${this.baseUrl}/upload`,
+                formData
+            )
+            .pipe(
+                map((res: any) => ({
+                    url: res.data.url,
+                    publicId: res.data.publicId
+                }))
+            );
+    }
 
 }

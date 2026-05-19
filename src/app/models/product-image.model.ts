@@ -1,8 +1,9 @@
 export interface ProductImage {
-  id?: string;          // ✅ FIX
-  file?: File | null;   // ✅ FIX
-  preview: string;
+  id?: string;
+  file?: File | null;
+  url: string;
+  publicId?: string;
   isPrimary: boolean;
   order?: number;
-  isNew?: boolean;      // ✅ FIX
+  isNew?: boolean;
 }
