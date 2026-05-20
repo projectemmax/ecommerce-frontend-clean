@@ -80,7 +80,7 @@
 
               <!-- DESCRIPTION -->
               <p class="my-3">
-                {{ product.description || 'No description available.' }}
+                {{ getSummary(product.description)  || 'No description available.' }}
               </p>
 
                 <!-- QUANTITY -->

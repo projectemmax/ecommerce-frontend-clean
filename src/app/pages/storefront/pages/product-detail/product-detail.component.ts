@@ -533,4 +533,14 @@ export class ProductDetailComponent {
         this.quantity = 1;
     }
 
+    getSummary(desc?: string): string {
+        if (!desc) return '';
+
+        return desc
+            .replace(/\n/g, ' ')
+            .replace(/\*/g, '')
+            .slice(0, 220)
+            + '...';
+    }
+
 }
