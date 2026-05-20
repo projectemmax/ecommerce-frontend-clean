@@ -1,7 +1,8 @@
 <div class="row g-4">
-    <div [ngClass]="{
-        'col-12 col-sm-6 col-lg-3': columns === 4,
-        'col-12 col-sm-6 col-lg-4': columns === 3
+    <div 
+        [ngClass]="{
+            'col-12 col-sm-6 col-lg-3': columns === 4,
+            'col-12 col-sm-6 col-lg-4': columns === 3
         }" *ngFor="let product of products">
         <div class="rounded position-relative fruite-item">
             <div 
@@ -30,18 +31,43 @@
 
                 <div class="d-flex justify-content-between">
                     <!-- <p class="text-dark fs-5 fw-bold mb-0">{{ product.price | currency:'PHP' }}</p> -->
-                    <p *ngIf="product.variants?.length; else noVariantPrice" class="mt-2 mb-1 fw-bold">
-                        {{ getMinPrice(product.variants) | currency:'PHP' }} -
-                        {{ getMaxPrice(product.variants) | currency:'PHP' }}
+                    <p
+                        *ngIf="product.variants?.length; else noVariantPrice"
+                        class="mt-2 mb-1 fw-bold"
+                        [class.text-muted]="isOutOfStock(product)"
+                        [class.text-decoration-line-through]="isOutOfStock(product)">
+                            {{ getMinPrice(product.variants) | currency:'PHP' }}
+                            -
+                            {{ getMaxPrice(product.variants) | currency:'PHP' }}
                     </p>
 
                     <ng-template #noVariantPrice>
-                        <p class="mt-2 mb-1 fw-bold">
+                        <p
+                            class="mt-2 mb-1 fw-bold"
+                            [class.text-muted]="isOutOfStock(product)"
+                            [class.text-decoration-line-through]="isOutOfStock(product)">
                             {{ product.price | currency:'PHP' }}
                         </p>
+
                     </ng-template>
-                    <button class="btn border border-secondary rounded-pill px-3 text-primary" (click)="addToCart(product.id)">
-                        <i class="fa fa-shopping-bag me-2"></i> Add
+                    <button
+                        class="btn rounded-pill px-3"
+                        (click)="!isOutOfStock(product) && addToCart(product.id)"
+                        [disabled]="isOutOfStock(product)"
+                        [class.border-secondary]="!isOutOfStock(product)"
+                        [class.text-primary]="!isOutOfStock(product)"
+                        [class.border-danger]="isOutOfStock(product)"
+                        [class.text-danger]="isOutOfStock(product)">
+                            <i
+                                *ngIf="!isOutOfStock(product)"
+                                class="fa fa-shopping-bag me-2">
+                            </i>
+
+                            {{
+                                isOutOfStock(product)
+                                ? 'Out of Stock'
+                                : 'Add'
+                            }}
                     </button>
                 </div>
             </div>

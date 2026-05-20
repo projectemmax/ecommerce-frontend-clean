@@ -28,6 +28,11 @@ export class ProductGridComponent {
         private authService: AuthService
     ) {}
 
+    isOutOfStock(product: Product): boolean {
+        return Number(
+            product?.stock ?? 0
+        ) <= 0;
+    }
 
     addToCart(productId: string): void {
         console.log('Adding to cart:', productId);

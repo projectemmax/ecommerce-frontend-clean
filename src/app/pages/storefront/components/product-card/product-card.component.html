@@ -25,19 +25,40 @@
         </p>
 
         <div class="d-flex justify-content-between">
-            <p *ngIf="product.variants?.length; else noVariantPrice" class="mt-2 mb-1 fw-bold">
+            <p 
+                *ngIf="product.variants?.length; else noVariantPrice" 
+                class="mt-2 mb-1 fw-bold"
+                [class.text-muted]="isOutOfStock()"
+                [class.text-decoration-line-through]="isOutOfStock()">
                 {{ getMinPrice(product.variants) | currency:'PHP' }} -
                 {{ getMaxPrice(product.variants) | currency:'PHP' }}
             </p>
 
             <ng-template #noVariantPrice>
-                <p class="mt-2 mb-1 fw-bold">
+                <p 
+                    class="mt-2 mb-1 fw-bold"
+                    [class.text-muted]="isOutOfStock()"
+                    [class.text-decoration-line-through]="isOutOfStock()">
                     {{ product.price | currency:'PHP' }}
                 </p>
             </ng-template>
-            <button class="btn border border-secondary rounded-pill px-3 text-primary">
-                <i class="fa fa-shopping-bag me-2"></i> 
-                Add
+            <button
+                class="btn rounded-pill px-3"
+                (click)="onAddToCart()"
+                [disabled]="isOutOfStock()"
+                [class.border-danger]="isOutOfStock()"
+                [class.text-danger]="isOutOfStock()"
+                [class.border-secondary]="!isOutOfStock()"
+                [class.text-primary]="!isOutOfStock()">
+                <i
+                    *ngIf="!isOutOfStock()"
+                    class="fa fa-shopping-bag me-2">
+                </i>
+                {{
+                    isOutOfStock()
+                    ? 'Out of Stock'
+                    : 'Add'
+                }}
             </button>
         </div>
     </div>
