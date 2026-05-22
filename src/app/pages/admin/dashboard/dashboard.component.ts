@@ -93,19 +93,63 @@ export class DashboardComponent implements OnInit {
             .subscribe({
             next: (res) => {
 
-                this.stats = {
-                ...res.stats,
-                sales: Number(res.stats.sales)
-                };
+    console.log(
+        'DASHBOARD RESPONSE',
+        res
+    );
 
-                this.analytics = res.analytics;
+    const stats =
+        res.stats?.data
+        ?? res.stats;
 
-                this.topProducts = res.products;
-                this.customers = res.customers;
-                this.reviews = res.reviews;
+    const customers =
+        res.customers?.data
+        ?? res.customers;
 
-                this.isLoading = false;
-            },
+    const reviews =
+        res.reviews?.data
+        ?? res.reviews;
+
+    this.stats = {
+
+        orders:
+            Number(
+                stats?.orders ?? 0
+            ),
+
+        sales:
+            Number(
+                stats?.sales ?? 0
+            ),
+
+        customers:
+            Number(
+                stats?.customers ?? 0
+            ),
+
+        pendingReviews:
+            Number(
+                stats?.pendingReviews ?? 0
+            )
+    };
+
+    this.analytics =
+        res.analytics;
+
+    // already array
+    this.topProducts =
+        res.products;
+
+    // unwrap only these
+    this.customers =
+        customers ?? [];
+
+    this.reviews =
+        reviews ?? [];
+
+    this.isLoading =
+        false;
+},
             error: (err) => {
                 console.error('Dashboard load error:', err);
                 this.errorMessage = 'Failed to load dashboard data.';

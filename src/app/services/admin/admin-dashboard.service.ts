@@ -48,7 +48,14 @@ export class DashboardService {
                 Constant.SELLER.DASHBOARD.ANALYTICS
                 )}?range=${range}`
             )
-            .pipe(map(res => res.data)); // ✅ unwrap
+            .pipe(
+                map(
+                    res =>
+                    this.unwrap<Analytics>(
+                        res
+                    )
+                )
+            );
     }
 
     // =========================
@@ -63,7 +70,7 @@ export class DashboardService {
                 Constant.SELLER.DASHBOARD.TOP_PRODUCTS
                 )}`
             )
-            .pipe(map(res => res.data ?? []));
+            .pipe(map(res => this.unwrap<TopProduct[]>(res))); // ✅ unwrap
     }
 
     // =========================
@@ -108,6 +115,17 @@ export class DashboardService {
         return this.auth.isSeller()
             ? seller
             : admin;
+    }
+
+    private unwrap<T>(
+        res: any
+    ): T {
+
+        return (
+            res?.data?.data
+            ?? res?.data
+            ?? res
+        ) as T;
     }
 
 }

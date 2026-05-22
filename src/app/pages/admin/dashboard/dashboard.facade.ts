@@ -16,7 +16,9 @@ export class DashboardFacade {
         const r = this.range();
 
         this.dashboardService.getAnalytics(r).subscribe(res => {
-        this.analytics.set(res);
+            this.analytics.set(
+                res
+            );
         });
     }
 
