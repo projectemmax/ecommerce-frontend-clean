@@ -20,6 +20,7 @@ import {
 import { AnalyticsChartComponent } from '@app/shared/analytics-chart/analytics-chart.component';
 import { DashboardFacade } from './dashboard.facade';
 import { FiltersComponent } from '@app/shared/ui/filters.component';
+import { getImageUrl } from '@app/core/utils/image.util';
 
 
 @Component({
@@ -60,6 +61,8 @@ export class DashboardComponent implements OnInit {
         totalOrders: 0,
         growth: 0
     };
+
+    getImageUrl = getImageUrl;
 
     constructor(
         private dashboardService: DashboardService,
