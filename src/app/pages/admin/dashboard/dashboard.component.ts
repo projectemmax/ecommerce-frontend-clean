@@ -64,6 +64,15 @@ export class DashboardComponent implements OnInit {
 
     getImageUrl = getImageUrl;
 
+    // =========================
+    // SKELETON HELPER
+    readonly statsCardSkeleton = Array.from({ length: 4 });
+    readonly statSkeleton = Array.from({ length: 3 });
+    readonly productSkeleton = Array.from({ length: 5 });
+    readonly reviewSkeleton = Array.from({ length: 4 });
+
+    trackByIndex = (i: number) => i;
+
     constructor(
         private dashboardService: DashboardService,
         public facade: DashboardFacade

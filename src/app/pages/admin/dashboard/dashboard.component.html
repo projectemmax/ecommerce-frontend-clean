@@ -19,28 +19,126 @@
 <div *ngIf="!isLoading && !errorMessage">
 
     <!-- ========================= -->
-    <!-- STATS -->
-    <!-- ========================= -->
+<!-- STATS -->
+<!-- ========================= -->
+<ng-container
+    *ngIf="
+        !facade.analyticsLoading();
+        else statsCardsSkeleton
+    ">
+
     <div class="row mb-4">
 
-        <div class="col-md-3" *ngFor="let card of [
-            { title: 'Total Sales', value: stats?.sales, class: 'text-primary', prefix: '₱' },
-            { title: 'Orders', value: stats?.orders, class: 'text-success' },
-            { title: 'Customers', value: stats?.customers, class: 'text-info' },
-            { title: 'Pending Reviews', value: stats?.pendingReviews, class: 'text-danger' }
-            ]">
+        <div
+            class="col-md-3"
+            *ngFor="
+                let card of [
+                    {
+                        title: 'Total Sales',
+                        value: stats?.sales,
+                        class: 'text-primary',
+                        prefix: '₱'
+                    },
+                    {
+                        title: 'Orders',
+                        value: stats?.orders,
+                        class: 'text-success'
+                    },
+                    {
+                        title: 'Customers',
+                        value: stats?.customers,
+                        class: 'text-info'
+                    },
+                    {
+                        title: 'Pending Reviews',
+                        value: stats?.pendingReviews,
+                        class: 'text-danger'
+                    }
+                ]
+            ">
 
             <div class="card shadow-sm">
+
                 <div class="card-body">
-                    <h6 class="text-muted mb-1">{{ card.title }}</h6>
+
+                    <h6 class="text-muted mb-1">
+                        {{ card.title }}
+                    </h6>
+
                     <h4 [ngClass]="card.class">
+
                         {{ card.prefix || '' }}
-                        {{ (card.value ?? 0) | number }}
+
+                        {{
+                            (card.value ?? 0)
+                            | number
+                        }}
+
                     </h4>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
+</ng-container>
+
+<ng-template #statsCardsSkeleton>
+
+    <div class="row mb-4">
+
+        <div
+            class="col-md-3"
+            *ngFor="
+                let _ of statsCardSkeleton;
+                trackBy: trackByIndex
+            ">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <div
+                        class="
+                            placeholder-glow
+                            mb-2
+                        ">
+
+                        <span
+                            class="
+                                placeholder
+                                col-5
+                            ">
+                        </span>
+
+                    </div>
+
+                    <div class="placeholder-glow">
+
+                        <span
+                            class="
+                                placeholder
+                                col-4
+                            "
+                            style="
+                                height:28px;
+                            ">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</ng-template>
 
     <!-- ========================= -->
     <!-- ANALYTICS + TOP PRODUCTS -->
@@ -65,14 +163,7 @@
                         <app-filters (change)="facade.setRange($event)"></app-filters>
                     </div>
 
-                    <!-- LOADING -->
-                    <div
-                        *ngIf="facade.analyticsLoading()"
-                        class="skeleton-chart">
-                    </div>
-
-                    <!-- DATA -->
-                    <ng-container *ngIf="!facade.analyticsLoading() && facade.analytics() as data">
+                    <ng-container *ngIf="!facade.analyticsLoading() && facade.analytics() as data; else analyticsSkeleton">
 
                         <!-- KPI -->
                         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
@@ -99,7 +190,6 @@
 
                                 <h5
                                     class="mb-0"
-
                                     [ngClass]="{
                                         'text-success': data.growth >= 0,
                                         'text-danger': data.growth < 0
@@ -123,6 +213,28 @@
                         </div>
 
                     </ng-container>
+
+                    <ng-template #analyticsSkeleton>
+                        <!-- KPI -->
+                        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                            <div *ngFor="let _ of statSkeleton; trackBy: trackByIndex" style="min-width:140px">
+                                <div class="placeholder-glow">
+                                    <span class="placeholder col-6 mb-2"></span>
+                                    <span
+                                        class="placeholder placeholder-lg col-8">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CHART -->
+                        <div
+                            class="placeholder-glow rounded"
+                            style="height:300px;">
+                            <span
+                                class="placeholder w-100 h-100 rounded d-block">
+                            </span>
+                        </div>
+                    </ng-template>
                 </div>
             </div>
         </div>
@@ -134,83 +246,185 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="mb-3">Top Products</h5>
-                    <div *ngIf="topProducts?.length; else noProducts">
+                    <ng-container
+                        *ngIf="
+                            !facade.analyticsLoading();
+                            else topProductsSkeleton
+                        ">
+
+                        <div *ngIf="topProducts?.length; else noProducts">
+
+                            <div
+                                *ngFor="
+                                    let p of topProducts
+                                "
+                                class="mb-4">
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <img
+                                        [src]="getImageUrl(p.image || '')"
+                                        class="rounded"
+                                        width="48"
+                                        height="48"
+                                        style="
+                                            object-fit: cover;
+                                            border:1px solid #eee;
+                                        "
+                                    />
+
+                                    <div class="flex-grow-1">
+
+                                        <div
+                                            class="
+                                                d-flex
+                                                justify-content-between
+                                            ">
+
+                                            <span>
+                                                {{ p.name }}
+                                            </span>
+
+                                            <span>
+                                                {{ p.sold | number }}
+                                            </span>
+
+                                        </div>
+
+                                        <small class="text-muted">
+
+                                            ₱
+                                            {{
+                                                p.revenue
+                                                | number
+                                            }}
+
+                                        </small>
+
+                                        <div
+                                            class="progress mt-2"
+                                            style="height:6px;">
+
+                                            <div
+                                                class="
+                                                    progress-bar
+                                                    bg-primary
+                                                "
+                                                [style.width.%]="
+                                                    p.percentage
+                                                "
+                                                [title]="
+                                                    p.percentage + '%'
+                                                ">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </ng-container>
+
+                    <ng-template #topProductsSkeleton>
+
                         <div
-                            *ngFor="let p of topProducts"
+                            *ngFor="
+                                let _ of productSkeleton;
+                                trackBy: trackByIndex
+                            "
                             class="mb-4">
 
-                            <div class="d-flex align-items-center gap-2">
-
-                            <img
-                                [src]="getImageUrl(p.image || '')"
-                                class="rounded"
-                                width="48"
-                                height="48"
-                                style="
-                                object-fit: cover;
-                                border: 1px solid #eee;
-                                "
-                            />
-
-                            <div class="flex-grow-1">
-
-                                <div
+                            <div
                                 class="
                                     d-flex
-                                    justify-content-between
-                                "
-                                >
+                                    align-items-center
+                                    gap-2
+                                ">
 
-                                <span>
-                                    {{ p.name }}
+                                <span
+                                    class="placeholder rounded"
+                                    style="
+                                        width:48px;
+                                        height:48px;
+                                    ">
                                 </span>
 
-                                <span>
-                                    {{ p.sold | number }}
-                                </span>
+                                <div class="flex-grow-1">
 
-                                </div>
+                                    <div
+                                        class="
+                                            d-flex
+                                            justify-content-between
+                                            placeholder-glow
+                                        ">
 
-                                <small
-                                class="text-muted"
-                                >
-                                ₱
-                                {{
-                                    p.revenue
-                                    | number
-                                }}
-                                </small>
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-5
+                                            ">
+                                        </span>
 
-                                <div
-                                class="progress mt-2"
-                                style="height:6px;"
-                                >
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-2
+                                            ">
+                                        </span>
 
-                                <div
-                                    class="progress-bar bg-primary"
+                                    </div>
 
-                                    [style.width.%]="
-                                    p.percentage
-                                    "
+                                    <div
+                                        class="
+                                            placeholder-glow
+                                            mt-2
+                                        ">
 
-                                    [title]="
-                                    p.percentage + '%'
-                                    "
-                                >
-                                </div>
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-3
+                                            ">
+                                        </span>
+
+                                    </div>
+
+                                    <div
+                                        class="progress mt-2"
+                                        style="height:6px">
+
+                                        <div
+                                            class="
+                                                progress-bar
+                                                placeholder
+                                            "
+                                            style="
+                                                opacity:.25;
+                                                width:100%;
+                                            ">
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
                             </div>
 
-                            </div>
-
                         </div>
 
-                        </div>
+                    </ng-template>
 
                     <ng-template #noProducts>
-                        <p class="text-muted">No top products yet</p>
+
+                        <p class="text-muted">
+                            No top products yet
+                        </p>
+
                     </ng-template>
 
                 </div>
@@ -228,51 +442,165 @@
             <div class="card-body">
 
             <h5 class="mb-3">Pending Reviews</h5>
+            <ng-container
+                *ngIf="
+                    !facade.analyticsLoading();
+                    else pendingReviewsSkeleton
+                ">
 
-            <div *ngIf="reviews?.length; else noReviews" class="table-responsive">
-                <table class="table table-hover">
+                <div
+                    *ngIf="
+                        reviews?.length;
+                        else noReviews
+                    "
+                    class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Images</th>
+                                <th>Product</th>
+                                <th>Customer</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let review of reviews">
+                                <td>
+                                    <img
+                                        *ngFor="
+                                            let img
+                                            of review.images
+                                        "
+                                        [src]="getImageUrl(img.url)"
+                                        width="40"
+                                        class="
+                                            me-1
+                                            rounded
+                                        "
+                                    />
+                                </td>
+                                <td>
+                                    {{ review.product.name }}
+                                </td>
+                                <td>
+                                    {{
+                                        review.user.customer?.firstName
+                                    }}
 
-                <thead>
-                    <tr>
-                    <th>Images</th>
-                    <th>Product</th>
-                    <th>Customer</th>
-                    <th>Rating</th>
-                    <th>Comment</th>
-                    <th>Date</th>
-                    </tr>
-                </thead>
+                                    {{
+                                        review.user.customer?.lastName
+                                    }}
+                                </td>
+                                <td>
+                                    <span class="mdi mdi-star"></span> {{ review.rating }}
+                                </td>
+                                <td>
+                                    {{
+                                        review.comment
+                                        || 'No comment'
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        review.createdAt
+                                        | date:'shortDate'
+                                    }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
 
-                <tbody>
-                    <tr *ngFor="let review of reviews">
-
-                    <td>
-                        <img
-                        *ngFor="let img of review.images"
-                        [src]="img.url"
-                        width="40"
-                        class="me-1 rounded"
-                        />
-                    </td>
-
-                    <td>{{ review.product.name }}</td>
-
-                    <td>
-                        {{ review.user.customer?.firstName }}
-                        {{ review.user.customer?.lastName }}
-                    </td>
-
-                    <td>⭐ {{ review.rating }}</td>
-
-                    <td>{{ review.comment || 'No comment' }}</td>
-
-                    <td>{{ review.createdAt | date:'shortDate' }}</td>
-
-                    </tr>
-                </tbody>
-
-                </table>
-            </div>
+            <ng-template #pendingReviewsSkeleton>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Images</th>
+                                <th>Product</th>
+                                <th>Customer</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let _ of reviewSkeleton;
+                                    trackBy: trackByIndex
+                                ">
+                                <td>
+                                    <span
+                                        class="
+                                            placeholder
+                                            rounded
+                                        "
+                                        style="
+                                            width:40px;
+                                            height:40px;
+                                            display:inline-block;
+                                        ">
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-8
+                                            ">
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-7
+                                            ">
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-4
+                                            ">
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-10
+                                            ">
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="placeholder-glow">
+                                        <span
+                                            class="
+                                                placeholder
+                                                col-6
+                                            ">
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>
 
             <ng-template #noReviews>
                 <p class="text-muted">No pending reviews</p>

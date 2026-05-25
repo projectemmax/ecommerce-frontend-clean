@@ -20,6 +20,7 @@ export class DashboardFacade {
 
         this.dashboardService
             .getAnalytics(r)
+            .pipe(delay(2500)) // simulate loading delay
             .subscribe({
                 next: (res) => {
                     this.analytics.set(res);
