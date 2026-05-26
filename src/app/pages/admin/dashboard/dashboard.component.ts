@@ -208,6 +208,34 @@ export class DashboardComponent implements OnInit {
 
     }
 
+    viewAllReviews(): void {
+        if (
+            !this.authService.isAdmin()
+        ) {
+            return;
+        }
+
+        this.router.navigate([
+            '/admin/reviews'
+        ]);
+    }
+
+    openReview(
+        review: any
+    ): void {
+
+        if (
+            !this.authService.isAdmin()
+        ) {
+            return;
+        }
+
+        this.router.navigate([
+            '/admin/reviews'
+        ]);
+
+    }
+
 
 
 }
