@@ -162,8 +162,7 @@ export const routes: Routes = [
                 canActivate: [
                     AuthGuard,
                     roleGuardAny([
-                        'ADMIN',
-                        'SELLER'
+                        'ADMIN'
                     ])
                 ],
                 loadComponent: () =>
@@ -173,7 +172,13 @@ export const routes: Routes = [
 
             {
                 path: 'reviews',
-                canActivate: [AuthGuard, roleGuard('ADMIN')],
+                canActivate: [
+                    AuthGuard,
+                    roleGuardAny([
+                        'ADMIN',
+                        'SELLER'
+                    ])
+                ],
                 loadComponent: () =>
                     import('@app/pages/admin/reviews/reviews.component')
                     .then(m => m.ReviewsComponent)

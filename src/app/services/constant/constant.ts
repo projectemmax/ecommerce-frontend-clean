@@ -103,6 +103,10 @@ export const Constant = {
             PENDING_REVIEWS:
                 'seller/dashboard/pending-reviews',
         },
+
+        REVIEWS: {
+            BASE: 'reviews/seller',
+        },
     },
 
     // =========================
