@@ -54,9 +54,6 @@ export class ReviewsComponent implements OnInit {
 
             this.isAdmin = profile.role === 'ADMIN';
             this.isSeller = profile.role === 'SELLER';
-
-            console.log("this.isSeller", this.isSeller);
-
             this.loadReviews();
 
         });
@@ -67,11 +64,6 @@ export class ReviewsComponent implements OnInit {
     // LOAD REVIEWS
     // ===============================
     loadReviews() {
-
-        console.log('IS SELLER', this.isSeller);
-        console.log('SERVICE', this.isSeller ? 'SELLER' : 'ADMIN');
-
-        console.log('sellerReviewService', this.sellerReviewService);
 
         this.loading = true;
 
@@ -84,13 +76,10 @@ export class ReviewsComponent implements OnInit {
             next: (res: any) => {
                 this.reviews = res;
                 this.loading = false;
-
             },
             error: () => {
-
                 this.reviews = [];
                 this.loading = false;
-
             }
         });
 

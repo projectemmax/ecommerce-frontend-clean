@@ -65,7 +65,16 @@
         <app-table-skeleton
             *ngIf="loading"
             [rows]="5"
-            [columns]="isAdmin ? 7 : 5">
+            [columns]="6"
+            variant="reviews"
+            [columnWidths]="[
+                '5%',
+                '15%',
+                '15%',
+                '35%',
+                '15%',
+                '15%'
+            ]">
         </app-table-skeleton>
 
         <!-- TABLE -->
