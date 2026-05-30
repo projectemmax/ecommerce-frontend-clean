@@ -107,6 +107,11 @@ export const Constant = {
         REVIEWS: {
             BASE: 'reviews/seller',
         },
+
+        AI: {
+            GENERATE_DESCRIPTION:
+                'seller/ai/generate-description',
+        },
     },
 
     // =========================

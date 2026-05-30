@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GeneratedProductDescription } from '@app/models/ai-product-description.model';
 import { DynamicSection } from '@app/models/dynamic-form.model';
 import { ProductImage } from '@app/models/product-image.model';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -12,6 +17,8 @@ import { getImageUrl, getImageUrlCloudinary } from '@app/core/utils/image.util';
 import { ToastService } from '@app/core/services/toast.service';
 import { CanComponentDeactivate } from '@app/guards/unsaved-changes.guard';
 import { ReusableImageUploadComponent } from "@app/shared/reusable-image-upload/reusable-image-upload.component";
+import { AuthService } from '@app/core/auth/auth.service';
+import { SellerAiService } from '@app/services/seller/seller-ai.service';
 
 interface VariantOption {
   name: string;
@@ -36,7 +43,11 @@ interface Variant {
     ReactiveFormsModule,
     FormsModule,
     NgxDropzoneModule,
-    ReusableImageUploadComponent
+    ReusableImageUploadComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatChipsModule
 ],
     templateUrl: './product-form.component.html',
     styleUrl: './product-form.component.css'
@@ -59,6 +70,9 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
     isInitialized = false;
     hasVariantsToggle = false;
     selectedCategory: any = null;
+    isGeneratingDescription = false;
+    generatedProductDescription: GeneratedProductDescription | null = null;
+    canUseProductAi = false;
     
 
     getImageUrl = getImageUrl;
@@ -97,9 +111,11 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private productService: ProductService,
+        private sellerAiService: SellerAiService,
         private categoryService: CategoryService,
         private router: Router,
-        private toast: ToastService
+        private toast: ToastService,
+        private authService: AuthService
     ) {}
 
     variants: any[] = [];
@@ -110,6 +126,7 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
 
     async ngOnInit() {
         this.buildForm();
+        this.canUseProductAi = this.authService.isSeller();
 
         this.form.get('name')?.valueChanges.subscribe(() => {
             if (!this.isEditMode) {
@@ -465,6 +482,90 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate {
 
     onImagesChange(images: any[]) {
         this.images = images;
+    }
+
+    async generateDescriptionWithAi() {
+        if (this.isGeneratingDescription) return;
+
+        const name = this.form.get('name')?.value?.trim();
+
+        if (!name) {
+            this.toast.warning('Enter a product name before generating a description.');
+            this.form.get('name')?.markAsTouched();
+            return;
+        }
+
+        const features = this.buildAiDescriptionFeatures();
+
+        if (!features.length) {
+            this.toast.warning('Add a category, notes, price, or variant details before generating.');
+            return;
+        }
+
+        this.isGeneratingDescription = true;
+
+        try {
+            const response = await firstValueFrom(
+                this.sellerAiService.generateProductDescription({
+                    name,
+                    features
+                })
+            );
+
+            const generated = response.data;
+
+            this.generatedProductDescription = generated;
+
+            this.form.patchValue({
+                description: generated.description
+            });
+
+            this.form.get('description')?.markAsDirty();
+            this.toast.success('AI description generated successfully');
+
+        } catch (error) {
+            console.error(error);
+            this.toast.error('Unable to generate a description right now.');
+        } finally {
+            this.isGeneratingDescription = false;
+        }
+    }
+
+    private buildAiDescriptionFeatures(): string[] {
+        const features = new Set<string>();
+        const categoryId = this.form.get('categoryId')?.value;
+        const category = this.categories.find(c => c.id === categoryId);
+        const description = this.form.get('description')?.value?.trim();
+        const price = this.form.get('price')?.value;
+        const stock = this.form.get('stock')?.value;
+
+        if (category?.name) {
+            features.add(`Category: ${category.name}`);
+        }
+
+        if (description) {
+            features.add(`Seller notes: ${description}`);
+        }
+
+        if (price) {
+            features.add(`Price: ${price}`);
+        }
+
+        if (stock) {
+            features.add(`Stock: ${stock}`);
+        }
+
+        this.variantOptions.forEach(option => {
+            const values = option.values
+                .map(value => value.trim())
+                .filter(Boolean);
+
+            if (option.name?.trim() && values.length) {
+                features.add(`${option.name}: ${values.join(', ')}`);
+            }
+        });
+
+        return Array.from(features).slice(0, 20);
     }
 
 

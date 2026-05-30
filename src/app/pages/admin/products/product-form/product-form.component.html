@@ -24,6 +24,48 @@
                                 [class.unsaved]="isFieldChanged(field.key)">
                             </textarea>
 
+                            <div *ngIf="field.key === 'description' && canUseProductAi" class="mt-2">
+                                <button
+                                    mat-stroked-button
+                                    type="button"
+                                    color="primary"
+                                    class="me-2"
+                                    [disabled]="isGeneratingDescription"
+                                    (click)="generateDescriptionWithAi()">
+                                    <mat-spinner
+                                        *ngIf="isGeneratingDescription"
+                                        diameter="18"
+                                        class="me-2 d-inline-block align-middle">
+                                    </mat-spinner>
+                                    <mat-icon *ngIf="!isGeneratingDescription">auto_awesome</mat-icon>
+                                    ✨ Generate with AI
+                                </button>
+
+                                <div
+                                    *ngIf="generatedProductDescription"
+                                    class="border rounded p-3 mt-3 bg-light">
+                                    <div class="mb-3">
+                                        <label class="mb-2">AI Generated Highlights</label>
+                                        <mat-chip-listbox aria-label="AI Generated Highlights">
+                                            <mat-chip
+                                                *ngFor="let highlight of generatedProductDescription.highlights">
+                                                {{ highlight }}
+                                            </mat-chip>
+                                        </mat-chip-listbox>
+                                    </div>
+
+                                    <div>
+                                        <label class="mb-2">AI Generated Keywords</label>
+                                        <mat-chip-listbox aria-label="AI Generated Keywords">
+                                            <mat-chip
+                                                *ngFor="let keyword of generatedProductDescription.keywords">
+                                                {{ keyword }}
+                                            </mat-chip>
+                                        </mat-chip-listbox>
+                                    </div>
+                                </div>
+                            </div>
+
                             <select *ngIf="field.type === 'select'"
                                     class="form-control form-control-lg"
                                     [formControlName]="field.key"
@@ -393,8 +435,6 @@
 
 
 </div>
-
-
 
 
 
