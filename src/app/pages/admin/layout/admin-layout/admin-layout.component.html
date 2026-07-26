@@ -1,24 +1,32 @@
-<div class="container-scroller">
+<div class="workspace-shell">
+  <sh-workspace-sidebar
+    [open]="sidebarOpen"
+    (closeSidebar)="closeSidebar()">
+  </sh-workspace-sidebar>
 
-  <app-navbar
+  <button
+    class="workspace-shell__backdrop"
+    type="button"
+    aria-label="Close workspace navigation"
+    *ngIf="sidebarOpen"
+    (click)="closeSidebar()">
+  </button>
+
+  <div class="workspace-shell__main">
+    <sh-workspace-topbar
     [payload]="payload"
-    (logoutClick)="logout()">
-  </app-navbar>
+      (menuToggle)="toggleSidebar()"
+      (logoutClick)="logout()">
+    </sh-workspace-topbar>
 
-  <div class="container-fluid page-body-wrapper">
+    <main class="workspace-shell__content">
+      <sh-workspace-breadcrumbs></sh-workspace-breadcrumbs>
 
-    <app-sidebar></app-sidebar>
-
-    <div class="main-panel">
-
-      <div class="content-wrapper admin-layout">
+      <section class="workspace-shell__page">
         <router-outlet></router-outlet>
-      </div>
+      </section>
+    </main>
 
-      <app-footer></app-footer>
-
-    </div>
-
+    <sh-workspace-footer></sh-workspace-footer>
   </div>
-
 </div>

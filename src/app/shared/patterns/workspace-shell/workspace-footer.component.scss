@@ -1,0 +1,12 @@
+.workspace-footer {
+  align-items: center;
+  border-block-start: 1px solid var(--sh-color-border);
+  color: var(--sh-color-text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--sh-font-size-sm);
+  gap: var(--sh-space-3);
+  justify-content: space-between;
+  padding: var(--sh-space-4) var(--sh-space-6);
+}
+

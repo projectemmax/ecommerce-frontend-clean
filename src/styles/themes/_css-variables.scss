@@ -1,0 +1,123 @@
+@use '../abstracts/tokens' as tokens;
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  --sh-color-brand-primary: #{tokens.$sh-color-brand-primary};
+  --sh-color-brand-primary-hover: #{tokens.$sh-color-brand-primary-600};
+  --sh-color-brand-primary-active: #{tokens.$sh-color-brand-primary-700};
+  --sh-color-brand-primary-subtle: #{tokens.$sh-color-brand-primary-50};
+  --sh-color-brand-secondary: #{tokens.$sh-color-brand-secondary};
+  --sh-color-brand-secondary-hover: #{tokens.$sh-color-brand-secondary-600};
+  --sh-color-brand-secondary-subtle: #{tokens.$sh-color-brand-secondary-50};
+  --sh-color-brand-accent: #{tokens.$sh-color-brand-accent};
+  --sh-color-brand-accent-hover: #{tokens.$sh-color-brand-accent-600};
+  --sh-color-brand-accent-subtle: #{tokens.$sh-color-brand-accent-50};
+
+  --sh-color-surface: #{tokens.$sh-color-neutral-0};
+  --sh-color-surface-muted: #{tokens.$sh-color-neutral-50};
+  --sh-color-surface-raised: #{tokens.$sh-color-neutral-0};
+  --sh-color-canvas: #{tokens.$sh-color-neutral-50};
+  --sh-color-border: #{tokens.$sh-color-neutral-200};
+  --sh-color-border-strong: #{tokens.$sh-color-neutral-300};
+  --sh-color-text: #{tokens.$sh-color-neutral-900};
+  --sh-color-text-muted: #{tokens.$sh-color-neutral-600};
+  --sh-color-text-subtle: #{tokens.$sh-color-neutral-500};
+  --sh-color-text-inverse: #{tokens.$sh-color-neutral-0};
+
+  --sh-color-success: #{tokens.$sh-color-success};
+  --sh-color-success-surface: #{tokens.$sh-color-success-surface};
+  --sh-color-warning: #{tokens.$sh-color-warning};
+  --sh-color-warning-surface: #{tokens.$sh-color-warning-surface};
+  --sh-color-danger: #{tokens.$sh-color-danger};
+  --sh-color-danger-surface: #{tokens.$sh-color-danger-surface};
+  --sh-color-info: #{tokens.$sh-color-info};
+  --sh-color-info-surface: #{tokens.$sh-color-info-surface};
+
+  --sh-color-price: #{tokens.$sh-color-price};
+  --sh-color-discount: #{tokens.$sh-color-discount};
+  --sh-color-stock-low: #{tokens.$sh-color-stock-low};
+  --sh-color-stock-out: #{tokens.$sh-color-stock-out};
+  --sh-color-verified: #{tokens.$sh-color-verified};
+
+  --sh-font-family-base: #{tokens.$sh-font-family-base};
+  --sh-font-family-mono: #{tokens.$sh-font-family-mono};
+  --sh-font-size-xs: #{tokens.$sh-font-size-xs};
+  --sh-font-size-sm: #{tokens.$sh-font-size-sm};
+  --sh-font-size-md: #{tokens.$sh-font-size-md};
+  --sh-font-size-lg: #{tokens.$sh-font-size-lg};
+  --sh-font-size-xl: #{tokens.$sh-font-size-xl};
+  --sh-font-size-2xl: #{tokens.$sh-font-size-2xl};
+  --sh-font-size-3xl: #{tokens.$sh-font-size-3xl};
+  --sh-font-size-4xl: #{tokens.$sh-font-size-4xl};
+  --sh-font-size-5xl: #{tokens.$sh-font-size-5xl};
+  --sh-line-height-tight: #{tokens.$sh-line-height-tight};
+  --sh-line-height-snug: #{tokens.$sh-line-height-snug};
+  --sh-line-height-base: #{tokens.$sh-line-height-base};
+  --sh-line-height-relaxed: #{tokens.$sh-line-height-relaxed};
+
+  --sh-space-0: #{tokens.$sh-space-0};
+  --sh-space-1: #{tokens.$sh-space-1};
+  --sh-space-2: #{tokens.$sh-space-2};
+  --sh-space-3: #{tokens.$sh-space-3};
+  --sh-space-4: #{tokens.$sh-space-4};
+  --sh-space-5: #{tokens.$sh-space-5};
+  --sh-space-6: #{tokens.$sh-space-6};
+  --sh-space-8: #{tokens.$sh-space-8};
+  --sh-space-10: #{tokens.$sh-space-10};
+  --sh-space-12: #{tokens.$sh-space-12};
+  --sh-space-16: #{tokens.$sh-space-16};
+  --sh-space-20: #{tokens.$sh-space-20};
+  --sh-space-24: #{tokens.$sh-space-24};
+
+  --sh-radius-none: #{tokens.$sh-radius-none};
+  --sh-radius-xs: #{tokens.$sh-radius-xs};
+  --sh-radius-sm: #{tokens.$sh-radius-sm};
+  --sh-radius-md: #{tokens.$sh-radius-md};
+  --sh-radius-lg: #{tokens.$sh-radius-lg};
+  --sh-radius-xl: #{tokens.$sh-radius-xl};
+  --sh-radius-2xl: #{tokens.$sh-radius-2xl};
+  --sh-radius-pill: #{tokens.$sh-radius-pill};
+
+  --sh-shadow-none: #{tokens.$sh-shadow-none};
+  --sh-shadow-xs: #{tokens.$sh-shadow-xs};
+  --sh-shadow-sm: #{tokens.$sh-shadow-sm};
+  --sh-shadow-md: #{tokens.$sh-shadow-md};
+  --sh-shadow-lg: #{tokens.$sh-shadow-lg};
+  --sh-shadow-overlay: #{tokens.$sh-shadow-overlay};
+
+  --sh-duration-instant: #{tokens.$sh-duration-instant};
+  --sh-duration-fast: #{tokens.$sh-duration-fast};
+  --sh-duration-base: #{tokens.$sh-duration-base};
+  --sh-duration-slow: #{tokens.$sh-duration-slow};
+  --sh-duration-slower: #{tokens.$sh-duration-slower};
+  --sh-ease-standard: #{tokens.$sh-ease-standard};
+  --sh-ease-out: #{tokens.$sh-ease-out};
+  --sh-ease-in: #{tokens.$sh-ease-in};
+
+  --sh-container-sm: #{tokens.$sh-container-sm};
+  --sh-container-md: #{tokens.$sh-container-md};
+  --sh-container-lg: #{tokens.$sh-container-lg};
+  --sh-container-xl: #{tokens.$sh-container-xl};
+  --sh-container-2xl: #{tokens.$sh-container-2xl};
+
+  --sh-bp-mobile: #{tokens.$sh-breakpoint-mobile};
+  --sh-bp-tablet: #{tokens.$sh-breakpoint-tablet};
+  --sh-bp-laptop: #{tokens.$sh-breakpoint-laptop};
+  --sh-bp-desktop: #{tokens.$sh-breakpoint-desktop};
+  --sh-bp-wide: #{tokens.$sh-breakpoint-wide};
+
+  --sh-z-base: #{tokens.$sh-z-base};
+  --sh-z-raised: #{tokens.$sh-z-raised};
+  --sh-z-sticky: #{tokens.$sh-z-sticky};
+  --sh-z-dropdown: #{tokens.$sh-z-dropdown};
+  --sh-z-drawer: #{tokens.$sh-z-drawer};
+  --sh-z-modal: #{tokens.$sh-z-modal};
+  --sh-z-popover: #{tokens.$sh-z-popover};
+  --sh-z-toast: #{tokens.$sh-z-toast};
+  --sh-z-tooltip: #{tokens.$sh-z-tooltip};
+
+  --sh-focus-ring-color: #{tokens.$sh-color-brand-secondary-500};
+}
+

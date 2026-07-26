@@ -1,0 +1,40 @@
+<footer class="marketplace-footer">
+  <div class="sh-container--wide marketplace-footer__top">
+    <div class="marketplace-footer__brand">
+      <sh-app-logo [siteName]="siteName" [logoUrl]="logoUrl" route="/storefront"></sh-app-logo>
+      <p>{{ aboutText }}</p>
+    </div>
+
+    <section class="marketplace-footer__section">
+      <h2>{{ aboutTitle }}</h2>
+      <p>One account for shopping, selling, order tracking, and marketplace support.</p>
+    </section>
+
+    <section class="marketplace-footer__section">
+      <h2>Shop</h2>
+      <a *ngFor="let link of shopLinks" [routerLink]="link.url">{{ link.label }}</a>
+    </section>
+
+    <section class="marketplace-footer__section">
+      <h2>Account</h2>
+      <a *ngFor="let link of accountLinks" [routerLink]="link.url">{{ link.label }}</a>
+    </section>
+  </div>
+
+  <div class="marketplace-footer__bottom">
+    <div class="sh-container--wide marketplace-footer__bottom-inner">
+      <span>Copyright {{ currentYear }} {{ siteName }}. All rights reserved.</span>
+      <a routerLink="/storefront/shop">Continue shopping</a>
+    </div>
+  </div>
+</footer>
+
+<button
+  *ngIf="showBackToTop"
+  class="marketplace-back-to-top"
+  type="button"
+  aria-label="Back to top"
+  (click)="scrollToTop($event)">
+  Top
+</button>
+

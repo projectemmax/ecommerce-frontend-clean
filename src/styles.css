@@ -1,5 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap");
+/* Legacy migration styles. New global styling belongs in src/styles. */
 @import "@ng-select/ng-select/themes/default.theme.css";
 
 
@@ -7,7 +6,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Quicksand", sans-serif;
 }
 a {
   color: var(--bs-primary);
@@ -144,7 +142,7 @@ a:hover {
 
 @media (min-width: 992px) {
     .hero-header, .page-header {
-        margin-top: 152px !important;
+        margin-top: 0 !important;
     }
 }
 
@@ -323,13 +321,13 @@ a:hover {
 
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: var(--sh-font-family-base); }
 
 .cdk-overlay-container {
-  z-index: 2000 !important;
+  z-index: var(--sh-z-popover) !important;
 }
 .mat-mdc-snack-bar-container .mdc-snackbar__surface {
-  background: var(--bs-success) !important;
+  background: var(--sh-color-success) !important;
   color: white;
-  border-radius: 4px;
+  border-radius: var(--sh-radius-sm);
 }

@@ -1,0 +1,134 @@
+<header class="marketplace-shell">
+  <div class="marketplace-shell__announcement">
+    <div class="sh-container--wide marketplace-shell__announcement-inner">
+      <span>{{ announcementText }}</span>
+      <a [routerLink]="sellerCtaRoute">{{ sellerCtaLabel }}</a>
+    </div>
+  </div>
+
+  <div class="marketplace-header">
+    <div class="sh-container--wide marketplace-header__inner">
+      <button
+        class="marketplace-header__menu-button"
+        type="button"
+        aria-label="Open navigation menu"
+        [attr.aria-expanded]="mobileOpen"
+        (click)="toggleMobileMenu()">
+        Menu
+      </button>
+
+      <sh-app-logo
+        [siteName]="siteName"
+        [logoUrl]="logoUrl"
+        route="/storefront">
+      </sh-app-logo>
+
+      <div class="marketplace-header__search">
+        <sh-nav-search
+          placeholder="Search products, brands, or sellers"
+          (searchSubmit)="onSearch($event)">
+        </sh-nav-search>
+      </div>
+
+      <nav class="marketplace-header__nav" aria-label="Marketplace navigation">
+        <a
+          routerLink="/storefront"
+          routerLinkActive="marketplace-header__link--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="marketplace-header__link">
+          Home
+        </a>
+        <a
+          routerLink="/storefront/shop"
+          routerLinkActive="marketplace-header__link--active"
+          class="marketplace-header__link">
+          Shop
+        </a>
+      </nav>
+
+      <a class="marketplace-header__seller-cta" [routerLink]="sellerCtaRoute">
+        {{ sellerCtaLabel }}
+      </a>
+
+      <a
+        class="marketplace-header__cart"
+        routerLink="/storefront/cart"
+        aria-label="Open cart">
+        <span aria-hidden="true">Cart</span>
+        <span
+          class="marketplace-header__count"
+          *ngIf="(cartCount$ | async) as count"
+          [class.marketplace-header__count--hidden]="count === 0">
+          {{ count }}
+        </span>
+      </a>
+
+      <div class="marketplace-header__account">
+        <button
+          class="marketplace-header__account-button"
+          type="button"
+          aria-label="Open account menu"
+          [attr.aria-expanded]="accountOpen"
+          (click)="toggleAccountMenu()">
+          {{ accountLabel }}
+        </button>
+
+        <div class="marketplace-header__account-menu" *ngIf="accountOpen">
+          <ng-container *ngIf="auth.isLoggedIn(); else guestMenu">
+            <a routerLink="/storefront/account" (click)="accountOpen = false">My Account</a>
+            <a
+              *ngIf="auth.isSeller() || auth.isAdmin()"
+              routerLink="/admin/dashboard"
+              (click)="accountOpen = false">
+              Workspace
+            </a>
+            <button type="button" (click)="logout()">Logout</button>
+          </ng-container>
+
+          <ng-template #guestMenu>
+            <a routerLink="/login" (click)="accountOpen = false">Login</a>
+            <a routerLink="/register" (click)="accountOpen = false">Register</a>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="category-nav" aria-label="Product categories">
+    <div class="sh-container--wide category-nav__inner">
+      <a
+        class="category-nav__item category-nav__item--primary"
+        routerLink="/storefront/shop">
+        All Categories
+      </a>
+      <a
+        class="category-nav__item"
+        *ngFor="let category of visibleCategories"
+        routerLink="/storefront/shop"
+        [queryParams]="{ categoryId: category.id, page: 1 }">
+        {{ category.name }}
+      </a>
+    </div>
+  </nav>
+
+  <div class="marketplace-mobile-panel" *ngIf="mobileOpen">
+    <nav aria-label="Mobile marketplace navigation">
+      <a routerLink="/storefront" (click)="closeMobileMenu()">Home</a>
+      <a routerLink="/storefront/shop" (click)="closeMobileMenu()">Shop</a>
+      <a [routerLink]="sellerCtaRoute" (click)="closeMobileMenu()">{{ sellerCtaLabel }}</a>
+      <a [routerLink]="accountRoute" (click)="closeMobileMenu()">Account</a>
+    </nav>
+
+    <div class="marketplace-mobile-panel__categories" *ngIf="visibleCategories.length">
+      <span>Categories</span>
+      <a
+        *ngFor="let category of visibleCategories"
+        routerLink="/storefront/shop"
+        [queryParams]="{ categoryId: category.id, page: 1 }"
+        (click)="closeMobileMenu()">
+        {{ category.name }}
+      </a>
+    </div>
+  </div>
+</header>
+

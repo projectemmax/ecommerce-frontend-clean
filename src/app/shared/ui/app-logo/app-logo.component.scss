@@ -1,0 +1,49 @@
+.sh-logo {
+  align-items: center;
+  color: var(--sh-color-text);
+  display: inline-flex;
+  gap: var(--sh-space-3);
+  min-inline-size: 0;
+  text-decoration: none;
+}
+
+.sh-logo:hover {
+  color: var(--sh-color-brand-primary);
+}
+
+.sh-logo__mark {
+  align-items: center;
+  background: var(--sh-color-brand-primary);
+  border-radius: var(--sh-radius-lg);
+  color: var(--sh-color-text-inverse);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: var(--sh-font-size-lg);
+  font-weight: 800;
+  block-size: 2.5rem;
+  inline-size: 2.5rem;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sh-logo__mark img {
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: contain;
+}
+
+.sh-logo__text {
+  font-size: var(--sh-font-size-xl);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sh-logo--compact .sh-logo__mark {
+  block-size: 2.25rem;
+  inline-size: 2.25rem;
+}
+

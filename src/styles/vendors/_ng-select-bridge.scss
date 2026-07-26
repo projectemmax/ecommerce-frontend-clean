@@ -1,0 +1,9 @@
+.ng-select {
+  --ng-select-highlight: var(--sh-color-brand-primary);
+}
+
+.ng-select.ng-select-focused .ng-select-container {
+  border-color: var(--sh-color-brand-primary);
+  box-shadow: 0 0 0 0.2rem rgb(18 128 92 / 0.16);
+}
+

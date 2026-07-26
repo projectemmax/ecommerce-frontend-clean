@@ -1,0 +1,59 @@
+<header class="workspace-topbar">
+  <div class="workspace-topbar__left">
+    <button
+      class="workspace-topbar__menu-button"
+      type="button"
+      aria-label="Toggle workspace navigation"
+      (click)="menuToggle.emit()">
+      Menu
+    </button>
+
+    <sh-app-logo
+      [siteName]="companyName"
+      route="/admin/dashboard"
+      [compact]="true">
+    </sh-app-logo>
+
+    <div class="workspace-topbar__title">
+      <span>{{ roleLabel }}</span>
+      <strong>{{ companyName }}</strong>
+    </div>
+  </div>
+
+  <div class="workspace-topbar__search" role="search">
+    <label class="sh-sr-only" for="workspace-search">Search workspace</label>
+    <input id="workspace-search" type="search" placeholder="Search workspace" />
+  </div>
+
+  <div class="workspace-topbar__actions">
+    <button class="workspace-topbar__icon-button" type="button" aria-label="Notifications">
+      Alerts
+    </button>
+
+    <div class="workspace-topbar__user">
+      <button
+        class="workspace-topbar__avatar"
+        type="button"
+        aria-label="Open user menu"
+        [attr.aria-expanded]="userMenuOpen"
+        (click)="toggleUserMenu()">
+        {{ userInitials }}
+      </button>
+
+      <div class="workspace-topbar__user-menu" *ngIf="userMenuOpen">
+        <div class="workspace-topbar__user-summary">
+          <strong>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</strong>
+          <span>{{ payload?.email || currentUser?.email }}</span>
+        </div>
+        <a
+          *ngIf="auth.isAdmin()"
+          routerLink="/admin/settings/profile"
+          (click)="userMenuOpen = false">
+          Profile
+        </a>
+        <a routerLink="/storefront" (click)="userMenuOpen = false">View Storefront</a>
+        <button type="button" (click)="logout()">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</header>

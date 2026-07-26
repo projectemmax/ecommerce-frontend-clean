@@ -1,0 +1,36 @@
+body {
+  background: var(--sh-color-canvas);
+  color: var(--sh-color-text);
+  font-family: var(--sh-font-family-base);
+  font-size: var(--sh-font-size-md);
+  line-height: var(--sh-line-height-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  color: var(--sh-color-text);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: var(--sh-line-height-tight);
+  margin-block: 0;
+}
+
+p {
+  margin-block: 0;
+}
+
+a {
+  color: var(--sh-color-brand-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--sh-color-brand-primary-hover);
+}
+
+small {
+  color: var(--sh-color-text-muted);
+  font-size: var(--sh-font-size-sm);
+}
+
