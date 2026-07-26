@@ -1,0 +1,29 @@
+.sh-container {
+  inline-size: min(100% - calc(var(--sh-space-4) * 2), var(--sh-container-xl));
+  margin-inline: auto;
+}
+
+.sh-container--wide {
+  inline-size: min(100% - calc(var(--sh-space-4) * 2), var(--sh-container-2xl));
+  margin-inline: auto;
+}
+
+.sh-page {
+  padding-block: var(--sh-space-8);
+}
+
+.sh-section {
+  padding-block: var(--sh-space-10);
+}
+
+@media (min-width: 768px) {
+  .sh-container,
+  .sh-container--wide {
+    inline-size: min(100% - calc(var(--sh-space-8) * 2), var(--sh-container-xl));
+  }
+
+  .sh-section {
+    padding-block: var(--sh-space-16);
+  }
+}
+

@@ -1,0 +1,15 @@
+<a
+  class="sh-logo"
+  [class.sh-logo--compact]="compact"
+  [routerLink]="route"
+  [attr.aria-label]="siteName + ' home'">
+  <span class="sh-logo__mark" aria-hidden="true">
+    <img *ngIf="logoUrl; else fallbackMark" [src]="logoUrl" [alt]="siteName" />
+    <ng-template #fallbackMark>S</ng-template>
+  </span>
+
+  <span class="sh-logo__text" *ngIf="!compact">
+    {{ siteName || 'SariHub' }}
+  </span>
+</a>
+

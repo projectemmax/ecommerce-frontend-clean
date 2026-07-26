@@ -1,0 +1,133 @@
+@use '@angular/material' as mat;
+@use '../abstracts/tokens' as tokens;
+
+@include mat.core();
+
+$sarihub-primary-palette: (
+  50: tokens.$sh-color-brand-primary-50,
+  100: tokens.$sh-color-brand-primary-100,
+  200: tokens.$sh-color-brand-primary-200,
+  300: tokens.$sh-color-brand-primary-300,
+  400: tokens.$sh-color-brand-primary-400,
+  500: tokens.$sh-color-brand-primary-500,
+  600: tokens.$sh-color-brand-primary-600,
+  700: tokens.$sh-color-brand-primary-700,
+  800: tokens.$sh-color-brand-primary-800,
+  900: tokens.$sh-color-brand-primary-900,
+  contrast: (
+    50: tokens.$sh-color-neutral-900,
+    100: tokens.$sh-color-neutral-900,
+    200: tokens.$sh-color-neutral-900,
+    300: tokens.$sh-color-neutral-900,
+    400: tokens.$sh-color-neutral-0,
+    500: tokens.$sh-color-neutral-0,
+    600: tokens.$sh-color-neutral-0,
+    700: tokens.$sh-color-neutral-0,
+    800: tokens.$sh-color-neutral-0,
+    900: tokens.$sh-color-neutral-0
+  )
+);
+
+$sarihub-accent-palette: (
+  50: tokens.$sh-color-brand-secondary-50,
+  100: tokens.$sh-color-brand-secondary-100,
+  200: tokens.$sh-color-brand-secondary-200,
+  300: tokens.$sh-color-brand-secondary-300,
+  400: tokens.$sh-color-brand-secondary-400,
+  500: tokens.$sh-color-brand-secondary-500,
+  600: tokens.$sh-color-brand-secondary-600,
+  700: tokens.$sh-color-brand-secondary-700,
+  800: tokens.$sh-color-brand-secondary-800,
+  900: tokens.$sh-color-brand-secondary-900,
+  contrast: (
+    50: tokens.$sh-color-neutral-900,
+    100: tokens.$sh-color-neutral-900,
+    200: tokens.$sh-color-neutral-900,
+    300: tokens.$sh-color-neutral-900,
+    400: tokens.$sh-color-neutral-900,
+    500: tokens.$sh-color-neutral-0,
+    600: tokens.$sh-color-neutral-0,
+    700: tokens.$sh-color-neutral-0,
+    800: tokens.$sh-color-neutral-0,
+    900: tokens.$sh-color-neutral-0
+  )
+);
+
+$sarihub-warn-palette: (
+  50: tokens.$sh-color-danger-surface,
+  100: #fecaca,
+  200: #fca5a5,
+  300: #f87171,
+  400: #ef4444,
+  500: tokens.$sh-color-danger,
+  600: #b91c1c,
+  700: #991b1b,
+  800: #7f1d1d,
+  900: #450a0a,
+  contrast: (
+    50: tokens.$sh-color-neutral-900,
+    100: tokens.$sh-color-neutral-900,
+    200: tokens.$sh-color-neutral-900,
+    300: tokens.$sh-color-neutral-900,
+    400: tokens.$sh-color-neutral-0,
+    500: tokens.$sh-color-neutral-0,
+    600: tokens.$sh-color-neutral-0,
+    700: tokens.$sh-color-neutral-0,
+    800: tokens.$sh-color-neutral-0,
+    900: tokens.$sh-color-neutral-0
+  )
+);
+
+$sarihub-typography: mat.define-typography-config(
+  $font-family: tokens.$sh-font-family-base,
+  $headline-1: mat.define-typography-level(tokens.$sh-font-size-5xl, 1.1, tokens.$sh-font-weight-bold, $letter-spacing: 0),
+  $headline-2: mat.define-typography-level(tokens.$sh-font-size-4xl, 1.15, tokens.$sh-font-weight-bold, $letter-spacing: 0),
+  $headline-3: mat.define-typography-level(tokens.$sh-font-size-3xl, 1.2, tokens.$sh-font-weight-semibold, $letter-spacing: 0),
+  $headline-4: mat.define-typography-level(tokens.$sh-font-size-2xl, 1.25, tokens.$sh-font-weight-semibold, $letter-spacing: 0),
+  $headline-5: mat.define-typography-level(tokens.$sh-font-size-xl, 1.35, tokens.$sh-font-weight-semibold, $letter-spacing: 0),
+  $headline-6: mat.define-typography-level(tokens.$sh-font-size-lg, 1.4, tokens.$sh-font-weight-semibold, $letter-spacing: 0),
+  $subtitle-1: mat.define-typography-level(tokens.$sh-font-size-md, 1.5, tokens.$sh-font-weight-semibold, $letter-spacing: 0),
+  $subtitle-2: mat.define-typography-level(tokens.$sh-font-size-sm, 1.45, tokens.$sh-font-weight-semibold, $letter-spacing: 0),
+  $body-1: mat.define-typography-level(tokens.$sh-font-size-md, tokens.$sh-line-height-base, tokens.$sh-font-weight-regular, $letter-spacing: 0),
+  $body-2: mat.define-typography-level(tokens.$sh-font-size-sm, tokens.$sh-line-height-base, tokens.$sh-font-weight-regular, $letter-spacing: 0),
+  $button: mat.define-typography-level(tokens.$sh-font-size-sm, 1.25, tokens.$sh-font-weight-semibold, $letter-spacing: 0)
+);
+
+$sarihub-theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette($sarihub-primary-palette),
+    accent: mat.define-palette($sarihub-accent-palette),
+    warn: mat.define-palette($sarihub-warn-palette)
+  ),
+  typography: $sarihub-typography,
+  density: 0
+));
+
+@include mat.all-component-themes($sarihub-theme);
+
+:root {
+  --mat-app-background-color: var(--sh-color-canvas);
+  --mat-app-text-color: var(--sh-color-text);
+  --mdc-theme-primary: var(--sh-color-brand-primary);
+  --mdc-theme-secondary: var(--sh-color-brand-secondary);
+  --mdc-theme-error: var(--sh-color-danger);
+}
+
+.mat-mdc-card {
+  --mdc-elevated-card-container-color: var(--sh-color-surface);
+  --mdc-elevated-card-container-elevation: var(--sh-shadow-sm);
+  border-radius: var(--sh-radius-lg);
+}
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: var(--sh-radius-xl);
+  --mdc-dialog-container-color: var(--sh-color-surface);
+}
+
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-outline-color: var(--sh-color-border);
+  --mdc-outlined-text-field-hover-outline-color: var(--sh-color-border-strong);
+  --mdc-outlined-text-field-focus-outline-color: var(--sh-color-brand-primary);
+  --mdc-outlined-text-field-error-outline-color: var(--sh-color-danger);
+}
+

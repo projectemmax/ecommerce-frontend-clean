@@ -1,0 +1,24 @@
+<form class="sh-nav-search" role="search" (ngSubmit)="submitSearch()">
+  <label class="sh-sr-only" for="marketplace-search">Search SariHub</label>
+  <input
+    id="marketplace-search"
+    class="sh-nav-search__input"
+    type="search"
+    [placeholder]="placeholder"
+    [formControl]="searchControl"
+    autocomplete="off" />
+
+  <button
+    *ngIf="searchControl.value"
+    class="sh-nav-search__clear"
+    type="button"
+    aria-label="Clear search"
+    (click)="clearSearch()">
+    Clear
+  </button>
+
+  <button class="sh-nav-search__submit" type="submit">
+    Search
+  </button>
+</form>
+

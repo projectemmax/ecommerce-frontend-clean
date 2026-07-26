@@ -1,0 +1,54 @@
+.marketplace-mobile-nav {
+  background: var(--sh-color-surface);
+  border-block-start: 1px solid var(--sh-color-border);
+  bottom: 0;
+  box-shadow: var(--sh-shadow-lg);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  inline-size: 100%;
+  inset-inline: 0;
+  min-block-size: 4rem;
+  position: fixed;
+  z-index: var(--sh-z-sticky);
+}
+
+.marketplace-mobile-nav__item {
+  align-items: center;
+  color: var(--sh-color-text-muted);
+  display: inline-flex;
+  font-size: var(--sh-font-size-xs);
+  font-weight: 800;
+  justify-content: center;
+  min-inline-size: 0;
+  padding: var(--sh-space-2);
+  position: relative;
+  text-decoration: none;
+}
+
+.marketplace-mobile-nav__item--active {
+  color: var(--sh-color-brand-primary);
+}
+
+.marketplace-mobile-nav__count {
+  align-items: center;
+  background: var(--sh-color-brand-accent);
+  border-radius: var(--sh-radius-pill);
+  color: var(--sh-color-text-inverse);
+  display: inline-flex;
+  font-size: 0.625rem;
+  font-weight: 800;
+  inset-block-start: var(--sh-space-2);
+  inset-inline-end: 22%;
+  justify-content: center;
+  min-block-size: 1.1rem;
+  min-inline-size: 1.1rem;
+  padding-inline: var(--sh-space-1);
+  position: absolute;
+}
+
+@media (min-width: 768px) {
+  .marketplace-mobile-nav {
+    display: none;
+  }
+}
+

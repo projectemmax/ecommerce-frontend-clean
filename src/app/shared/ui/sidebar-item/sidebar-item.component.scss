@@ -1,0 +1,48 @@
+.sh-sidebar-item {
+  align-items: center;
+  border-radius: var(--sh-radius-md);
+  color: var(--sh-color-text-muted);
+  display: flex;
+  gap: var(--sh-space-3);
+  min-block-size: 2.75rem;
+  padding: var(--sh-space-2) var(--sh-space-3);
+  text-decoration: none;
+  transition:
+    background-color var(--sh-duration-fast) var(--sh-ease-standard),
+    color var(--sh-duration-fast) var(--sh-ease-standard);
+}
+
+.sh-sidebar-item:hover,
+.sh-sidebar-item--active {
+  background: var(--sh-color-brand-primary-subtle);
+  color: var(--sh-color-brand-primary);
+}
+
+.sh-sidebar-item__icon {
+  align-items: center;
+  background: var(--sh-color-surface-muted);
+  border-radius: var(--sh-radius-md);
+  color: currentColor;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: var(--sh-font-size-xs);
+  font-weight: 800;
+  block-size: 1.75rem;
+  inline-size: 1.75rem;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.sh-sidebar-item__label {
+  font-size: var(--sh-font-size-sm);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sh-sidebar-item--disabled {
+  opacity: 0.52;
+  pointer-events: none;
+}
+

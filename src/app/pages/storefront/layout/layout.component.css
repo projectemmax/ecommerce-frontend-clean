@@ -1,0 +1,16 @@
+.storefront-shell {
+  background: var(--sh-color-canvas);
+  color: var(--sh-color-text);
+  min-block-size: 100dvh;
+}
+
+.storefront-shell__content {
+  min-block-size: 60dvh;
+  padding-block-end: var(--sh-space-20);
+}
+
+@media (min-width: 768px) {
+  .storefront-shell__content {
+    padding-block-end: 0;
+  }
+}

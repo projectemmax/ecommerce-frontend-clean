@@ -1,7 +1,10 @@
-<app-navbar></app-navbar>
+<div class="storefront-shell">
+  <sh-marketplace-header></sh-marketplace-header>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+  <main class="storefront-shell__content">
+    <router-outlet></router-outlet>
+  </main>
 
-<app-footer></app-footer>
+  <sh-marketplace-footer></sh-marketplace-footer>
+  <sh-marketplace-mobile-nav></sh-marketplace-mobile-nav>
+</div>

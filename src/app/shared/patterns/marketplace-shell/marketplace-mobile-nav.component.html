@@ -1,0 +1,34 @@
+<nav class="marketplace-mobile-nav" aria-label="Primary mobile navigation">
+  <a
+    routerLink="/storefront"
+    routerLinkActive="marketplace-mobile-nav__item--active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="marketplace-mobile-nav__item">
+    <span aria-hidden="true">Home</span>
+  </a>
+
+  <a
+    routerLink="/storefront/shop"
+    routerLinkActive="marketplace-mobile-nav__item--active"
+    class="marketplace-mobile-nav__item">
+    <span aria-hidden="true">Shop</span>
+  </a>
+
+  <a
+    routerLink="/storefront/cart"
+    routerLinkActive="marketplace-mobile-nav__item--active"
+    class="marketplace-mobile-nav__item">
+    <span aria-hidden="true">Cart</span>
+    <span class="marketplace-mobile-nav__count" *ngIf="(cartCount$ | async) as count">
+      {{ count }}
+    </span>
+  </a>
+
+  <a
+    [routerLink]="accountRoute"
+    routerLinkActive="marketplace-mobile-nav__item--active"
+    class="marketplace-mobile-nav__item">
+    <span aria-hidden="true">Account</span>
+  </a>
+</nav>
+
