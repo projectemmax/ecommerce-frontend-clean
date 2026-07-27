@@ -1,0 +1,17 @@
+<nav class="marketplace-category-nav" aria-label="Category Navigation">
+  <div class="sh-container--wide marketplace-category-nav__inner">
+    <a
+      class="marketplace-category-nav__item marketplace-category-nav__item--primary"
+      routerLink="/storefront/shop">
+      All Categories
+    </a>
+
+    <a
+      class="marketplace-category-nav__item"
+      *ngFor="let category of visibleCategories"
+      routerLink="/storefront/shop"
+      [queryParams]="{ categoryId: category.id, page: 1 }">
+      {{ category.name }}
+    </a>
+  </div>
+</nav>

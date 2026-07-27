@@ -1,16 +1,22 @@
+@use '../../../../styles/abstracts/tokens' as tokens;
+
 .workspace-breadcrumbs {
   color: var(--sh-color-text-muted);
   font-size: var(--sh-font-size-sm);
+  max-inline-size: 100%;
+  overflow-x: auto;
+  padding-block-end: var(--sh-space-1);
 }
 
 .workspace-breadcrumbs ol {
   align-items: center;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--sh-space-2);
   list-style: none;
   margin: 0;
   padding: 0;
+  white-space: nowrap;
 }
 
 .workspace-breadcrumbs li {
@@ -34,8 +40,25 @@
   color: var(--sh-color-brand-primary);
 }
 
+.workspace-breadcrumbs a:focus-visible {
+  border-radius: var(--sh-radius-sm);
+  outline: 2px solid var(--sh-focus-ring-color);
+  outline-offset: var(--sh-space-1);
+}
+
 .workspace-breadcrumbs span {
   color: var(--sh-color-text);
   font-weight: 800;
 }
 
+@media (min-width: tokens.$sh-breakpoint-tablet) {
+  .workspace-breadcrumbs {
+    overflow-x: visible;
+    padding-block-end: 0;
+  }
+
+  .workspace-breadcrumbs ol {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+}

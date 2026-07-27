@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, signal, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter } from 'rxjs';
 
 interface WorkspaceCrumb {
   label: string;
-  url: string;
+  url: string | null;
 }
 
 @Component({
@@ -15,6 +17,7 @@ interface WorkspaceCrumb {
   styleUrl: './workspace-breadcrumbs.component.scss',
 })
 export class WorkspaceBreadcrumbsComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 
   readonly crumbs = signal<WorkspaceCrumb[]>([]);
@@ -22,34 +25,60 @@ export class WorkspaceBreadcrumbsComponent implements OnInit {
   ngOnInit(): void {
     this.updateCrumbs(this.router.url);
 
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(event => {
         this.updateCrumbs(event.urlAfterRedirects);
-      }
-    });
+      });
   }
 
   private updateCrumbs(url: string): void {
-    const path = url.split('?')[0];
-    const segments = path.split('/').filter(Boolean);
-    const crumbs: WorkspaceCrumb[] = [];
-    let currentPath = '';
+    const segments = this.getPrimarySegments(url);
+    const adminIndex = segments.indexOf('admin');
+    const workspaceSegments = adminIndex >= 0 ? segments.slice(adminIndex + 1) : segments;
+    const crumbs: WorkspaceCrumb[] = [
+      { label: 'Workspace', url: '/admin/dashboard' },
+    ];
 
-    for (const segment of segments) {
-      currentPath += `/${segment}`;
-
-      if (segment === 'admin') {
-        crumbs.push({ label: 'Workspace', url: '/admin/dashboard' });
-        continue;
-      }
-
+    workspaceSegments.forEach((segment, index) => {
       crumbs.push({
         label: this.getLabel(segment),
-        url: currentPath,
+        url: this.getNavigableUrl(workspaceSegments, index),
       });
-    }
+    });
 
     this.crumbs.set(crumbs);
+  }
+
+  private getPrimarySegments(url: string): string[] {
+    const tree = this.router.parseUrl(url);
+    const primary = tree.root.children['primary'];
+
+    return primary?.segments.map(segment => segment.path) ?? [];
+  }
+
+  private getNavigableUrl(segments: string[], index: number): string | null {
+    const segment = segments[index];
+
+    if (index !== 0) {
+      return null;
+    }
+
+    const sectionRoutes = new Set([
+      'brands',
+      'carts',
+      'categories',
+      'customers',
+      'dashboard',
+      'orders',
+      'products',
+      'reviews',
+    ]);
+
+    return sectionRoutes.has(segment) ? `/admin/${segment}` : null;
   }
 
   private getLabel(segment: string): string {
@@ -73,7 +102,7 @@ export class WorkspaceBreadcrumbsComponent implements OnInit {
       return labels[segment];
     }
 
-    if (segment.length > 16 || /^[0-9a-f-]{8,}$/i.test(segment)) {
+    if (segment.length > 16 || /^\d+$/.test(segment) || /^[0-9a-f-]{8,}$/i.test(segment)) {
       return 'Details';
     }
 
@@ -83,4 +112,3 @@ export class WorkspaceBreadcrumbsComponent implements OnInit {
       .join(' ');
   }
 }
-

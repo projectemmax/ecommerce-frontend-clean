@@ -11,6 +11,14 @@
   color: var(--sh-color-brand-primary);
 }
 
+.sh-logo--inverse {
+  color: var(--sh-color-text-inverse);
+}
+
+.sh-logo--inverse:hover {
+  color: var(--sh-color-brand-accent);
+}
+
 .sh-logo__mark {
   align-items: center;
   background: var(--sh-color-brand-primary);
@@ -46,4 +54,3 @@
   block-size: 2.25rem;
   inline-size: 2.25rem;
 }
-

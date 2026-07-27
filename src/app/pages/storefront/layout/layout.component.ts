@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { SiteConfigService } from '@app/core/services/site-config.service';
+import { MarketplaceCategoryNavComponent } from '@app/shared/patterns/marketplace-shell/marketplace-category-nav.component';
 import { MarketplaceFooterComponent } from '@app/shared/patterns/marketplace-shell/marketplace-footer.component';
 import { MarketplaceHeaderComponent } from '@app/shared/patterns/marketplace-shell/marketplace-header.component';
 import { MarketplaceMobileNavComponent } from '@app/shared/patterns/marketplace-shell/marketplace-mobile-nav.component';
@@ -14,6 +15,7 @@ import { MarketplaceMobileNavComponent } from '@app/shared/patterns/marketplace-
     CommonModule,
     RouterOutlet,
     MarketplaceHeaderComponent,
+    MarketplaceCategoryNavComponent,
     MarketplaceFooterComponent,
     MarketplaceMobileNavComponent
   ],

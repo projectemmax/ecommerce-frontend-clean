@@ -13,6 +13,7 @@
         type="button"
         aria-label="Open navigation menu"
         [attr.aria-expanded]="mobileOpen"
+        aria-controls="mobile-navigation"
         (click)="toggleMobileMenu()">
         Menu
       </button>
@@ -30,7 +31,7 @@
         </sh-nav-search>
       </div>
 
-      <nav class="marketplace-header__nav" aria-label="Marketplace navigation">
+      <nav class="marketplace-header__nav" aria-label="Primary Navigation">
         <a
           routerLink="/storefront"
           routerLinkActive="marketplace-header__link--active"
@@ -53,8 +54,8 @@
       <a
         class="marketplace-header__cart"
         routerLink="/storefront/cart"
-        aria-label="Open cart">
-        <span aria-hidden="true">Cart</span>
+        aria-label="Shopping cart">
+        <span aria-hidden="true">Shopping Cart</span>
         <span
           class="marketplace-header__count"
           *ngIf="(cartCount$ | async) as count"
@@ -69,20 +70,26 @@
           type="button"
           aria-label="Open account menu"
           [attr.aria-expanded]="accountOpen"
+          aria-controls="account-menu"
           (click)="toggleAccountMenu()">
           {{ accountLabel }}
         </button>
 
-        <div class="marketplace-header__account-menu" *ngIf="accountOpen">
+        <div
+          role="menu"
+          id="account-menu"
+          class="marketplace-header__account-menu" 
+          *ngIf="accountOpen">
           <ng-container *ngIf="auth.isLoggedIn(); else guestMenu">
-            <a routerLink="/storefront/account" (click)="accountOpen = false">My Account</a>
+            <a role="menuitem" routerLink="/storefront/account" (click)="accountOpen = false">My Account</a>
             <a
+              role="menuitem"
               *ngIf="auth.isSeller() || auth.isAdmin()"
               routerLink="/admin/dashboard"
               (click)="accountOpen = false">
               Workspace
             </a>
-            <button type="button" (click)="logout()">Logout</button>
+            <button role="menuitem" type="button" (click)="logout()">Logout</button>
           </ng-container>
 
           <ng-template #guestMenu>
@@ -94,41 +101,15 @@
     </div>
   </div>
 
-  <nav class="category-nav" aria-label="Product categories">
-    <div class="sh-container--wide category-nav__inner">
-      <a
-        class="category-nav__item category-nav__item--primary"
-        routerLink="/storefront/shop">
-        All Categories
-      </a>
-      <a
-        class="category-nav__item"
-        *ngFor="let category of visibleCategories"
-        routerLink="/storefront/shop"
-        [queryParams]="{ categoryId: category.id, page: 1 }">
-        {{ category.name }}
-      </a>
-    </div>
-  </nav>
-
-  <div class="marketplace-mobile-panel" *ngIf="mobileOpen">
+  <div
+    id="mobile-navigation" 
+    class="marketplace-mobile-panel" 
+    *ngIf="mobileOpen">
     <nav aria-label="Mobile marketplace navigation">
       <a routerLink="/storefront" (click)="closeMobileMenu()">Home</a>
       <a routerLink="/storefront/shop" (click)="closeMobileMenu()">Shop</a>
       <a [routerLink]="sellerCtaRoute" (click)="closeMobileMenu()">{{ sellerCtaLabel }}</a>
       <a [routerLink]="accountRoute" (click)="closeMobileMenu()">Account</a>
     </nav>
-
-    <div class="marketplace-mobile-panel__categories" *ngIf="visibleCategories.length">
-      <span>Categories</span>
-      <a
-        *ngFor="let category of visibleCategories"
-        routerLink="/storefront/shop"
-        [queryParams]="{ categoryId: category.id, page: 1 }"
-        (click)="closeMobileMenu()">
-        {{ category.name }}
-      </a>
-    </div>
   </div>
 </header>
-

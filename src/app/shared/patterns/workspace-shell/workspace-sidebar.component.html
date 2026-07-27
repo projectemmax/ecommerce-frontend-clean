@@ -5,12 +5,11 @@
     <button type="button" aria-label="Close navigation" (click)="closeSidebar.emit()">Close</button>
   </div>
 
-  <nav class="workspace-sidebar__nav">
-    <section>
-      <h2>Main</h2>
-      <ng-container *ngFor="let item of mainItems">
+  <nav class="workspace-sidebar__nav" aria-label="Workspace Navigation">
+    <section *ngFor="let group of visibleGroups">
+      <h2>{{ group.title }}</h2>
+      <ng-container *ngFor="let item of group.items">
         <sh-sidebar-item
-          *ngIf="canShow(item)"
           [label]="item.label"
           [route]="item.route"
           [icon]="item.icon"
@@ -19,32 +18,5 @@
         </sh-sidebar-item>
       </ng-container>
     </section>
-
-    <section *ngIf="hasVisibleItems(adminItems)">
-      <h2>Platform</h2>
-      <ng-container *ngFor="let item of adminItems">
-        <sh-sidebar-item
-          *ngIf="canShow(item)"
-          [label]="item.label"
-          [route]="item.route"
-          [icon]="item.icon"
-          (click)="closeSidebar.emit()">
-        </sh-sidebar-item>
-      </ng-container>
-    </section>
-
-    <section *ngIf="hasVisibleItems(systemItems)">
-      <h2>System</h2>
-      <ng-container *ngFor="let item of systemItems">
-        <sh-sidebar-item
-          *ngIf="canShow(item)"
-          [label]="item.label"
-          [route]="item.route"
-          [icon]="item.icon"
-          (click)="closeSidebar.emit()">
-        </sh-sidebar-item>
-      </ng-container>
-    </section>
   </nav>
 </aside>
-

@@ -1,14 +1,13 @@
 <nav class="workspace-breadcrumbs" aria-label="Workspace breadcrumbs" *ngIf="crumbs().length">
   <ol>
     <li *ngFor="let crumb of crumbs(); let last = last">
-      <ng-container *ngIf="!last; else currentCrumb">
+      <ng-container *ngIf="!last && crumb.url; else textCrumb">
         <a [routerLink]="crumb.url">{{ crumb.label }}</a>
       </ng-container>
 
-      <ng-template #currentCrumb>
-        <span aria-current="page">{{ crumb.label }}</span>
+      <ng-template #textCrumb>
+        <span [attr.aria-current]="last ? 'page' : null">{{ crumb.label }}</span>
       </ng-template>
     </li>
   </ol>
 </nav>
-

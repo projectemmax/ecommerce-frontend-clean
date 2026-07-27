@@ -3,9 +3,7 @@ import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@app/core/auth/auth.service';
 import { SiteConfigService } from '@app/core/services/site-config.service';
-import { Category } from '@app/models/category.model';
 import { StorefrontCartService } from '@app/services/storefront/storefront-cart.service';
-import { StorefrontCategoryService } from '@app/services/storefront/storefront-category.service';
 import { AppLogoComponent } from '@app/shared/ui/app-logo/app-logo.component';
 import { NavSearchComponent } from '@app/shared/ui/nav-search/nav-search.component';
 
@@ -25,12 +23,10 @@ import { NavSearchComponent } from '@app/shared/ui/nav-search/nav-search.compone
 export class MarketplaceHeaderComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly siteConfig = inject(SiteConfigService);
-  private readonly categoryService = inject(StorefrontCategoryService);
   readonly auth = inject(AuthService);
   readonly cartService = inject(StorefrontCartService);
 
   config: any = {};
-  categories: Category[] = [];
   mobileOpen = false;
   accountOpen = false;
 
@@ -39,15 +35,6 @@ export class MarketplaceHeaderComponent implements OnInit {
   ngOnInit(): void {
     this.siteConfig.get().subscribe(config => {
       this.config = config || {};
-    });
-
-    this.categoryService.getCategories().subscribe({
-      next: res => {
-        this.categories = res?.data?.data ?? [];
-      },
-      error: () => {
-        this.categories = [];
-      },
     });
   }
 
@@ -81,10 +68,6 @@ export class MarketplaceHeaderComponent implements OnInit {
 
   get accountLabel(): string {
     return this.auth.isLoggedIn() ? this.auth.getUserInitials() : 'Account';
-  }
-
-  get visibleCategories(): Category[] {
-    return this.categories.slice(0, 8);
   }
 
   onSearch(value: string): void {
@@ -127,4 +110,3 @@ export class MarketplaceHeaderComponent implements OnInit {
     }
   }
 }
-
