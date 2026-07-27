@@ -1,0 +1,36 @@
+.marketplace-category-nav {
+  background: var(--sh-color-surface-muted);
+  border-block-end: 1px solid var(--sh-color-border);
+  border-block-start: 1px solid var(--sh-color-border);
+  display: none;
+}
+
+.marketplace-category-nav__inner {
+  align-items: center;
+  display: flex;
+  gap: var(--sh-space-2);
+  min-block-size: 2.75rem;
+  overflow-x: auto;
+}
+
+.marketplace-category-nav__item {
+  border-radius: var(--sh-radius-pill);
+  color: var(--sh-color-text-muted);
+  flex: 0 0 auto;
+  font-size: var(--sh-font-size-sm);
+  font-weight: 700;
+  padding: var(--sh-space-2) var(--sh-space-3);
+  text-decoration: none;
+}
+
+.marketplace-category-nav__item:hover,
+.marketplace-category-nav__item--primary {
+  background: var(--sh-color-surface);
+  color: var(--sh-color-brand-primary);
+}
+
+@media (min-width: 1024px) {
+  .marketplace-category-nav {
+    display: block;
+  }
+}

@@ -14,4 +14,5 @@ export class AppLogoComponent {
   @Input() logoUrl: string | null | undefined;
   @Input() route: string | any[] = '/storefront';
   @Input() compact = false;
+  @Input() inverse = false;
 }

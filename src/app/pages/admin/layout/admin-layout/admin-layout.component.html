@@ -1,8 +1,10 @@
 <div class="workspace-shell">
-  <sh-workspace-sidebar
-    [open]="sidebarOpen"
-    (closeSidebar)="closeSidebar()">
-  </sh-workspace-sidebar>
+  <aside>
+    <sh-workspace-sidebar
+      [open]="sidebarOpen"
+      (closeSidebar)="closeSidebar()">
+    </sh-workspace-sidebar>
+  </aside>
 
   <button
     class="workspace-shell__backdrop"
@@ -13,11 +15,13 @@
   </button>
 
   <div class="workspace-shell__main">
-    <sh-workspace-topbar
-    [payload]="payload"
-      (menuToggle)="toggleSidebar()"
-      (logoutClick)="logout()">
-    </sh-workspace-topbar>
+    <header>
+      <sh-workspace-topbar
+        [payload]="payload"
+        (menuToggle)="toggleSidebar()"
+        (logoutClick)="logout()">
+      </sh-workspace-topbar>
+    </header>
 
     <main class="workspace-shell__content">
       <sh-workspace-breadcrumbs></sh-workspace-breadcrumbs>
@@ -27,6 +31,8 @@
       </section>
     </main>
 
-    <sh-workspace-footer></sh-workspace-footer>
+    <footer>
+      <sh-workspace-footer></sh-workspace-footer>
+    </footer>
   </div>
 </div>

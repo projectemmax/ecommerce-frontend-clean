@@ -1,29 +1,77 @@
-<footer class="marketplace-footer">
+<footer class="marketplace-footer" aria-label="Marketplace footer">
   <div class="sh-container--wide marketplace-footer__top">
-    <div class="marketplace-footer__brand">
-      <sh-app-logo [siteName]="siteName" [logoUrl]="logoUrl" route="/storefront"></sh-app-logo>
-      <p>{{ aboutText }}</p>
-    </div>
+    <section class="marketplace-footer__brand">
+      <sh-app-logo
+        [siteName]="content.siteName"
+        [logoUrl]="content.logoUrl"
+        route="/storefront"
+        [inverse]="true">
+      </sh-app-logo>
 
-    <section class="marketplace-footer__section">
-      <h2>{{ aboutTitle }}</h2>
-      <p>One account for shopping, selling, order tracking, and marketplace support.</p>
+      <h2>{{ content.aboutTitle }}</h2>
+      <p>{{ content.aboutText }}</p>
+
+      <a
+        *ngIf="content.aboutCta"
+        class="marketplace-footer__cta"
+        [routerLink]="content.aboutCta.url">
+        {{ content.aboutCta.label }}
+      </a>
     </section>
 
-    <section class="marketplace-footer__section">
-      <h2>Shop</h2>
-      <a *ngFor="let link of shopLinks" [routerLink]="link.url">{{ link.label }}</a>
+    <nav
+      *ngFor="let section of content.sections"
+      class="marketplace-footer__section"
+      [attr.aria-label]="section.title">
+      <h2>{{ section.title }}</h2>
+
+      <a *ngFor="let link of section.links" [routerLink]="link.url">
+        {{ link.label }}
+      </a>
+
+      <span
+        *ngFor="let item of section.items"
+        class="marketplace-footer__text-item">
+        {{ item }}
+      </span>
+    </nav>
+
+    <section
+      *ngIf="content.contactItems.length"
+      class="marketplace-footer__section"
+      aria-label="Contact">
+      <h2>Contact</h2>
+      <span
+        *ngFor="let item of content.contactItems"
+        class="marketplace-footer__contact-item">
+        <strong>{{ item.label }}</strong>
+        {{ item.value }}
+      </span>
     </section>
 
-    <section class="marketplace-footer__section">
-      <h2>Account</h2>
-      <a *ngFor="let link of accountLinks" [routerLink]="link.url">{{ link.label }}</a>
-    </section>
+    <nav
+      *ngIf="content.socialLinks.length"
+      class="marketplace-footer__section marketplace-footer__social"
+      aria-label="Social links">
+      <h2>Social Links</h2>
+      <a
+        *ngFor="let link of content.socialLinks"
+        [href]="link.url"
+        target="_blank"
+        rel="noopener noreferrer">
+        {{ link.label }}
+      </a>
+    </nav>
   </div>
 
   <div class="marketplace-footer__bottom">
     <div class="sh-container--wide marketplace-footer__bottom-inner">
-      <span>Copyright {{ currentYear }} {{ siteName }}. All rights reserved.</span>
+      <span>Copyright {{ currentYear }} {{ content.siteName }}. All rights reserved.</span>
+      <span
+        *ngIf="content.paymentMethods.length"
+        class="marketplace-footer__payments">
+        <span *ngFor="let method of content.paymentMethods">{{ method }}</span>
+      </span>
       <a routerLink="/storefront/shop">Continue shopping</a>
     </div>
   </div>
@@ -37,4 +85,3 @@
   (click)="scrollToTop($event)">
   Top
 </button>
-

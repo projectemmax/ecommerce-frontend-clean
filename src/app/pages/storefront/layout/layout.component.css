@@ -4,6 +4,12 @@
   min-block-size: 100dvh;
 }
 
+.storefront-shell__navigation {
+  position: sticky;
+  top: 0;
+  z-index: var(--sh-z-sticky);
+}
+
 .storefront-shell__content {
   min-block-size: 60dvh;
   padding-block-end: var(--sh-space-20);

@@ -1,10 +1,16 @@
 <div class="storefront-shell">
-  <sh-marketplace-header></sh-marketplace-header>
+  <header class="storefront-shell__navigation">
+    <sh-marketplace-header></sh-marketplace-header>
+    <sh-marketplace-category-nav></sh-marketplace-category-nav>
+  </header>
 
   <main class="storefront-shell__content">
     <router-outlet></router-outlet>
   </main>
 
-  <sh-marketplace-footer></sh-marketplace-footer>
+  <footer>
+    <sh-marketplace-footer></sh-marketplace-footer>
+  </footer>
+
   <sh-marketplace-mobile-nav></sh-marketplace-mobile-nav>
 </div>

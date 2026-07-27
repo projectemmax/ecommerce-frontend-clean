@@ -1,6 +1,7 @@
 <a
   class="sh-logo"
   [class.sh-logo--compact]="compact"
+  [class.sh-logo--inverse]="inverse"
   [routerLink]="route"
   [attr.aria-label]="siteName + ' home'">
   <span class="sh-logo__mark" aria-hidden="true">
@@ -12,4 +13,3 @@
     {{ siteName || 'SariHub' }}
   </span>
 </a>
-

@@ -1,3 +1,5 @@
+@use '../../../../styles/abstracts/tokens' as tokens;
+
 .workspace-sidebar {
   background: var(--sh-color-surface);
   border-inline-end: 1px solid var(--sh-color-border);
@@ -70,7 +72,7 @@
   text-transform: uppercase;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: tokens.$sh-breakpoint-laptop) {
   .workspace-sidebar {
     block-size: auto;
     inset-block: 0;
@@ -83,4 +85,3 @@
     display: none;
   }
 }
-

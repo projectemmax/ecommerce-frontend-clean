@@ -9,6 +9,29 @@ interface FooterLink {
   url: string;
 }
 
+interface FooterTextItem {
+  label: string;
+  value?: string;
+}
+
+interface FooterSection {
+  title: string;
+  links: FooterLink[];
+  items: string[];
+}
+
+interface FooterContent {
+  siteName: string;
+  logoUrl: string | null;
+  aboutTitle: string;
+  aboutText: string;
+  aboutCta: FooterLink | null;
+  sections: FooterSection[];
+  contactItems: FooterTextItem[];
+  paymentMethods: string[];
+  socialLinks: FooterLink[];
+}
+
 @Component({
   selector: 'sh-marketplace-footer',
   standalone: true,
@@ -19,50 +42,37 @@ interface FooterLink {
 export class MarketplaceFooterComponent implements OnInit {
   private readonly siteConfig = inject(SiteConfigService);
 
-  config: any = {};
   currentYear = new Date().getFullYear();
   showBackToTop = false;
+  content: FooterContent = this.createContent({});
 
-  readonly defaultShopLinks: FooterLink[] = [
-    { label: 'Shop all', url: '/storefront/shop' },
-    { label: 'Featured products', url: '/storefront/shop' },
-    { label: 'My cart', url: '/storefront/cart' },
+  private readonly defaultCompanyLinks: FooterLink[] = [
+    { label: 'Home', url: '/storefront' },
+    { label: 'Shop', url: '/storefront/shop' },
+    { label: 'Cart', url: '/storefront/cart' },
   ];
 
-  readonly defaultAccountLinks: FooterLink[] = [
+  private readonly defaultCustomerServiceLinks: FooterLink[] = [
     { label: 'My account', url: '/storefront/account' },
     { label: 'Orders', url: '/storefront/account/orders' },
     { label: 'Addresses', url: '/storefront/account/addresses' },
   ];
 
+  private readonly sellerLinks: FooterLink[] = [
+    { label: 'Sell on SariHub', url: '/register' },
+    { label: 'Seller Center', url: '/admin/dashboard' },
+  ];
+
+  private readonly legalItems = [
+    'Terms of service',
+    'Privacy notice',
+    'Returns policy',
+  ];
+
   ngOnInit(): void {
     this.siteConfig.get().subscribe(config => {
-      this.config = config || {};
+      this.content = this.createContent(config || {});
     });
-  }
-
-  get siteName(): string {
-    return this.config?.siteName || 'SariHub';
-  }
-
-  get logoUrl(): string | null {
-    return this.config?.logoUrl || null;
-  }
-
-  get aboutTitle(): string {
-    return this.config?.footer?.aboutTitle || 'Marketplace for everyday sellers and shoppers';
-  }
-
-  get aboutText(): string {
-    return this.config?.footer?.about || 'Discover products from trusted local sellers, manage orders, and shop with confidence across SariHub.';
-  }
-
-  get shopLinks(): FooterLink[] {
-    return this.config?.footer?.shopLinks?.length ? this.config.footer.shopLinks : this.defaultShopLinks;
-  }
-
-  get accountLinks(): FooterLink[] {
-    return this.config?.footer?.accountLinks?.length ? this.config.footer.accountLinks : this.defaultAccountLinks;
   }
 
   @HostListener('window:scroll')
@@ -73,5 +83,93 @@ export class MarketplaceFooterComponent implements OnInit {
   scrollToTop(event: Event): void {
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  private createContent(config: any): FooterContent {
+    const footer = config?.footer ?? {};
+
+    return {
+      siteName: config?.siteName || 'SariHub',
+      logoUrl: config?.logoUrl || null,
+      aboutTitle: footer.aboutTitle || 'Marketplace for everyday sellers and shoppers',
+      aboutText: footer.about || 'Discover products from trusted local sellers, manage orders, and shop with confidence across SariHub.',
+      aboutCta: this.createAboutCta(footer),
+      sections: [
+        {
+          title: 'Company',
+          links: this.normalizeRouteLinks(footer.shopLinks, this.defaultCompanyLinks),
+          items: [],
+        },
+        {
+          title: 'Customer Service',
+          links: this.normalizeRouteLinks(footer.accountLinks, this.defaultCustomerServiceLinks),
+          items: [],
+        },
+        {
+          title: 'Sellers',
+          links: this.sellerLinks,
+          items: [],
+        },
+        {
+          title: 'Legal',
+          links: [],
+          items: this.legalItems,
+        },
+      ],
+      contactItems: this.normalizeContactItems(footer.contact),
+      paymentMethods: this.normalizePaymentMethods(footer.payments),
+      socialLinks: this.normalizeExternalLinks(footer.socialLinks),
+    };
+  }
+
+  private createAboutCta(footer: any): FooterLink | null {
+    if (!footer?.aboutButtonText || !footer?.aboutButtonLink) {
+      return null;
+    }
+
+    return {
+      label: footer.aboutButtonText,
+      url: footer.aboutButtonLink,
+    };
+  }
+
+  private normalizeRouteLinks(value: any, fallback: FooterLink[]): FooterLink[] {
+    const links = Array.isArray(value)
+      ? value
+        .filter(item => item?.label && item?.url)
+        .map(item => ({ label: item.label, url: item.url }))
+      : [];
+
+    return links.length ? links : fallback;
+  }
+
+  private normalizeContactItems(value: any): FooterTextItem[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter(item => item?.label && item?.value)
+      .map(item => ({ label: item.label, value: item.value }));
+  }
+
+  private normalizePaymentMethods(value: any): string[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .map(item => typeof item === 'string' ? item : item?.label || item?.name)
+      .filter(Boolean);
+  }
+
+  private normalizeExternalLinks(value: any): FooterLink[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter(item => item?.label && item?.url)
+      .map(item => ({ label: item.label, url: item.url }));
   }
 }

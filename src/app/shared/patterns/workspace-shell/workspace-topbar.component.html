@@ -8,26 +8,33 @@
       Menu
     </button>
 
-    <sh-app-logo
-      [siteName]="companyName"
-      route="/admin/dashboard"
-      [compact]="true">
-    </sh-app-logo>
+    <span class="workspace-topbar__brand">
+      <sh-app-logo
+        [siteName]="companyName"
+        route="/admin/dashboard"
+        [compact]="true">
+      </sh-app-logo>
+    </span>
 
-    <div class="workspace-topbar__title">
+    <div class="workspace-topbar__context">
       <span>{{ roleLabel }}</span>
       <strong>{{ companyName }}</strong>
     </div>
   </div>
 
-  <div class="workspace-topbar__search" role="search">
-    <label class="sh-sr-only" for="workspace-search">Search workspace</label>
-    <input id="workspace-search" type="search" placeholder="Search workspace" />
+  <div class="workspace-topbar__page" aria-live="polite">
+    <span>Current page</span>
+    <h1>{{ pageTitle }}</h1>
   </div>
 
   <div class="workspace-topbar__actions">
-    <button class="workspace-topbar__icon-button" type="button" aria-label="Notifications">
+    <button
+      class="workspace-topbar__icon-button"
+      type="button"
+      aria-label="Notifications placeholder"
+      disabled>
       Alerts
+      <span class="workspace-topbar__notification-dot" aria-hidden="true"></span>
     </button>
 
     <div class="workspace-topbar__user">
@@ -35,24 +42,31 @@
         class="workspace-topbar__avatar"
         type="button"
         aria-label="Open user menu"
+        aria-haspopup="menu"
         [attr.aria-expanded]="userMenuOpen"
+        aria-controls="workspace-user-menu"
         (click)="toggleUserMenu()">
         {{ userInitials }}
       </button>
 
-      <div class="workspace-topbar__user-menu" *ngIf="userMenuOpen">
+      <div
+        id="workspace-user-menu"
+        class="workspace-topbar__user-menu"
+        role="menu"
+        *ngIf="userMenuOpen">
         <div class="workspace-topbar__user-summary">
-          <strong>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</strong>
-          <span>{{ payload?.email || currentUser?.email }}</span>
+          <strong>{{ userDisplayName }}</strong>
+          <span *ngIf="userEmail">{{ userEmail }}</span>
         </div>
         <a
+          role="menuitem"
           *ngIf="auth.isAdmin()"
           routerLink="/admin/settings/profile"
           (click)="userMenuOpen = false">
           Profile
         </a>
-        <a routerLink="/storefront" (click)="userMenuOpen = false">View Storefront</a>
-        <button type="button" (click)="logout()">Sign Out</button>
+        <a role="menuitem" routerLink="/storefront" (click)="userMenuOpen = false">View Storefront</a>
+        <button role="menuitem" type="button" (click)="logout()">Sign Out</button>
       </div>
     </div>
   </div>
