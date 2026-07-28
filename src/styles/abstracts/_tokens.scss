@@ -56,12 +56,20 @@ $sh-color-neutral-950: #020617;
 
 // Semantic palette
 $sh-color-success: #16a34a;
+$sh-color-success-hover: #15803d;
+$sh-color-success-active: #166534;
 $sh-color-success-surface: #dcfce7;
 $sh-color-warning: #d97706;
+$sh-color-warning-hover: #b45309;
+$sh-color-warning-active: #92400e;
 $sh-color-warning-surface: #fef3c7;
 $sh-color-danger: #dc2626;
+$sh-color-danger-hover: #b91c1c;
+$sh-color-danger-active: #991b1b;
 $sh-color-danger-surface: #fee2e2;
 $sh-color-info: #0284c7;
+$sh-color-info-hover: #0369a1;
+$sh-color-info-active: #075985;
 $sh-color-info-surface: #e0f2fe;
 
 // Commerce palette
@@ -163,3 +171,15 @@ $sh-z-popover: 1300;
 $sh-z-toast: 1400;
 $sh-z-tooltip: 1500;
 
+// Focus
+$sh-focus-ring-width: 2px;
+$sh-focus-ring-offset: 2px;
+
+// Interaction
+
+$sh-color-disabled-bg: $sh-color-neutral-100;
+$sh-color-disabled-border: $sh-color-neutral-200;
+$sh-color-disabled-text: $sh-color-neutral-400;
+
+$sh-disabled-cursor: not-allowed;
+$sh-disabled-opacity: .45;

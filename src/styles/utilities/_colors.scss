@@ -1,0 +1,35 @@
+.sh-bg-surface {
+  background-color: var(--sh-color-surface);
+}
+
+.sh-bg-muted {
+  background-color: var(--sh-color-surface-muted);
+}
+
+.sh-bg-primary {
+  background-color: var(--sh-color-brand-primary);
+}
+
+.sh-bg-success {
+  background-color: var(--sh-color-success);
+}
+
+.sh-bg-warning {
+  background-color: var(--sh-color-warning);
+}
+
+.sh-bg-danger {
+  background-color: var(--sh-color-danger);
+}
+
+.sh-border {
+  border: 1px solid var(--sh-color-border);
+}
+
+.sh-border-danger {
+  border-color: var(--sh-color-danger);
+}
+
+.sh-border-success {
+  border-color: var(--sh-color-success);
+}

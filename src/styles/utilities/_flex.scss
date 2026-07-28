@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Flex Utilities
+   ========================================================================== */
+
+/* Display */
+
+.sh-flex {
+  display: flex;
+}
+
+.sh-inline-flex {
+  display: inline-flex;
+}
+
+/* Direction */
+
+.sh-flex-row {
+  flex-direction: row;
+}
+
+.sh-flex-column {
+  flex-direction: column;
+}
+
+/* Wrap */
+
+.sh-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.sh-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+/* Alignment */
+
+.sh-items-start {
+  align-items: flex-start;
+}
+
+.sh-items-center {
+  align-items: center;
+}
+
+.sh-items-end {
+  align-items: flex-end;
+}
+
+.sh-items-stretch {
+  align-items: stretch;
+}
+
+/* Justification */
+
+.sh-justify-start {
+  justify-content: flex-start;
+}
+
+.sh-justify-center {
+  justify-content: center;
+}
+
+.sh-justify-end {
+  justify-content: flex-end;
+}
+
+.sh-justify-between {
+  justify-content: space-between;
+}
+
+.sh-justify-around {
+  justify-content: space-around;
+}
+
+.sh-justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* Flex */
+
+.sh-flex-1 {
+  flex: 1;
+}
+
+.sh-flex-auto {
+  flex: auto;
+}
+
+.sh-flex-none {
+  flex: none;
+}
+
+/* Self Alignment */
+
+.sh-self-start {
+  align-self: flex-start;
+}
+
+.sh-self-center {
+  align-self: center;
+}
+
+.sh-self-end {
+  align-self: flex-end;
+}

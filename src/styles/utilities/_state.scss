@@ -1,20 +1,46 @@
-.sh-text-muted {
-  color: var(--sh-color-text-muted);
+/* ==========================================================================
+   State Utilities
+   ========================================================================== */
+
+.is-loading {
+  cursor: progress;
+  pointer-events: none;
 }
 
-.sh-text-price {
-  color: var(--sh-color-price);
+.is-disabled {
+  cursor: var(--sh-disabled-cursor);
+  opacity: var(--sh-disabled-opacity);
+  pointer-events: none;
 }
 
-.sh-text-danger {
-  color: var(--sh-color-danger);
+.is-hidden {
+  display: none !important;
 }
 
-.sh-bg-surface {
-  background: var(--sh-color-surface);
+.is-invisible {
+  visibility: hidden;
 }
 
-.sh-bg-muted {
-  background: var(--sh-color-surface-muted);
+.is-readonly {
+  user-select: none;
 }
 
+.is-clickable {
+  cursor: pointer;
+}
+
+.is-draggable {
+  cursor: grab;
+}
+
+.is-dragging {
+  cursor: grabbing;
+}
+
+.is-selected {
+  /* Reserved for future shared styling if needed */
+}
+
+.is-active {
+  /* Reserved for future shared styling if needed */
+}

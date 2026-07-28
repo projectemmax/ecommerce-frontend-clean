@@ -14,6 +14,14 @@
   --sh-color-brand-accent: #{tokens.$sh-color-brand-accent};
   --sh-color-brand-accent-hover: #{tokens.$sh-color-brand-accent-600};
   --sh-color-brand-accent-subtle: #{tokens.$sh-color-brand-accent-50};
+  --sh-color-danger-hover: #{tokens.$sh-color-danger-hover};
+  --sh-color-danger-active: #{tokens.$sh-color-danger-active};
+  --sh-color-success-hover: #{tokens.$sh-color-success-hover};
+  --sh-color-success-active: #{tokens.$sh-color-success-active};
+  --sh-color-warning-hover: #{tokens.$sh-color-warning-hover};
+  --sh-color-warning-active: #{tokens.$sh-color-warning-active};
+  --sh-color-info-hover: #{tokens.$sh-color-info-hover};
+  --sh-color-info-active: #{tokens.$sh-color-info-active};
 
   --sh-color-surface: #{tokens.$sh-color-neutral-0};
   --sh-color-surface-muted: #{tokens.$sh-color-neutral-50};
@@ -40,6 +48,10 @@
   --sh-color-stock-low: #{tokens.$sh-color-stock-low};
   --sh-color-stock-out: #{tokens.$sh-color-stock-out};
   --sh-color-verified: #{tokens.$sh-color-verified};
+
+  --sh-color-disabled-bg: #{tokens.$sh-color-disabled-bg};
+  --sh-color-disabled-text: #{tokens.$sh-color-disabled-text};
+  --sh-color-disabled-border: #{tokens.$sh-color-disabled-border};
 
   --sh-font-family-base: #{tokens.$sh-font-family-base};
   --sh-font-family-mono: #{tokens.$sh-font-family-mono};
@@ -119,5 +131,15 @@
   --sh-z-tooltip: #{tokens.$sh-z-tooltip};
 
   --sh-focus-ring-color: #{tokens.$sh-color-brand-secondary-500};
+
+  --sh-font-weight-regular: #{tokens.$sh-font-weight-regular};
+  --sh-font-weight-medium: #{tokens.$sh-font-weight-medium};
+  --sh-font-weight-semibold: #{tokens.$sh-font-weight-semibold};
+  --sh-font-weight-bold: #{tokens.$sh-font-weight-bold};
+
+  --sh-focus-ring-width: #{tokens.$sh-focus-ring-width};
+  --sh-focus-ring-offset: #{tokens.$sh-focus-ring-offset};
+  
+  --sh-disabled-opacity: #{tokens.$sh-disabled-opacity};
 }
 

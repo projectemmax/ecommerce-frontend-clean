@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Text Utilities
+   ========================================================================== */
+
+/* Colors */
+
+.sh-text-primary {
+  color: var(--sh-color-text-primary);
+}
+
+.sh-text-secondary {
+  color: var(--sh-color-text-secondary);
+}
+
+.sh-text-muted {
+  color: var(--sh-color-text-muted);
+}
+
+.sh-text-inverse {
+  color: var(--sh-color-text-inverse);
+}
+
+.sh-text-success {
+  color: var(--sh-color-success);
+}
+
+.sh-text-warning {
+  color: var(--sh-color-warning);
+}
+
+.sh-text-danger {
+  color: var(--sh-color-danger);
+}
+
+.sh-text-price {
+  color: var(--sh-color-price);
+}
+
+/* Alignment */
+
+.sh-text-left {
+  text-align: left;
+}
+
+.sh-text-center {
+  text-align: center;
+}
+
+.sh-text-right {
+  text-align: right;
+}
+
+.sh-text-justify {
+  text-align: justify;
+}
+
+/* Font Weight */
+
+.sh-fw-regular {
+  font-weight: var(--sh-font-weight-regular);
+}
+
+.sh-fw-medium {
+  font-weight: var(--sh-font-weight-medium);
+}
+
+.sh-fw-semibold {
+  font-weight: var(--sh-font-weight-semibold);
+}
+
+.sh-fw-bold {
+  font-weight: var(--sh-font-weight-bold);
+}
+
+/* Text Transform */
+
+.sh-uppercase {
+  text-transform: uppercase;
+}
+
+.sh-lowercase {
+  text-transform: lowercase;
+}
+
+.sh-capitalize {
+  text-transform: capitalize;
+}
+
+/* Wrapping */
+
+.sh-text-nowrap {
+  white-space: nowrap;
+}
+
+.sh-text-break {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Truncation */
+
+.sh-text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,85 @@
+/* ==========================================================================
+   Layout Primitives
+   ========================================================================== */
+
+/* Stack
+   Vertical layout with consistent spacing.
+--------------------------------------------------------------------------- */
+
+.sh-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sh-space-4);
+}
+
+.sh-stack--xs {
+  gap: var(--sh-space-1);
+}
+
+.sh-stack--sm {
+  gap: var(--sh-space-2);
+}
+
+.sh-stack--md {
+  gap: var(--sh-space-4);
+}
+
+.sh-stack--lg {
+  gap: var(--sh-space-6);
+}
+
+.sh-stack--xl {
+  gap: var(--sh-space-8);
+}
+
+/* Cluster
+   Horizontal layout that wraps naturally.
+--------------------------------------------------------------------------- */
+
+.sh-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sh-space-3);
+}
+
+.sh-cluster--start {
+  justify-content: flex-start;
+}
+
+.sh-cluster--center {
+  justify-content: center;
+}
+
+.sh-cluster--end {
+  justify-content: flex-end;
+}
+
+.sh-cluster--between {
+  justify-content: space-between;
+}
+
+/* Center
+   Centers content horizontally.
+--------------------------------------------------------------------------- */
+
+.sh-center {
+  margin-inline: auto;
+  max-inline-size: var(--sh-container-max-width, 1200px);
+}
+
+/* Flow
+   Adds vertical spacing between direct children.
+--------------------------------------------------------------------------- */
+
+.sh-flow > * + * {
+  margin-block-start: var(--sh-space-4);
+}
+
+.sh-flow--sm > * + * {
+  margin-block-start: var(--sh-space-2);
+}
+
+.sh-flow--lg > * + * {
+  margin-block-start: var(--sh-space-6);
+}

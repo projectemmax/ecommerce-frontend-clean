@@ -1,0 +1,232 @@
+@use '../../../../styles/abstracts/mixins';
+
+:host {
+  display: inline-flex;
+}
+
+/* ==========================================================================
+   Button
+   ========================================================================== */
+
+.ui-button {
+  /* Component Tokens ------------------------------------------------------ */
+
+  --_button-bg: var(--sh-color-brand-primary);
+  --_button-color: var(--sh-color-text-inverse);
+  --_button-border: transparent;
+
+  --_button-padding-x: var(--sh-space-5);
+  --_button-padding-y: var(--sh-space-2);
+
+  --_button-radius: var(--sh-radius-md);
+  --_button-height: 2.5rem;
+
+  /* Layout ---------------------------------------------------------------- */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sh-space-2);
+
+  min-height: var(--_button-height);
+  width: auto;
+
+  padding-block: var(--_button-padding-y);
+  padding-inline: var(--_button-padding-x);
+
+  /* Appearance ------------------------------------------------------------ */
+
+  background-color: var(--_button-bg);
+  color: var(--_button-color);
+
+  border: 1px solid var(--_button-border);
+  border-radius: var(--_button-radius);
+
+  font: inherit;
+  font-weight: var(--sh-font-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    background-color var(--sh-duration-fast) var(--sh-ease-standard),
+    color var(--sh-duration-fast) var(--sh-ease-standard),
+    border-color var(--sh-duration-fast) var(--sh-ease-standard),
+    box-shadow var(--sh-duration-fast) var(--sh-ease-standard),
+    opacity var(--sh-transition-fast);
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &:disabled {
+    opacity: var(--sh-disabled-opacity);
+    cursor: var(--sh-disabled-cursor);
+  }
+}
+
+/* ==========================================================================
+   Variants
+   ========================================================================== */
+
+.ui-button--primary {
+  --_button-bg: var(--sh-color-brand-primary);
+  --_button-color: var(--sh-color-text-inverse);
+  --_button-border: var(--sh-color-brand-primary);
+
+  &:not(:disabled):hover {
+    --_button-bg: var(--sh-color-brand-primary-hover);
+    --_button-border: var(--sh-color-brand-primary-hover);
+  }
+
+  &:not(:disabled):active {
+    --_button-bg: var(--sh-color-brand-primary-active);
+    --_button-border: var(--sh-color-brand-primary-active);
+  }
+}
+
+.ui-button--secondary {
+  --_button-bg: var(--sh-color-surface);
+  --_button-color: var(--sh-color-text-primary);
+  --_button-border: var(--sh-color-border);
+
+  &:not(:disabled):hover {
+    --_button-bg: var(--sh-color-surface-muted);
+  }
+}
+
+.ui-button--tertiary {
+  --_button-bg: transparent;
+  --_button-color: var(--sh-color-text-primary);
+  --_button-border: transparent;
+
+  &:not(:disabled):hover {
+    --_button-bg: var(--sh-color-surface-muted);
+  }
+}
+
+.ui-button--ghost {
+  --_button-bg: transparent;
+  --_button-color: var(--sh-color-brand-primary);
+  --_button-border: transparent;
+
+  &:not(:disabled):hover {
+    --_button-bg: var(--sh-color-brand-primary-50);
+  }
+}
+
+.ui-button--danger {
+  --_button-bg: var(--sh-color-danger);
+  --_button-color: var(--sh-color-text-inverse);
+  --_button-border: var(--sh-color-danger);
+
+  &:not(:disabled):hover {
+    --_button-bg: var(--sh-color-danger-hover);
+    --_button-border: var(--sh-color-danger-hover);
+  }
+
+  &:not(:disabled):active {
+    --_button-bg: var(--sh-color-danger-active);
+    --_button-border: var(--sh-color-danger-active);
+  }
+}
+
+.ui-button--success {
+  --_button-bg: var(--sh-color-success);
+  --_button-color: var(--sh-color-text-inverse);
+  --_button-border: var(--sh-color-success);
+
+  &:not(:disabled):hover {
+    opacity: .9;
+  }
+}
+
+.ui-button--link {
+  --_button-bg: transparent;
+  --_button-color: var(--sh-color-brand-primary);
+  --_button-border: transparent;
+
+  padding: 0;
+  min-height: auto;
+
+  &:not(:disabled):hover {
+    text-decoration: underline;
+  }
+}
+
+.ui-button:disabled {
+    cursor: var(--sh-disabled-cursor);
+    opacity: var(--sh-disabled-opacity);
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   Sizes
+   ========================================================================== */
+
+.ui-button--sm {
+  --_button-height: 2rem;
+  --_button-padding-x: var(--sh-space-3);
+  --_button-padding-y: var(--sh-space-1);
+  font-size: var(--sh-font-size-sm);
+}
+
+.ui-button--md {
+  --_button-height: 2.5rem;
+  --_button-padding-x: var(--sh-space-4);
+  --_button-padding-y: var(--sh-space-2);
+  font-size: var(--sh-font-size-md);
+}
+
+.ui-button--lg {
+  --_button-height: 3rem;
+  --_button-padding-x: var(--sh-space-5);
+  --_button-padding-y: var(--sh-space-3);
+  font-size: var(--sh-font-size-lg);
+}
+
+/* ==========================================================================
+   Modifiers
+   ========================================================================== */
+
+.ui-button--full-width {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Content
+   ========================================================================== */
+
+.ui-button__content {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+
+.ui-button__content--hidden {
+  visibility: hidden;
+}
+
+/* ==========================================================================
+   Loading Spinner
+   ========================================================================== */
+
+.ui-button__spinner {
+  position: absolute;
+  inline-size: 1rem;
+  block-size: 1rem;
+
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+
+  animation: ui-button-spin 0.75s linear infinite;
+}
+
+@keyframes ui-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

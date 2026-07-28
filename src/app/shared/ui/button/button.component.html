@@ -1,0 +1,26 @@
+<button
+    class="ui-button"
+    [ngClass]="[
+        'ui-button--' + variant(),
+        'ui-button--' + size(),
+        fullWidth() ? 'ui-button--full-width' : ''
+    ]"
+    [attr.aria-label]="ariaLabel()"
+    [disabled]="isDisabled()"
+    [type]="type()"
+    (click)="onClick($event)"
+    >
+    @if (loading()) {
+        <span
+            class="ui-button__spinner"
+            aria-hidden="true"
+        ></span>
+    }
+
+    <span
+        class="ui-button__content"
+        [class.ui-button__content--hidden]="loading()"
+    >
+        <ng-content />
+    </span>
+</button>

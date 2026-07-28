@@ -1,8 +1,8 @@
 @use './tokens' as tokens;
 
 @mixin focus-ring {
-  outline: 2px solid var(--sh-focus-ring-color);
-  outline-offset: 2px;
+  outline: var(--sh-focus-ring-width) solid var(--sh-focus-ring-color);
+  outline-offset: var(--sh-focus-ring-offset);;
 }
 
 @mixin media-up($breakpoint) {

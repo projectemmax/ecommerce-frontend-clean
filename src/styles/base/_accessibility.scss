@@ -1,3 +1,5 @@
+@use '../abstracts/mixins';
+
 .sh-sr-only {
   block-size: 1px;
   border: 0;
@@ -10,13 +12,9 @@
   white-space: nowrap;
 }
 
-:focus-visible {
-  outline: 2px solid var(--sh-focus-ring-color);
-  outline-offset: 2px;
+.sh-focus-ring:focus-visible {
+  @include mixins.focus-ring;
 }
 
-.sh-focus-ring:focus-visible {
-  outline: 2px solid var(--sh-focus-ring-color);
-  outline-offset: 2px;
-}
+
 

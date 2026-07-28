@@ -10,7 +10,7 @@ body {
 
 :where(h1, h2, h3, h4, h5, h6) {
   color: var(--sh-color-text);
-  font-weight: 700;
+  font-weight: var(--sh-font-weight-bold);
   letter-spacing: 0;
   line-height: var(--sh-line-height-tight);
   margin-block: 0;

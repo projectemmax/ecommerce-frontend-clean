@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Spacing Utilities
+   ========================================================================== */
+
+/* Margin */
+
+.sh-m-0 {
+  margin: 0;
+}
+
+.sh-mt-auto {
+  margin-top: auto;
+}
+
+.sh-mb-auto {
+  margin-bottom: auto;
+}
+
+.sh-ml-auto {
+  margin-left: auto;
+}
+
+.sh-mr-auto {
+  margin-right: auto;
+}
+
+.sh-mx-auto {
+  margin-inline: auto;
+}
+
+/* Padding */
+
+.sh-p-0 {
+  padding: 0;
+}
+
+/* Gap */
+
+.sh-gap-1 {
+  gap: var(--sh-space-1);
+}
+
+.sh-gap-2 {
+  gap: var(--sh-space-2);
+}
+
+.sh-gap-3 {
+  gap: var(--sh-space-3);
+}
+
+.sh-gap-4 {
+  gap: var(--sh-space-4);
+}
+
+.sh-gap-5 {
+  gap: var(--sh-space-5);
+}
+
+.sh-gap-6 {
+  gap: var(--sh-space-6);
+}
+

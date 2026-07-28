@@ -15,6 +15,7 @@ import { CategoryTabsComponent } from '../../components/category-tabs/category-t
 import { ProductGridComponent } from '@app/pages/storefront/components/product-grid/product-grid.component';
 import { ProductCarouselComponent } from '../../components/product-carousel/product-carousel.component';
 import { OffersComponent } from '@app/pages/storefront/components/offers/offers.component';
+import { UiButtonComponent } from "@app/shared/ui/button";
 
 @Component({
   standalone: true,
@@ -28,8 +29,9 @@ import { OffersComponent } from '@app/pages/storefront/components/offers/offers.
     CategoryTabsComponent,
     ProductGridComponent,
     ProductCarouselComponent,
-    OffersComponent
-  ],
+    OffersComponent,
+    UiButtonComponent,
+],
 })
 export class HomeComponent {
 
