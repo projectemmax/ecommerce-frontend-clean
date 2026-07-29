@@ -16,6 +16,26 @@ import { firstValueFrom } from 'rxjs';
 import { provideToastr } from 'ngx-toastr';
 import { ToastInterceptor } from './core/interceptors/toast.interceptor';
 
+import { provideIcons } from '@ng-icons/core';
+
+import {
+  lucideHome,
+  lucideSearch,
+  lucideShoppingCart,
+  lucideUser,
+  lucideSettings,
+  lucideMenu,
+  lucideXCircle,
+  lucideCheck,
+  lucideChevronLeft,
+  lucideChevronRight,
+  lucideChevronDown,
+  lucideAlertTriangle,
+  lucideCheckCircle,
+  lucideAlertCircle,
+} from '@ng-icons/lucide';
+
+
 // ✅ INIT FUNCTION
 export function initSiteConfig(service: SiteConfigService) {
   return () => firstValueFrom(service.loadConfig());
@@ -58,6 +78,23 @@ export const appConfig: ApplicationConfig = {
       preventDuplicates: true,
       progressBar: true,
       newestOnTop: true,
+    }),
+
+    provideIcons({
+      lucideHome,
+      lucideSearch,
+      lucideShoppingCart,
+      lucideUser,
+      lucideSettings,
+      lucideMenu,
+      lucideXCircle,
+      lucideCheck,
+      lucideChevronLeft,
+      lucideChevronRight,
+      lucideChevronDown,
+      lucideAlertTriangle,
+      lucideCheckCircle,
+      lucideAlertCircle,
     }),
 
   ],

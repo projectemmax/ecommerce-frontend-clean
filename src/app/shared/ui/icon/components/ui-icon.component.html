@@ -1,0 +1,10 @@
+<ng-icon
+  [name]="iconName()"
+  [attr.aria-hidden]="decorative()"
+  [attr.aria-label]="decorative() ? null : ariaLabel()"
+  class="ui-icon"
+  [ngClass]="[
+    'ui-icon--' + size(),
+    'ui-icon--' + color()
+  ]">
+</ng-icon>
