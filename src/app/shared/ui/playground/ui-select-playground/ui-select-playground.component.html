@@ -1,0 +1,232 @@
+<div class="playground">
+
+  <h1 class="playground__title">Shared UI Playground</h1>
+
+  <!-- ============================================
+       UI BUTTON
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-button</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Variants</h3>
+      <div class="playground__row">
+        <ui-button variant="primary">Primary</ui-button>
+        <ui-button variant="secondary">Secondary</ui-button>
+        <ui-button variant="ghost">Ghost</ui-button>
+        <ui-button variant="danger">Danger</ui-button>
+        <ui-button variant="success">Success</ui-button>
+        <ui-button variant="link">Link</ui-button>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Sizes</h3>
+      <div class="playground__row">
+        <ui-button size="sm">Small</ui-button>
+        <ui-button size="md">Medium</ui-button>
+        <ui-button size="lg">Large</ui-button>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">States</h3>
+      <div class="playground__row">
+        <ui-button (clicked)="clickCount = clickCount + 1">
+          Clicked {{ clickCount }} times
+        </ui-button>
+        <ui-button [disabled]="true">Disabled</ui-button>
+        <ui-button [loading]="buttonLoading()" (clicked)="simulateLoad()">
+          {{ buttonLoading() ? 'Loading...' : 'Load (2s)' }}
+        </ui-button>
+        <ui-button [disabled]="buttonDisabled()" (clicked)="buttonDisabled.set(true)">
+          {{ buttonDisabled() ? 'Disabled' : 'Disable Me' }}
+        </ui-button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       UI ICON
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-icon</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">All Registered Icons</h3>
+      <div class="playground__grid">
+        <div class="playground__icon-cell" *ngFor="let name of showcaseIcons">
+          <ui-icon [name]="name" size="xl"></ui-icon>
+          <span class="playground__icon-name">{{ name }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Sizes</h3>
+      <div class="playground__row">
+        <div class="playground__icon-cell" *ngFor="let s of iconSizes">
+          <ui-icon name="search" [size]="s"></ui-icon>
+          <span class="playground__icon-name">{{ s }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Colors</h3>
+      <div class="playground__row">
+        <ui-icon name="home" size="lg" color="current"></ui-icon>
+        <ui-icon name="home" size="lg" color="primary"></ui-icon>
+        <ui-icon name="home" size="lg" color="secondary"></ui-icon>
+        <ui-icon name="home" size="lg" color="success"></ui-icon>
+        <ui-icon name="home" size="lg" color="warning"></ui-icon>
+        <ui-icon name="home" size="lg" color="danger"></ui-icon>
+        <ui-icon name="home" size="lg" color="muted"></ui-icon>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       UI INPUT
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-input</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Basic</h3>
+      <ui-input
+        label="Full Name"
+        placeholder="Enter your name"
+        helperText="Your full legal name."
+        [formControl]="inputControl">
+      </ui-input>
+      <p class="playground__value">Value: <code>{{ inputControl.value }}</code></p>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Reactive Forms</h3>
+      <ui-input
+        label="Email"
+        placeholder="name@example.com"
+        [formControl]="inputControl">
+      </ui-input>
+      <div class="playground__actions">
+        <button class="btn btn-sm btn-outline-primary"
+                (click)="inputControl.setValue('test@example.com')">Set Value</button>
+        <button class="btn btn-sm btn-outline-secondary"
+                (click)="inputControl.patchValue('patched@example.com')">Patch Value</button>
+        <button class="btn btn-sm btn-outline-danger"
+                (click)="inputControl.reset()">Reset</button>
+        <button class="btn btn-sm btn-outline-warning"
+                (click)="inputControl.disable()">Disable</button>
+        <button class="btn btn-sm btn-outline-success"
+                (click)="inputControl.enable()">Enable</button>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Template-driven Forms</h3>
+      <ui-input
+        label="Phone"
+        placeholder="09XXXXXXXXX"
+        [(ngModel)]="inputTemplateValue">
+      </ui-input>
+      <p class="playground__value">Value: <code>{{ inputTemplateValue }}</code></p>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Error State</h3>
+      <ui-input
+        label="Password"
+        type="password"
+        placeholder="Enter password"
+        helperText="Must be at least 8 characters."
+        error="Password is required."
+        [formControl]="inputControl">
+      </ui-input>
+    </div>
+  </section>
+
+  <!-- ============================================
+       UI SELECT
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-select</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Reactive Forms</h3>
+      <ui-select
+        label="Category"
+        placeholder="Choose a category"
+        helperText="Select a product category from the list."
+        [options]="categories"
+        [formControl]="selectControl">
+      </ui-select>
+      <p class="playground__value">Value: <code>{{ selectControl.value }}</code></p>
+      <div class="playground__actions">
+        <button class="btn btn-sm btn-outline-primary"
+                (click)="selectControl.setValue('vitamins')">Set Value (vitamins)</button>
+        <button class="btn btn-sm btn-outline-secondary"
+                (click)="selectControl.patchValue('first-aid')">Patch Value (first-aid)</button>
+        <button class="btn btn-sm btn-outline-danger"
+                (click)="selectControl.reset()">Reset</button>
+        <button class="btn btn-sm btn-outline-warning"
+                (click)="selectControl.disable()">Disable</button>
+        <button class="btn btn-sm btn-outline-success"
+                (click)="selectControl.enable()">Enable</button>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Template-driven Forms</h3>
+      <ui-select
+        label="Category"
+        placeholder="Choose a category"
+        [options]="categories"
+        [(ngModel)]="selectTemplateValue">
+      </ui-select>
+      <p class="playground__value">Value: <code>{{ selectTemplateValue }}</code></p>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Error State</h3>
+      <ui-select
+        label="Category"
+        placeholder="Choose a category"
+        helperText="This field has a simulated error."
+        error="Please select a valid category."
+        [options]="categories"
+        [formControl]="selectControl">
+      </ui-select>
+    </div>
+  </section>
+
+  <!-- ============================================
+       UI CONSISTENCY
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">UI Consistency</h2>
+    <p class="playground__note">
+      Both components use the same field wrapper (ui-field) and should render
+      identically for label, helper text, and required indicator.
+    </p>
+
+    <ui-input
+      label="Field Label"
+      placeholder="Type something..."
+      helperText="Same helper text for both."
+      [formControl]="inputControl">
+    </ui-input>
+
+    <div class="playground__spacer"></div>
+
+    <ui-select
+      label="Field Label"
+      placeholder="Choose an option..."
+      helperText="Same helper text for both."
+      [options]="categories"
+      [formControl]="selectControl">
+    </ui-select>
+  </section>
+
+</div>

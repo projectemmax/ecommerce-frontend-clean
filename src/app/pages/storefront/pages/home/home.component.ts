@@ -17,6 +17,9 @@ import { ProductCarouselComponent } from '../../components/product-carousel/prod
 import { OffersComponent } from '@app/pages/storefront/components/offers/offers.component';
 import { UiButtonComponent } from "@app/shared/ui/button";
 
+// TEMP: Shared UI Playground — remove after Shared UI development
+import { UiPlaygroundComponent } from '@app/shared/ui/playground/ui-select-playground/ui-select-playground.component';
+
 @Component({
   standalone: true,
   templateUrl: './home.component.html',
@@ -31,6 +34,9 @@ import { UiButtonComponent } from "@app/shared/ui/button";
     ProductCarouselComponent,
     OffersComponent,
     UiButtonComponent,
+
+    // TEMP: Shared UI Playground — remove after Shared UI development
+    UiPlaygroundComponent,
 ],
 })
 export class HomeComponent {
