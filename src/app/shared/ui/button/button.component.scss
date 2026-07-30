@@ -1,4 +1,5 @@
 @use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
 
 :host {
   display: inline-flex;
@@ -88,13 +89,20 @@
 }
 
 .ui-button--secondary {
-  --_button-bg: var(--sh-color-surface);
-  --_button-color: var(--sh-color-text-primary);
+  --_button-bg: var(--sh-color-brand-secondary);
+  --_button-color: var(--sh-color-text-inverse);
   --_button-border: var(--sh-color-border);
 
   &:not(:disabled):hover {
-    --_button-bg: var(--sh-color-surface-muted);
+    --_button-bg: var(--sh-color-brand-secondary-hover);
+    --_button-border: var(--sh-color-brand-secondary-hover);
   }
+
+  &:not(:disabled):active {
+    --_button-bg: var(--sh-color-brand-secondary-active);
+    --_button-border: var(--sh-color-brand-secondary-active);
+  }
+
 }
 
 .ui-button--tertiary {

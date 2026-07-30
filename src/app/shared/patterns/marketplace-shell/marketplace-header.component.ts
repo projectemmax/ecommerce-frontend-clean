@@ -6,6 +6,8 @@ import { SiteConfigService } from '@app/core/services/site-config.service';
 import { StorefrontCartService } from '@app/services/storefront/storefront-cart.service';
 import { AppLogoComponent } from '@app/shared/ui/app-logo/app-logo.component';
 import { NavSearchComponent } from '@app/shared/ui/nav-search/nav-search.component';
+import { UiButtonComponent } from '@app/shared/ui/button';
+import { UiIconComponent } from '@app/shared/ui/icon';
 
 @Component({
   selector: 'sh-marketplace-header',
@@ -16,6 +18,8 @@ import { NavSearchComponent } from '@app/shared/ui/nav-search/nav-search.compone
     RouterLinkActive,
     AppLogoComponent,
     NavSearchComponent,
+    UiButtonComponent,
+    UiIconComponent,
   ],
   templateUrl: './marketplace-header.component.html',
   styleUrl: './marketplace-header.component.scss',
@@ -82,6 +86,10 @@ export class MarketplaceHeaderComponent implements OnInit {
     });
 
     this.closeMobileMenu();
+  }
+
+  goToCart(): void {
+    this.router.navigate(['/storefront/cart']);
   }
 
   toggleMobileMenu(): void {

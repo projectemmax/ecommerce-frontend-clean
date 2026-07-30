@@ -10,10 +10,12 @@
   --sh-color-brand-primary-subtle: #{tokens.$sh-color-brand-primary-50};
   --sh-color-brand-secondary: #{tokens.$sh-color-brand-secondary};
   --sh-color-brand-secondary-hover: #{tokens.$sh-color-brand-secondary-600};
+  --sh-color-brand-secondary-active: #{tokens.$sh-color-brand-secondary-700};
   --sh-color-brand-secondary-subtle: #{tokens.$sh-color-brand-secondary-50};
   --sh-color-brand-accent: #{tokens.$sh-color-brand-accent};
   --sh-color-brand-accent-hover: #{tokens.$sh-color-brand-accent-600};
   --sh-color-brand-accent-subtle: #{tokens.$sh-color-brand-accent-50};
+
   --sh-color-danger-hover: #{tokens.$sh-color-danger-hover};
   --sh-color-danger-active: #{tokens.$sh-color-danger-active};
   --sh-color-success-hover: #{tokens.$sh-color-success-hover};
@@ -139,7 +141,7 @@
 
   --sh-focus-ring-width: #{tokens.$sh-focus-ring-width};
   --sh-focus-ring-offset: #{tokens.$sh-focus-ring-offset};
-  
+
   --sh-disabled-opacity: #{tokens.$sh-disabled-opacity};
 }
 

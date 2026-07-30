@@ -10,7 +10,8 @@ export type ButtonVariant =
 export type ButtonSize =
   | 'sm'
   | 'md'
-  | 'lg';
+  | 'lg'
+  | 'xl';
 
 export type ButtonType =
   | 'button'

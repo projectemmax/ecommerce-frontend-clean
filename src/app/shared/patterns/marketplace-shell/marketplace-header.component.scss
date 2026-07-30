@@ -31,8 +31,6 @@
 }
 
 .marketplace-header__menu-button,
-.marketplace-header__account-button,
-.marketplace-header__cart,
 .marketplace-header__seller-cta {
   align-items: center;
   border-radius: var(--sh-radius-md);
@@ -46,8 +44,7 @@
   white-space: nowrap;
 }
 
-.marketplace-header__menu-button,
-.marketplace-header__account-button {
+.marketplace-header__menu-button {
   background: var(--sh-color-surface);
   border: 1px solid var(--sh-color-border);
   color: var(--sh-color-text);
@@ -77,8 +74,6 @@
 }
 
 .marketplace-header__cart {
-  border: 1px solid var(--sh-color-border);
-  color: var(--sh-color-text);
   position: relative;
 }
 

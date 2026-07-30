@@ -8,4 +8,5 @@ export const ICON_REGISTRY = {
   success: 'lucideCheckCircle',
   warning: 'lucideAlertTriangle',
   error: 'lucideAlertCircle',
+  shoppingCart: 'lucideShoppingCart',
 } as const;

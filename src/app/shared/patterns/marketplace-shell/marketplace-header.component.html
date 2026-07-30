@@ -51,29 +51,36 @@
         {{ sellerCtaLabel }}
       </a>
 
-      <a
+      <ui-button
+        variant="primary"
+        size="md"
+        ariaLabel="Shopping cart"
         class="marketplace-header__cart"
-        routerLink="/storefront/cart"
-        aria-label="Shopping cart">
-        <span aria-hidden="true">Shopping Cart</span>
+        (click)="goToCart()">
+        <ui-icon name="shoppingCart" size="lg"></ui-icon>
         <span
           class="marketplace-header__count"
           *ngIf="(cartCount$ | async) as count"
           [class.marketplace-header__count--hidden]="count === 0">
           {{ count }}
         </span>
-      </a>
+      </ui-button>
 
       <div class="marketplace-header__account">
-        <button
-          class="marketplace-header__account-button"
-          type="button"
-          aria-label="Open account menu"
+        <ui-button
+          variant="secondary"
+          size="md"
+          ariaLabel="Open account menu"
           [attr.aria-expanded]="accountOpen"
           aria-controls="account-menu"
           (click)="toggleAccountMenu()">
-          {{ accountLabel }}
-        </button>
+          <ng-container *ngIf="auth.isLoggedIn(); else accountIcon">
+            {{ auth.getUserInitials() }}
+          </ng-container>
+          <ng-template #accountIcon>
+            <ui-icon name="user" size="lg"></ui-icon>
+          </ng-template>
+        </ui-button>
 
         <div
           role="menu"
