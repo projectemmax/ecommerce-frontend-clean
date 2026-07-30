@@ -1,0 +1,21 @@
+<ui-field
+  [label]="label()"
+  [required]="required()"
+  [helperText]="helperText()"
+  [error]="error()"
+  [hideLabel]="hideLabel()"
+  [controlId]="inputId">
+
+  <input
+    [id]="inputId"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [value]="innerValue()"
+    [disabled]="isDisabled()"
+    [readonly]="readonly()"
+    [attr.aria-invalid]="ariaInvalid()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    class="form-control">
+
+</ui-field>

@@ -1,0 +1,6 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
