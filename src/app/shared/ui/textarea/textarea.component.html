@@ -1,0 +1,23 @@
+<ui-field
+  [label]="label()"
+  [required]="required()"
+  [helperText]="helperText()"
+  [error]="error()"
+  [hideLabel]="hideLabel()"
+  [controlId]="textareaId">
+
+  <textarea
+    [id]="textareaId"
+    [value]="innerValue()"
+    [placeholder]="placeholder()"
+    [disabled]="isDisabled()"
+    [rows]="rows()"
+    [attr.maxlength]="maxlength() || null"
+    [attr.aria-invalid]="ariaInvalid()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    class="form-control">
+
+  </textarea>
+
+</ui-field>

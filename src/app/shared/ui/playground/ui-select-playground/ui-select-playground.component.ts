@@ -10,6 +10,7 @@ import { UiIconComponent } from '@app/shared/ui/icon';
 import { UiInputComponent } from '@app/shared/ui/input';
 import { UiSelectComponent } from '@app/shared/ui/select';
 import { SelectOption } from '@app/shared/ui/select';
+import { UiTextareaComponent } from '@app/shared/ui/textarea';
 
 @Component({
   selector: 'app-ui-playground',
@@ -22,6 +23,7 @@ import { SelectOption } from '@app/shared/ui/select';
     UiIconComponent,
     UiInputComponent,
     UiSelectComponent,
+    UiTextareaComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',
@@ -53,6 +55,10 @@ export class UiPlaygroundComponent {
 
   selectControl = new FormControl<string>('');
   selectTemplateValue = '';
+
+  // --- Textarea (Reactive) ---
+  textareaControl = new FormControl<string>('');
+  textareaTemplateValue = '';
 
   // --- Showcase icons ---
   readonly showcaseIcons = [
