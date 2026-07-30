@@ -11,6 +11,7 @@ import { UiInputComponent } from '@app/shared/ui/input';
 import { UiSelectComponent } from '@app/shared/ui/select';
 import { SelectOption } from '@app/shared/ui/select';
 import { UiTextareaComponent } from '@app/shared/ui/textarea';
+import { UiCheckboxComponent } from '@app/shared/ui/checkbox';
 
 @Component({
   selector: 'app-ui-playground',
@@ -24,6 +25,7 @@ import { UiTextareaComponent } from '@app/shared/ui/textarea';
     UiInputComponent,
     UiSelectComponent,
     UiTextareaComponent,
+    UiCheckboxComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',
@@ -59,6 +61,12 @@ export class UiPlaygroundComponent {
   // --- Textarea (Reactive) ---
   textareaControl = new FormControl<string>('');
   textareaTemplateValue = '';
+
+  // --- Checkbox (Reactive) ---
+  checkboxControl = new FormControl<boolean>(false);
+  checkboxRequiredControl = new FormControl<boolean>(false, { nonNullable: true });
+  checkboxDisabledControl = new FormControl<boolean>({ value: false, disabled: true });
+  checkboxTemplateValue = false;
 
   // --- Showcase icons ---
   readonly showcaseIcons = [

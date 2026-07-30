@@ -1,0 +1,34 @@
+<ui-field
+  [helperText]="helperText()"
+  [error]="error()">
+
+  <div
+    class="form-check"
+    [class.form-switch]="switchMode()">
+
+    <input
+      type="checkbox"
+      class="form-check-input"
+      [id]="checkboxId"
+      [checked]="innerValue()"
+      [disabled]="isDisabled()"
+      [attr.aria-invalid]="ariaInvalid()"
+      [attr.role]="switchMode() ? 'switch' : null"
+      (change)="onChangeEvent($event)"
+      (blur)="onBlur()">
+
+    <label
+      *ngIf="label()"
+      class="form-check-label"
+      [class.visually-hidden]="hideLabel()"
+      [attr.for]="checkboxId">
+      {{ label() }}
+      <span
+        *ngIf="required()"
+        class="text-danger"
+        aria-hidden="true">*</span>
+    </label>
+
+  </div>
+
+</ui-field>
