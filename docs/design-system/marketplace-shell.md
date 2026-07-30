@@ -33,7 +33,153 @@ AppComponent
 
 The route tree remains unchanged. Existing lazy-loaded pages, guards, services, models, and API contracts are preserved.
 
-## 2. Shared Navigation Component Ownership
+## 2. Shared UI Foundation
+
+The Marketplace Shell is composed from a layered Shared UI architecture.
+
+```txt
+Design Tokens
+│
+├── Colors
+├── Typography
+├── Spacing
+├── Radius
+├── Shadows
+└── CSS Utilities
+        │
+        ▼
+Shared UI Primitives
+│
+├── ui-button
+├── ui-icon
+└── ui-field
+        │
+        ▼
+Future Form Controls
+│
+├── ui-input
+├── ui-select
+├── ui-textarea
+├── ui-checkbox
+└── ui-radio
+        │
+        ▼
+Shell Patterns
+│
+├── sh-marketplace-header
+├── sh-marketplace-footer
+├── sh-marketplace-category-nav
+├── sh-workspace-sidebar
+├── sh-workspace-topbar
+└── sh-workspace-breadcrumbs
+```
+
+The Marketplace Shell does not render raw Bootstrap components directly. Instead, shell patterns are composed from reusable Shared UI primitives built on top of the Design System foundation.
+
+### ui-button
+
+`ui-button` provides the shared button primitive for the application.
+
+Responsibilities:
+
+- Consistent button styling
+- Design token integration
+- Semantic variants
+- Shared sizing
+- Accessibility
+- OnPush rendering
+- Signal Inputs
+
+The goal is to eliminate duplicated button implementations across Storefront, Seller, and Admin experiences.
+
+---
+
+### ui-icon
+
+`ui-icon` provides the shared icon abstraction for the application.
+
+Responsibilities:
+
+- Semantic icon names
+- Shared icon registry
+- Consistent sizing
+- Accessibility
+- Replaceable icon provider
+
+Application code references semantic names such as:
+
+- `cart`
+- `user`
+- `search`
+- `home`
+- `settings`
+
+rather than vendor-specific icon names.
+
+This allows the underlying icon library to be replaced without affecting application code.
+
+---
+
+### ui-field
+
+`ui-field` is the presentation foundation for all form controls.
+
+Responsibilities:
+
+- Label rendering
+- Required indicator
+- Helper text
+- Validation message
+- Layout
+- Typography
+- Design token integration
+- Semantic label association via `controlId`
+
+`ui-field` intentionally has no knowledge of Angular Forms.
+
+It does **not** own:
+
+- ControlValueAccessor
+- NgControl
+- FormControl
+- Validation rules
+- Form state
+- Business logic
+- ID generation
+
+Instead, it acts as a reusable presentation wrapper for future controls.
+
+Example composition:
+
+```txt
+ui-field
+│
+├── Label
+├── Required Indicator
+├── Projected Control
+├── Helper Text
+└── Error Message
+```
+
+Future controls such as `ui-input`, `ui-select`, `ui-textarea`, `ui-checkbox`, and `ui-radio` will compose `ui-field` rather than duplicating label and validation presentation.
+
+### Design Principles
+
+The Shared UI Library follows these architectural principles:
+
+- Composition over inheritance
+- Presentation separated from behavior
+- Semantic component APIs
+- Accessibility by default
+- Design tokens as the single source of truth
+- Angular Standalone Components
+- Signal Inputs
+- OnPush Change Detection
+- Reusable UI primitives before feature composition
+
+Shell patterns consume these primitives to provide consistent behavior across Storefront, Seller, and Admin interfaces.
+
+## 3. Shared Navigation Component Ownership
 
 | Component | Location | Ownership | Reason |
 |---|---|---|---|
@@ -49,7 +195,7 @@ The route tree remains unchanged. Existing lazy-loaded pages, guards, services, 
 | `sh-workspace-breadcrumbs` | `shared/patterns` | Pattern | URL-derived workspace breadcrumb trail. |
 | `sh-workspace-footer` | `shared/patterns` | Pattern | Workspace footer. |
 
-## 3. Storefront Shell Behavior
+## 4. Storefront Shell Behavior
 
 ```txt
 Desktop
@@ -79,7 +225,7 @@ Footer content is mapped into a small view model inside `sh-marketplace-footer` 
 - Contact and payment content from existing `footer.contact` and `footer.payments` when configured.
 - Social links only when `footer.socialLinks` is provided, avoiding placeholder external URLs.
 
-## 4. Workspace Shell Behavior
+## 5. Workspace Shell Behavior
 
 ```txt
 Desktop
@@ -109,7 +255,7 @@ The workspace keeps the existing `/admin` route host for both sellers and admins
 
 `sh-workspace-breadcrumbs` is a presentation-only route trail derived from the active Angular Router URL. It supports nested workspace routes by parsing primary outlet segments after `/admin`, mapping known route segments to readable labels, and rendering only known section roots as links. Intermediate action or dynamic segments such as `edit` and IDs are text-only so the component does not create invalid routes or duplicate navigation logic.
 
-## 5. Responsive Rules
+## 6. Responsive Rules
 
 | Viewport | Storefront | Workspace |
 |---|---|---|
@@ -120,7 +266,7 @@ The workspace keeps the existing `/admin` route host for both sellers and admins
 
 Search, cart, and account remain reachable without scrolling on small screens.
 
-## 6. Migration Notes
+## 7. Migration Notes
 
 - Existing routed pages render inside the new shells with minimal composition changes.
 - The old storefront navbar/footer components remain in the repository for now but are no longer used by `StorefrontLayoutComponent`.
@@ -135,3 +281,24 @@ Search, cart, and account remain reachable without scrolling on small screens.
 3. Replace old storefront navbar/footer files after no references remain.
 4. Replace old admin layout files after workspace pages are visually migrated.
 5. Remove temporary icon font CSS when the single icon library migration is complete.
+
+## 8. Next Migration Steps
+
+Completed Foundation
+
+- ✅ Design Tokens
+- ✅ CSS Utility Primitives
+- ✅ ui-button
+- ✅ ui-icon
+- ✅ ui-field
+
+Next Priorities
+
+1. Build `ui-input` on top of `ui-field`.
+2. Build `ui-select`.
+3. Build `ui-textarea`.
+4. Build `ui-checkbox`.
+5. Build `ui-radio`.
+6. Migrate shell patterns to consume shared form components where applicable.
+7. Continue replacing legacy Bootstrap implementations with Shared UI primitives.
+8. Remove temporary icon font CSS after all legacy icons have been migrated.
