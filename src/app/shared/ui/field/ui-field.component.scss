@@ -1,0 +1,47 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sh-space-1);
+}
+
+.ui-field__label {
+  color: var(--sh-color-text);
+  font-size: var(--sh-font-size-sm);
+  font-weight: var(--sh-font-weight-semibold);
+  line-height: var(--sh-line-height-snug);
+}
+
+.ui-field__label--hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  block-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  inline-size: 1px;
+}
+
+.ui-field__required {
+  color: var(--sh-color-danger);
+  margin-inline-start: var(--sh-space-1);
+}
+
+.ui-field__helper {
+  color: var(--sh-color-text-subtle);
+  font-size: var(--sh-font-size-xs);
+  line-height: var(--sh-line-height-base);
+}
+
+.ui-field__error {
+  color: var(--sh-color-danger);
+  font-size: var(--sh-font-size-xs);
+  line-height: var(--sh-line-height-base);
+}

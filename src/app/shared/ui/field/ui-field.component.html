@@ -1,0 +1,32 @@
+<div
+  class="ui-field"
+  [ngClass]="{
+    'ui-field--error': !!error()
+  }">
+  <label
+    *ngIf="label()"
+    class="ui-field__label"
+    [class.ui-field__label--hidden]="hideLabel()"
+    [attr.for]="controlId()">
+    {{ label() }}
+    <span
+      *ngIf="required()"
+      class="ui-field__required"
+      aria-hidden="true">*</span>
+  </label>
+
+  <ng-content />
+
+  <div
+    *ngIf="helperText() && !error()"
+    class="ui-field__helper">
+    {{ helperText() }}
+  </div>
+
+  <div
+    *ngIf="error()"
+    class="ui-field__error"
+    role="alert">
+    {{ error() }}
+  </div>
+</div>
