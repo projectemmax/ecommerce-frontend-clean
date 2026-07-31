@@ -87,6 +87,59 @@
   </section>
 
   <!-- ============================================
+       UI BADGE
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-badge</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Variants</h3>
+      <div class="playground__row">
+        <ui-badge *ngFor="let v of badgeVariants" [variant]="v">
+          {{ v }}
+        </ui-badge>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Default Variant</h3>
+      <div class="playground__row">
+        <ui-badge>Default (secondary)</ui-badge>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Icon + Text</h3>
+      <div class="playground__row">
+        <ui-badge variant="warning">
+          <ui-icon name="warning" size="sm"></ui-icon>
+          Awaiting Seller Confirmation
+        </ui-badge>
+        <ui-badge variant="success">
+          <ui-icon name="success" size="sm"></ui-icon>
+          In stock
+        </ui-badge>
+        <ui-badge variant="danger">
+          <ui-icon name="error" size="sm"></ui-icon>
+          Out of stock
+        </ui-badge>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Real-World Status</h3>
+      <div class="playground__row">
+        <ui-badge variant="success">Published</ui-badge>
+        <ui-badge variant="warning">Draft</ui-badge>
+        <ui-badge variant="danger">Cancelled</ui-badge>
+        <ui-badge variant="info">Processing</ui-badge>
+        <ui-badge variant="primary">Shipped</ui-badge>
+        <ui-badge variant="secondary">Uncategorized</ui-badge>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
        UI INPUT
        ============================================ -->
   <section class="playground__card">

@@ -35,7 +35,7 @@ The route tree remains unchanged. Existing lazy-loaded pages, guards, services, 
 
 ## 2. Shared UI Foundation
 
-The Marketplace Shell is composed from a layered Shared UI architecture.
+The Marketplace Shell is built on a layered Shared UI architecture. Rather than composing shell patterns directly from Bootstrap components, the application uses reusable UI primitives built on top of the Design System foundation.
 
 ```txt
 Design Tokens
@@ -52,15 +52,17 @@ Shared UI Primitives
 │
 ├── ui-button
 ├── ui-icon
+├── ui-badge
 └── ui-field
         │
         ▼
-Future Form Controls
+Shared Form Controls
 │
 ├── ui-input
 ├── ui-select
 ├── ui-textarea
 ├── ui-checkbox
+├── ui-switch
 └── ui-radio
         │
         ▼
@@ -74,29 +76,46 @@ Shell Patterns
 └── sh-workspace-breadcrumbs
 ```
 
-The Marketplace Shell does not render raw Bootstrap components directly. Instead, shell patterns are composed from reusable Shared UI primitives built on top of the Design System foundation.
+The Shared UI Library provides the reusable presentation layer used throughout the Storefront, Seller Workspace, and Admin Workspace. Components are intentionally small, composable, and built on top of the Design System rather than Bootstrap component abstractions.
 
-### ui-button
+### Design Tokens
 
-`ui-button` provides the shared button primitive for the application.
+The Design System provides the visual foundation for every Shared UI component.
 
 Responsibilities:
 
-- Consistent button styling
-- Design token integration
-- Semantic variants
-- Shared sizing
-- Accessibility
-- OnPush rendering
-- Signal Inputs
+- Color palette
+- Typography scale
+- Spacing scale
+- Border radius
+- Shadows
+- Layout utilities
+- Theme support
 
-The goal is to eliminate duplicated button implementations across Storefront, Seller, and Admin experiences.
+Design Tokens are the single source of truth for visual styling. Components consume tokens instead of hardcoded values or Bootstrap utility classes wherever possible.
+
+---
+
+### ui-button
+
+`ui-button` provides the shared button primitive.
+
+Responsibilities:
+
+- Semantic button variants
+- Shared sizing
+- Design Token integration
+- Accessibility
+- Signal Inputs
+- OnPush rendering
+
+The component replaces duplicated button implementations across Storefront, Seller, and Admin interfaces.
 
 ---
 
 ### ui-icon
 
-`ui-icon` provides the shared icon abstraction for the application.
+`ui-icon` provides the shared icon abstraction.
 
 Responsibilities:
 
@@ -108,15 +127,49 @@ Responsibilities:
 
 Application code references semantic names such as:
 
-- `cart`
-- `user`
-- `search`
-- `home`
-- `settings`
+- cart
+- user
+- search
+- home
+- settings
 
-rather than vendor-specific icon names.
+rather than vendor-specific icon names, allowing the icon library to be replaced without affecting consumers.
 
-This allows the underlying icon library to be replaced without affecting application code.
+---
+
+### ui-badge
+
+`ui-badge` provides a lightweight presentation component for status and informational indicators.
+
+Responsibilities:
+
+- Semantic status variants
+- Design Token-based styling
+- Typography
+- Spacing
+- Content projection
+
+Supported semantic variants:
+
+- primary
+- secondary
+- success
+- warning
+- danger
+- info
+
+`ui-badge` is intentionally presentation-only.
+
+It does not own:
+
+- business logic
+- positioning
+- interaction
+- counters
+- pill styling
+- size variants
+
+Icons compose naturally through content projection without introducing a dedicated icon API.
 
 ---
 
@@ -132,12 +185,12 @@ Responsibilities:
 - Validation message
 - Layout
 - Typography
-- Design token integration
+- Design Token integration
 - Semantic label association via `controlId`
 
 `ui-field` intentionally has no knowledge of Angular Forms.
 
-It does **not** own:
+It does not own:
 
 - ControlValueAccessor
 - NgControl
@@ -147,7 +200,7 @@ It does **not** own:
 - Business logic
 - ID generation
 
-Instead, it acts as a reusable presentation wrapper for future controls.
+Instead, it acts as a reusable presentation wrapper for form controls.
 
 Example composition:
 
@@ -161,23 +214,53 @@ ui-field
 └── Error Message
 ```
 
-Future controls such as `ui-input`, `ui-select`, `ui-textarea`, `ui-checkbox`, and `ui-radio` will compose `ui-field` rather than duplicating label and validation presentation.
+---
 
-### Design Principles
+### Shared Form Controls
+
+All form controls compose `ui-field` instead of duplicating presentation concerns.
+
+Current controls include:
+
+- `ui-input`
+- `ui-select`
+- `ui-textarea`
+- `ui-checkbox`
+- `ui-switch`
+- `ui-radio`
+
+Each control follows the same architectural principles:
+
+- Native HTML controls first
+- Composition over inheritance
+- ControlValueAccessor for Angular Forms integration
+- Parent-owned validation
+- Signal Inputs
+- OnPush Change Detection
+
+Boolean controls (`ui-checkbox`, `ui-switch`, and `ui-radio`) own their native control and inline label while composing `ui-field` only for helper text, validation, spacing, and accessibility.
+
+Text controls (`ui-input`, `ui-select`, and `ui-textarea`) compose `ui-field` to provide consistent form presentation across the application.
+
+---
+
+### Shared UI Design Principles
 
 The Shared UI Library follows these architectural principles:
 
 - Composition over inheritance
 - Presentation separated from behavior
+- Native HTML controls first
+- Parent-owned validation
 - Semantic component APIs
 - Accessibility by default
-- Design tokens as the single source of truth
+- Design Tokens as the single source of truth
 - Angular Standalone Components
 - Signal Inputs
 - OnPush Change Detection
 - Reusable UI primitives before feature composition
 
-Shell patterns consume these primitives to provide consistent behavior across Storefront, Seller, and Admin interfaces.
+Shell patterns consume these primitives to provide a consistent user experience across the Storefront, Seller Workspace, and Admin Workspace while remaining independent of Bootstrap component implementations.
 
 ## 3. Shared Navigation Component Ownership
 
