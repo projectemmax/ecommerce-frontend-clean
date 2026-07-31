@@ -12,6 +12,7 @@ import { UiSelectComponent } from '@app/shared/ui/select';
 import { SelectOption } from '@app/shared/ui/select';
 import { UiTextareaComponent } from '@app/shared/ui/textarea';
 import { UiCheckboxComponent } from '@app/shared/ui/checkbox';
+import { UiRadioComponent } from '@app/shared/ui/radio';
 
 @Component({
   selector: 'app-ui-playground',
@@ -26,6 +27,7 @@ import { UiCheckboxComponent } from '@app/shared/ui/checkbox';
     UiSelectComponent,
     UiTextareaComponent,
     UiCheckboxComponent,
+    UiRadioComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',
@@ -67,6 +69,11 @@ export class UiPlaygroundComponent {
   checkboxRequiredControl = new FormControl<boolean>(false, { nonNullable: true });
   checkboxDisabledControl = new FormControl<boolean>({ value: false, disabled: true });
   checkboxTemplateValue = false;
+
+  // --- Radio (Reactive) ---
+  radioControl = new FormControl<string>('');
+  radioTemplateValue = '';
+  readonly radioOptions = ['MALE', 'FEMALE', 'OTHER'] as const;
 
   // --- Showcase icons ---
   readonly showcaseIcons = [

@@ -376,6 +376,91 @@
   </section>
 
   <!-- ============================================
+       UI RADIO
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-radio</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Basic Group</h3>
+      <div class="playground__row" *ngFor="let opt of radioOptions">
+        <ui-radio
+          name="gender-group"
+          [value]="opt"
+          [label]="'Option: ' + opt"
+          [formControl]="radioControl">
+        </ui-radio>
+      </div>
+      <p class="playground__value">Value: <code>{{ radioControl.value }}</code></p>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Reactive Forms</h3>
+      <div class="playground__row" *ngFor="let opt of radioOptions">
+        <ui-radio
+          name="gender-reactive"
+          [value]="opt"
+          [label]="'Reactive ' + opt"
+          [formControl]="radioControl">
+        </ui-radio>
+      </div>
+      <div class="playground__actions">
+        <button class="btn btn-sm btn-outline-primary"
+                (click)="radioControl.setValue('FEMALE')">Set Value (FEMALE)</button>
+        <button class="btn btn-sm btn-outline-secondary"
+                (click)="radioControl.patchValue('OTHER')">Patch Value (OTHER)</button>
+        <button class="btn btn-sm btn-outline-danger"
+                (click)="radioControl.reset()">Reset</button>
+        <button class="btn btn-sm btn-outline-warning"
+                (click)="radioControl.disable()">Disable</button>
+        <button class="btn btn-sm btn-outline-success"
+                (click)="radioControl.enable()">Enable</button>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Template-driven Forms</h3>
+      <div class="playground__row" *ngFor="let opt of radioOptions">
+        <ui-radio
+          name="gender-template"
+          [value]="opt"
+          [label]="'Template ' + opt"
+          [(ngModel)]="radioTemplateValue">
+        </ui-radio>
+      </div>
+      <p class="playground__value">Value: <code>{{ radioTemplateValue }}</code></p>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Required</h3>
+      <div class="playground__row" *ngFor="let opt of radioOptions">
+        <ui-radio
+          name="gender-required"
+          [value]="opt"
+          [label]="'Required ' + opt"
+          required
+          helperText="Select one option."
+          [formControl]="radioControl">
+        </ui-radio>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Error State</h3>
+      <div class="playground__row" *ngFor="let opt of radioOptions">
+        <ui-radio
+          name="gender-error"
+          [value]="opt"
+          [label]="'Error ' + opt"
+          required
+          error="Please select a gender."
+          [formControl]="radioControl">
+        </ui-radio>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
        UI CONSISTENCY
        ============================================ -->
   <section class="playground__card">
@@ -410,6 +495,16 @@
       helperText="Same helper text for all."
       [formControl]="textareaControl">
     </ui-textarea>
+
+    <div class="playground__spacer"></div>
+
+    <ui-radio
+      name="consistency"
+      value="option-a"
+      label="Field Label"
+      helperText="Same helper text for all."
+      [formControl]="radioControl">
+    </ui-radio>
   </section>
 
 </div>
