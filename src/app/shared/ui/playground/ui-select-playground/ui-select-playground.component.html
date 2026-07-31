@@ -140,6 +140,66 @@
   </section>
 
   <!-- ============================================
+       UI ALERT
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-alert</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Variants</h3>
+      <div class="playground__stack">
+        <ui-alert *ngFor="let v of alertVariants" [variant]="v">
+          {{ v }} variant alert message.
+        </ui-alert>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Icon + Text</h3>
+      <div class="playground__stack">
+        <ui-alert variant="danger">
+          <ui-icon name="warning" size="sm"></ui-icon>
+          Invalid credentials. Please try again.
+        </ui-alert>
+        <ui-alert variant="success">
+          <ui-icon name="success" size="sm"></ui-icon>
+          Your changes have been saved.
+        </ui-alert>
+        <ui-alert variant="warning">
+          <ui-icon name="warning" size="sm"></ui-icon>
+          Only 3 items left in stock.
+        </ui-alert>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Rich Content</h3>
+      <div class="playground__stack">
+        <ui-alert variant="warning">
+          This action will also deactivate
+          <strong>5</strong> descendant categories.
+        </ui-alert>
+        <ui-alert variant="info">
+          Featured products are currently shown.
+          <button type="button" class="btn btn-link btn-sm p-0 ms-2">Show all products</button>
+        </ui-alert>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Dynamic Role (consumer-owned ARIA)</h3>
+      <div class="playground__stack">
+        <ui-alert variant="danger" role="alert">
+          This alert announces assertively when it appears.
+        </ui-alert>
+        <ui-alert variant="success" role="status">
+          This alert announces politely when it appears.
+        </ui-alert>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
        UI INPUT
        ============================================ -->
   <section class="playground__card">

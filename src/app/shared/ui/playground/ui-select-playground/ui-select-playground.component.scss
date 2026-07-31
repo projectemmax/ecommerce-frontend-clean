@@ -50,6 +50,12 @@
   align-items: center;
 }
 
+.playground__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .playground__grid {
   display: flex;
   flex-wrap: wrap;

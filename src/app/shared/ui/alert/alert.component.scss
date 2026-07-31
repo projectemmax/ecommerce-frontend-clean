@@ -1,0 +1,44 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sh-space-2);
+
+  padding: var(--sh-space-3) var(--sh-space-4);
+
+  border: 1px solid transparent;
+  border-radius: var(--sh-radius-md);
+
+  font-size: var(--sh-font-size-sm);
+  line-height: var(--sh-line-height-base);
+}
+
+.ui-alert--danger {
+  background: var(--sh-color-danger-surface);
+  border-color: color-mix(in srgb, var(--sh-color-danger) 40%, transparent);
+  color: var(--sh-color-danger);
+}
+
+.ui-alert--warning {
+  background: var(--sh-color-warning-surface);
+  border-color: color-mix(in srgb, var(--sh-color-warning) 40%, transparent);
+  color: var(--sh-color-warning);
+}
+
+.ui-alert--success {
+  background: var(--sh-color-success-surface);
+  border-color: color-mix(in srgb, var(--sh-color-success) 40%, transparent);
+  color: var(--sh-color-success);
+}
+
+.ui-alert--info {
+  background: var(--sh-color-info-surface);
+  border-color: color-mix(in srgb, var(--sh-color-info) 40%, transparent);
+  color: var(--sh-color-info);
+}

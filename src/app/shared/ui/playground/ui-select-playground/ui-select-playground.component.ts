@@ -14,6 +14,7 @@ import { UiTextareaComponent } from '@app/shared/ui/textarea';
 import { UiCheckboxComponent } from '@app/shared/ui/checkbox';
 import { UiRadioComponent } from '@app/shared/ui/radio';
 import { UiBadgeComponent } from '@app/shared/ui/badge';
+import { UiAlertComponent } from '@app/shared/ui/alert';
 
 @Component({
   selector: 'app-ui-playground',
@@ -30,6 +31,7 @@ import { UiBadgeComponent } from '@app/shared/ui/badge';
     UiCheckboxComponent,
     UiRadioComponent,
     UiBadgeComponent,
+    UiAlertComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',
@@ -79,6 +81,9 @@ export class UiPlaygroundComponent {
 
   // --- Badge ---
   readonly badgeVariants = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'] as const;
+
+  // --- Alert ---
+  readonly alertVariants = ['success', 'warning', 'danger', 'info'] as const;
 
   // --- Showcase icons ---
   readonly showcaseIcons = [
