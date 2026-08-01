@@ -1,0 +1,12 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-divider {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--sh-color-border);
+}

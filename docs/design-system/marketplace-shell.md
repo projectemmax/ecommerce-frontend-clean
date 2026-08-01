@@ -244,6 +244,104 @@ Text controls (`ui-input`, `ui-select`, and `ui-textarea`) compose `ui-field` to
 
 ---
 
+### ui-alert
+
+`ui-alert` provides a reusable presentation component for contextual feedback and status messages.
+
+Responsibilities:
+
+- Semantic alert variants
+- Design Token-based styling
+- Content projection
+- Flexbox layout
+- Accessibility-friendly composition
+
+Supported semantic variants:
+
+- success
+- warning
+- danger
+- info
+
+`ui-alert` intentionally remains presentation-only.
+
+It does not own:
+
+- dismiss behavior
+- toast behavior
+- timers
+- icons
+- ARIA roles
+- business logic
+
+Consumers own icon composition, accessibility semantics, and interaction behavior.
+
+---
+
+### ui-spinner
+
+`ui-spinner` provides the shared loading indicator primitive.
+
+Responsibilities:
+
+- Indeterminate loading visualization
+- Continuous animation
+- Shared sizing
+- Decorative accessibility
+
+Supported sizes:
+
+- sm
+- md
+
+`ui-spinner` intentionally has a minimal public API.
+
+It owns:
+
+- Rendering
+- Animation
+- Size
+
+It does not own:
+
+- Loading state
+- Loading messages
+- Overlay behavior
+- Positioning
+- Async logic
+- Route loading
+- Button loading
+- Status announcements
+
+Spinner color is inherited through `currentColor`, allowing consumers to control appearance using normal CSS inheritance.
+
+---
+
+### ui-divider
+
+`ui-divider` provides a semantic horizontal separator for grouping related content.
+
+Responsibilities:
+
+- Section separation
+- Semantic `<hr>` rendering
+- Design Token-based border styling
+
+The component intentionally preserves native separator semantics by default while supporting decorative usage when appropriate.
+
+`ui-divider` intentionally does not provide:
+
+- Vertical orientation
+- Insets
+- Thickness variants
+- Labels
+- Content projection
+- Layout spacing
+
+Spacing remains entirely consumer-owned through normal CSS classes and layout utilities.
+
+---
+
 ### Shared UI Design Principles
 
 The Shared UI Library follows these architectural principles:

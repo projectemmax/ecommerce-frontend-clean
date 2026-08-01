@@ -238,6 +238,55 @@
   </section>
 
   <!-- ============================================
+       UI DIVIDER
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-divider</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Basic</h3>
+      <div class="playground__stack">
+        <p>Content above the divider.</p>
+        <ui-divider></ui-divider>
+        <p>Content below the divider.</p>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Consumer-Owned Spacing</h3>
+      <div class="playground__stack">
+        <p>Spacing is applied on the host via utility classes.</p>
+        <ui-divider class="my-4"></ui-divider>
+        <p>Large top/bottom margin added with <code>my-4</code>.</p>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Decorative</h3>
+      <div class="playground__stack">
+        <p>This divider is purely visual and hidden from screen readers.</p>
+        <ui-divider decorative></ui-divider>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Order Summary Pattern</h3>
+      <div class="playground__stack">
+        <p class="d-flex justify-content-between mb-0">
+          <span>Subtotal</span><span>₱1,200.00</span>
+        </p>
+        <p class="d-flex justify-content-between mb-0">
+          <span>Shipping</span><span>₱80.00</span>
+        </p>
+        <ui-divider class="my-3"></ui-divider>
+        <p class="d-flex justify-content-between fw-bold mb-0">
+          <span>Total</span><span>₱1,280.00</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
        UI INPUT
        ============================================ -->
   <section class="playground__card">
