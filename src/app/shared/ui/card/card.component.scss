@@ -1,0 +1,15 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+  background: var(--sh-color-surface);
+  color: var(--sh-color-text);
+  border: 1px solid var(--sh-color-border);
+  border-radius: var(--sh-radius-md);
+}
+
+:host(.ui-card--elevated) {
+  border-color: transparent;
+  box-shadow: var(--sh-shadow-sm);
+}
