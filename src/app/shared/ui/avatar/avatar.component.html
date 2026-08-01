@@ -1,0 +1,12 @@
+<span
+  class="ui-avatar"
+  [ngClass]="'ui-avatar--' + size()">
+  @if (src()) {
+    <img
+      class="ui-avatar__image"
+      [src]="src()"
+      [alt]="alt()">
+  } @else {
+    <ng-content />
+  }
+</span>
