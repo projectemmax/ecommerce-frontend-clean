@@ -1,0 +1,26 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: inline-flex;
+}
+
+.ui-spinner {
+  width: var(--_spinner-size);
+  height: var(--_spinner-size);
+
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+
+  display: inline-block;
+
+  animation: ui-spinner-spin 0.75s linear infinite;
+}
+
+.ui-spinner--sm { --_spinner-size: 1rem; }
+.ui-spinner--md { --_spinner-size: 2rem; }
+
+@keyframes ui-spinner-spin {
+  to { transform: rotate(360deg); }
+}

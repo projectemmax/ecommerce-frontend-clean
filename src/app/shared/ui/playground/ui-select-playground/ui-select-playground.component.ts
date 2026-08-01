@@ -15,6 +15,7 @@ import { UiCheckboxComponent } from '@app/shared/ui/checkbox';
 import { UiRadioComponent } from '@app/shared/ui/radio';
 import { UiBadgeComponent } from '@app/shared/ui/badge';
 import { UiAlertComponent } from '@app/shared/ui/alert';
+import { UiSpinnerComponent } from '@app/shared/ui/spinner';
 
 @Component({
   selector: 'app-ui-playground',
@@ -32,6 +33,7 @@ import { UiAlertComponent } from '@app/shared/ui/alert';
     UiRadioComponent,
     UiBadgeComponent,
     UiAlertComponent,
+    UiSpinnerComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',

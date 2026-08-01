@@ -200,6 +200,44 @@
   </section>
 
   <!-- ============================================
+       UI SPINNER
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-spinner</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Sizes</h3>
+      <div class="playground__row">
+        <ui-spinner size="sm"></ui-spinner>
+        <ui-spinner size="md"></ui-spinner>
+        <ui-spinner></ui-spinner>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Consumer-Owned Color (currentColor)</h3>
+      <div class="playground__row">
+        <ui-spinner></ui-spinner>
+        <ui-spinner class="text-primary"></ui-spinner>
+        <ui-spinner class="text-success"></ui-spinner>
+        <ui-spinner class="text-warning"></ui-spinner>
+        <ui-spinner class="text-danger"></ui-spinner>
+      </div>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Accessible Loading Pattern</h3>
+      <div class="playground__stack">
+        <div role="status">
+          <ui-spinner size="sm"></ui-spinner>
+          <span class="visually-hidden">Loading...</span>
+          <span class="ms-2">Loading customers...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
        UI INPUT
        ============================================ -->
   <section class="playground__card">
