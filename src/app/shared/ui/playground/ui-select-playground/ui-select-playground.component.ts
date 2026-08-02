@@ -20,6 +20,9 @@ import { UiDividerComponent } from '@app/shared/ui/divider';
 import { UiCardComponent } from '@app/shared/ui/card';
 import { UiAvatarComponent } from '@app/shared/ui/avatar';
 import { UiTableComponent } from '@app/shared/ui/table';
+import { UiTabsComponent } from '@app/shared/ui/tabs';
+import { UiTabComponent } from '@app/shared/ui/tabs';
+import { UiTabPanelComponent } from '@app/shared/ui/tabs';
 
 @Component({
   selector: 'app-ui-playground',
@@ -42,11 +45,21 @@ import { UiTableComponent } from '@app/shared/ui/table';
     UiCardComponent,
     UiAvatarComponent,
     UiTableComponent,
+    UiTabsComponent,
+    UiTabComponent,
+    UiTabPanelComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',
 })
 export class UiPlaygroundComponent {
+  // --- Tabs ---
+  tabsActiveIndex = 0;
+  tabsBadgeIndex = 0;
+  tabsFiveIndex = 0;
+  tabsEightIndex = 0;
+  tabsLongIndex = 0;
+
   // --- Button ---
   clickCount = 0;
   buttonLoading = signal(false);

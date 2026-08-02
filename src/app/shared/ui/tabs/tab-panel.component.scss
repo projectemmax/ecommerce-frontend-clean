@@ -1,0 +1,10 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-tab-panel {
+  color: var(--sh-color-text);
+}

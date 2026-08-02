@@ -1,0 +1,8 @@
+<div
+  class="ui-tab-panel"
+  role="tabpanel"
+  [id]="id"
+  [attr.aria-labelledby]="labelledbyId()"
+  [hidden]="!isActive()">
+  <ng-content />
+</div>

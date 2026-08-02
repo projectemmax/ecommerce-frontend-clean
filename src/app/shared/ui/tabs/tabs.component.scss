@@ -1,0 +1,16 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-tabs__list {
+  display: flex;
+  gap: var(--sh-space-1);
+  overflow-x: auto;
+}
+
+.ui-tabs__panels {
+  padding-block-start: var(--sh-space-3);
+}

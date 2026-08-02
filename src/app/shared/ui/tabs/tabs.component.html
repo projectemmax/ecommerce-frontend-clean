@@ -1,0 +1,10 @@
+<div
+  class="ui-tabs__list"
+  role="tablist"
+  (keydown)="onKeydown($event)">
+  <ng-content select="ui-tab" />
+</div>
+
+<div class="ui-tabs__panels">
+  <ng-content select="ui-tab-panel" />
+</div>

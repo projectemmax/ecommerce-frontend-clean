@@ -482,6 +482,102 @@
   </section>
 
   <!-- ============================================
+       UI TABS
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-tabs</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Controlled Tabs</h3>
+      <ui-tabs [activeIndex]="tabsActiveIndex" (activeIndexChange)="tabsActiveIndex = $event">
+        <ui-tab>
+          <ui-icon name="home" size="sm"></ui-icon>
+          Overview
+        </ui-tab>
+        <ui-tab>Orders</ui-tab>
+        <ui-tab>Settings</ui-tab>
+
+        <ui-tab-panel>
+          <p class="mb-0 text-muted">Account overview content.</p>
+        </ui-tab-panel>
+        <ui-tab-panel>
+          <p class="mb-0 text-muted">Order history content.</p>
+        </ui-tab-panel>
+        <ui-tab-panel>
+          <p class="mb-0 text-muted">Account settings content.</p>
+        </ui-tab-panel>
+      </ui-tabs>
+      <p class="playground__value">
+        Active index: <code>{{ tabsActiveIndex }}</code>
+      </p>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Composition (badge inside label)</h3>
+      <ui-tabs [activeIndex]="tabsBadgeIndex" (activeIndexChange)="tabsBadgeIndex = $event">
+        <ui-tab>Products <ui-badge variant="info">12</ui-badge></ui-tab>
+        <ui-tab>Pending <ui-badge variant="warning">3</ui-badge></ui-tab>
+        <ui-tab-panel>
+          <p class="mb-0 text-muted">All products.</p>
+        </ui-tab-panel>
+        <ui-tab-panel>
+          <p class="mb-0 text-muted">Pending items.</p>
+        </ui-tab-panel>
+      </ui-tabs>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">5 Tabs</h3>
+      <ui-tabs [activeIndex]="tabsFiveIndex" (activeIndexChange)="tabsFiveIndex = $event">
+        <ui-tab>One</ui-tab>
+        <ui-tab>Two</ui-tab>
+        <ui-tab>Three</ui-tab>
+        <ui-tab>Four</ui-tab>
+        <ui-tab>Five</ui-tab>
+        <ui-tab-panel><p class="mb-0 text-muted">Panel One.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">Panel Two.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">Panel Three.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">Panel Four.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">Panel Five.</p></ui-tab-panel>
+      </ui-tabs>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">8 Tabs (horizontal scroll)</h3>
+      <ui-tabs [activeIndex]="tabsEightIndex" (activeIndexChange)="tabsEightIndex = $event">
+        <ui-tab>January</ui-tab>
+        <ui-tab>February</ui-tab>
+        <ui-tab>March</ui-tab>
+        <ui-tab>April</ui-tab>
+        <ui-tab>May</ui-tab>
+        <ui-tab>June</ui-tab>
+        <ui-tab>July</ui-tab>
+        <ui-tab>August</ui-tab>
+        <ui-tab-panel><p class="mb-0 text-muted">January data.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">February data.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">March data.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">April data.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">May data.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">June data.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">July data.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">August data.</p></ui-tab-panel>
+      </ui-tabs>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Long Labels</h3>
+      <ui-tabs [activeIndex]="tabsLongIndex" (activeIndexChange)="tabsLongIndex = $event">
+        <ui-tab>Very long product category name that may exceed the tab width</ui-tab>
+        <ui-tab>Another considerably longer label for verification purposes</ui-tab>
+        <ui-tab>Short</ui-tab>
+        <ui-tab-panel><p class="mb-0 text-muted">Long label panel A.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">Long label panel B.</p></ui-tab-panel>
+        <ui-tab-panel><p class="mb-0 text-muted">Short label panel.</p></ui-tab-panel>
+      </ui-tabs>
+    </div>
+  </section>
+
+  <!-- ============================================
        UI INPUT
        ============================================ -->
   <section class="playground__card">

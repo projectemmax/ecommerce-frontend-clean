@@ -1,0 +1,13 @@
+<button
+  #tabButton
+  type="button"
+  role="tab"
+  class="ui-tab"
+  [class.ui-tab--active]="isActive()"
+  [id]="id"
+  [attr.aria-selected]="isActive()"
+  [attr.aria-controls]="controlsId()"
+  [tabIndex]="isActive() ? 0 : -1"
+  (click)="onClick()">
+  <ng-content />
+</button>
