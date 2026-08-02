@@ -48,11 +48,22 @@ Design Tokens
 └── CSS Utilities
         │
         ▼
-Shared UI Primitives
+Shared UI Primitives (presentation components)
 │
 ├── ui-button
 ├── ui-icon
 ├── ui-badge
+├── ui-alert
+├── ui-spinner
+├── ui-divider
+├── ui-card
+├── ui-avatar
+├── ui-table
+└── ui-tabs (+ ui-tab, ui-tab-panel)
+        │
+        ▼
+Shared Form Foundation
+│
 └── ui-field
         │
         ▼
@@ -342,6 +353,138 @@ Spacing remains entirely consumer-owned through normal CSS classes and layout ut
 
 ---
 
+### ui-card
+
+`ui-card` provides a reusable surface container for grouping related content.
+
+Responsibilities:
+
+- Surface container rendering
+- Design Token-based surface, border, radius, and shadow styling
+- Content projection
+- Semantic variant styling
+
+Supported semantic variants:
+
+- outlined
+- elevated
+
+`ui-card` is intentionally host-styled so that consumer layout classes (padding, margins, spacing) land directly on the card element itself.
+
+It does not own:
+
+- Header, body, or footer slots
+- Titles
+- Actions
+- Click behavior
+- Selection
+- Loading states
+- Positioning
+
+Headers, bodies, footers, titles, and actions are composed by the consumer through content projection.
+
+---
+
+### ui-avatar
+
+`ui-avatar` provides a circular presentation component for user, seller, and customer identity images.
+
+Responsibilities:
+
+- Image rendering via `src`
+- Consumer-provided fallback through content projection (initials or icon)
+- Shared sizing
+- Circular presentation
+- Design Token-based styling
+
+Supported sizes:
+
+- sm
+- md
+- lg
+
+`ui-avatar` intentionally does not compute initials or fallbacks from application data.
+
+It does not own:
+
+- Initials generation
+- Icon fallback selection
+- Status indicators or overlays
+- Image error handling
+- Upload or edit behavior
+- Business logic
+
+Consumers provide the fallback content (such as name initials or a user icon) through content projection and own all overlay and upload behavior.
+
+---
+
+### ui-table
+
+`ui-table` provides a responsive, presentation-only wrapper around a native HTML table.
+
+Responsibilities:
+
+- Native `<table>` rendering inside a responsive wrapper
+- Base cell styling (padding, borders, alignment)
+- Hover row styling
+- Optional striped variant
+- Design Token-based styling
+
+Supported variants:
+
+- default
+- striped
+
+`ui-table` is the single shared presentation layer for application tables.
+
+It does not own:
+
+- Sorting
+- Filtering
+- Searching
+- Pagination
+- Selection
+- Loading or empty-state presentation
+- Tree or expand/collapse behavior
+- Business logic
+
+The consumer composes the full table structure (`thead`, `tbody`, rows, and cells) through content projection, including badges, actions, and checkboxes inside cells.
+
+---
+
+### ui-tabs
+
+`ui-tabs` is a three-primitive implementation of the WAI-ARIA Tabs pattern for switching between content panels.
+
+Composition:
+
+- `ui-tabs` — the coordinator (tab list, panel region, state channel, keyboard behavior, ARIA wiring)
+- `ui-tab` — a trigger that projects its label content
+- `ui-tab-panel` — a panel that projects its body content
+
+The active tab is fully controlled by the consumer through a single two-way state channel. The component never owns selection; it reflects the consumer's value and reports selection intent.
+
+`ui-tabs` owns:
+
+- WAI-ARIA roles and states (`tablist`, `tab`, `tabpanel`, `aria-selected`, `aria-controls`, `aria-labelledby`)
+- Roving `tabindex`
+- Keyboard navigation (Arrow keys, Home, End) with auto-activation
+- Panel visibility (inactive panels hidden)
+- Internally generated IDs
+- Underline indicator styling
+
+It does not own:
+
+- Selection state (consumer-owned)
+- Routing or URL-driven tab state
+- Lazy rendering
+- Icon or badge APIs (labels are composed through content projection)
+- Variants, vertical orientation, closeable, or draggable behavior
+
+Panels are required — each tab must control a corresponding panel for valid ARIA relationships. Panel-less filter selectors are a segmented-control pattern outside the scope of `ui-tabs`.
+
+---
+
 ### Shared UI Design Principles
 
 The Shared UI Library follows these architectural principles:
@@ -455,31 +598,36 @@ Search, cart, and account remain reachable without scrolling on small screens.
 - Legacy full admin theme CSS is no longer injected by the workspace shell. Temporary icon font CSS remains loaded for old page content that still references `mdi` and `fa` classes.
 - Storefront medical theme CSS is no longer injected. Bootstrap remains globally available and token-bridged through the Phase 2 foundation.
 
-## 7. Next Migration Steps
-
-1. Build shared buttons, badges, cards, tables, and form controls on top of the token foundation.
-2. Migrate storefront header-specific page spacing assumptions out of legacy global CSS.
-3. Replace old storefront navbar/footer files after no references remain.
-4. Replace old admin layout files after workspace pages are visually migrated.
-5. Remove temporary icon font CSS when the single icon library migration is complete.
-
 ## 8. Next Migration Steps
 
-Completed Foundation
+Completed Shared UI Library
 
 - ✅ Design Tokens
 - ✅ CSS Utility Primitives
 - ✅ ui-button
 - ✅ ui-icon
+- ✅ ui-badge
+- ✅ ui-alert
+- ✅ ui-spinner
+- ✅ ui-divider
+- ✅ ui-card
+- ✅ ui-avatar
+- ✅ ui-table
+- ✅ ui-tabs (+ ui-tab, ui-tab-panel)
 - ✅ ui-field
+- ✅ ui-input
+- ✅ ui-select
+- ✅ ui-textarea
+- ✅ ui-checkbox
+- ✅ ui-switch
+- ✅ ui-radio
 
-Next Priorities
+Remaining Application Migration
 
-1. Build `ui-input` on top of `ui-field`.
-2. Build `ui-select`.
-3. Build `ui-textarea`.
-4. Build `ui-checkbox`.
-5. Build `ui-radio`.
-6. Migrate shell patterns to consume shared form components where applicable.
-7. Continue replacing legacy Bootstrap implementations with Shared UI primitives.
-8. Remove temporary icon font CSS after all legacy icons have been migrated.
+1. Migrate storefront page spacing assumptions out of legacy global CSS.
+2. Replace the old storefront navbar/footer files after no references remain.
+3. Replace the old admin navbar/sidebar/footer files after workspace pages are visually migrated.
+4. Migrate admin feature pages (orders, customers, brands, categories, reviews, sales, carts) to consume `ui-table`, `ui-badge`, and `ui-button`.
+5. Migrate storefront checkout, order summary, and account surfaces to consume `ui-card`, `ui-divider`, and `ui-tabs`.
+6. Replace legacy `mdi`/`fa` icon usage with `ui-icon` semantic names and remove temporary icon font CSS.
+7. Remove the temporary Shared UI playground once component verification is complete.
