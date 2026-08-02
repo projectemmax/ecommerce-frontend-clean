@@ -59,7 +59,8 @@ Shared UI Primitives (presentation components)
 ├── ui-card
 ├── ui-avatar
 ├── ui-table
-└── ui-tabs (+ ui-tab, ui-tab-panel)
+├── ui-tabs (+ ui-tab, ui-tab-panel)
+└── ui-dialog
         │
         ▼
 Shared Form Foundation
@@ -485,6 +486,45 @@ Panels are required — each tab must control a corresponding panel for valid AR
 
 ---
 
+### ui-dialog
+
+`ui-dialog` is a single-primitive implementation of the WAI-ARIA Dialog pattern for modal overlays.
+
+The open state is fully controlled by the consumer through a two-way state channel. Pressing Escape, clicking the backdrop (when enabled), or clicking the built-in close button emits a **close request** — the consumer decides whether to accept it. The component never closes itself.
+
+Supported sizes:
+
+- sm
+- md
+- lg
+
+with an optional `maxWidth` override for large, page-specific dialogs.
+
+`ui-dialog` owns (intrinsic dialog behavior):
+
+- Overlay and backdrop rendering
+- Escape detection
+- Outside-click detection (opt-in via `closeOnBackdrop`)
+- Focus trap, initial focus, and focus restoration
+- Body scroll locking
+- Stacking / z-index
+- Panel scroll container
+- ARIA semantics (`role="dialog"`, `aria-modal`, `aria-labelledby` wiring)
+- Built-in close button (top-right, hidden via `showClose`)
+
+It does not own:
+
+- Open/close state (consumer-owned)
+- Whether a close request is accepted (unsaved changes, confirmation logic)
+- Dialog content (title, body, footer, actions — all projected)
+- Forms, validation, API requests
+- Save / cancel / delete actions and their effects
+- Routing, analytics
+
+The dialog uses inline overlay rendering rather than a portal; it must be rendered outside transformed or overflow-clipping ancestors.
+
+---
+
 ### Shared UI Design Principles
 
 The Shared UI Library follows these architectural principles:
@@ -614,6 +654,7 @@ Completed Shared UI Library
 - ✅ ui-avatar
 - ✅ ui-table
 - ✅ ui-tabs (+ ui-tab, ui-tab-panel)
+- ✅ ui-dialog
 - ✅ ui-field
 - ✅ ui-input
 - ✅ ui-select
