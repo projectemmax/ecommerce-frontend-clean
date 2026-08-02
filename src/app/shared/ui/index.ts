@@ -11,4 +11,5 @@ export * from './input';
 export * from './radio';
 export * from './select';
 export * from './spinner';
+export * from './table';
 export * from './textarea';

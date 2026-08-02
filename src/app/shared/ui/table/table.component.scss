@@ -1,0 +1,40 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-table {
+  overflow-x: auto;
+}
+
+.ui-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--sh-font-size-sm);
+  color: var(--sh-color-text);
+}
+
+.ui-table ::ng-deep th,
+.ui-table ::ng-deep td {
+  padding: var(--sh-space-2) var(--sh-space-3);
+  border-bottom: 1px solid var(--sh-color-border);
+  text-align: start;
+  vertical-align: middle;
+}
+
+.ui-table ::ng-deep thead th {
+  background: var(--sh-color-surface-muted);
+  color: var(--sh-color-text-muted);
+  font-weight: var(--sh-font-weight-semibold);
+  white-space: nowrap;
+}
+
+.ui-table ::ng-deep tbody tr:hover {
+  background: color-mix(in srgb, var(--sh-color-border) 30%, transparent);
+}
+
+.ui-table--striped ::ng-deep tbody tr:nth-child(odd) {
+  background: var(--sh-color-surface-muted);
+}
