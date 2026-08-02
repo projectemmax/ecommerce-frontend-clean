@@ -578,6 +578,84 @@
   </section>
 
   <!-- ============================================
+       UI DIALOG
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-dialog</h2>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Confirmation (sm, closeOnBackdrop)</h3>
+      <ui-button variant="danger" (clicked)="confirmDialogOpen = true">
+        Open confirmation
+      </ui-button>
+
+      <ui-dialog
+        [open]="confirmDialogOpen"
+        [size]="'sm'"
+        closeOnBackdrop
+        ariaLabelledby="confirm-title"
+        (close)="confirmDialogOpen = false">
+        <div class="p-4">
+          <h5 id="confirm-title" class="mb-2">Deactivate category?</h5>
+          <p class="text-muted mb-0">This action will also deactivate its descendant categories.</p>
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <ui-button variant="secondary" size="sm" (clicked)="confirmDialogOpen = false">Cancel</ui-button>
+            <ui-button variant="danger" size="sm" (clicked)="confirmDialogOpen = false">Confirm</ui-button>
+          </div>
+        </div>
+      </ui-dialog>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Form (md)</h3>
+      <ui-button (clicked)="formDialogOpen = true">
+        Open form dialog
+      </ui-button>
+
+      <ui-dialog
+        [open]="formDialogOpen"
+        ariaLabelledby="form-title"
+        (close)="formDialogOpen = false">
+        <div class="p-4">
+          <h5 id="form-title" class="mb-3">New Offer</h5>
+          <ui-input
+            label="Offer name"
+            placeholder="e.g. Summer Sale"
+            [formControl]="inputControl">
+          </ui-input>
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <ui-button variant="secondary" size="sm" (clicked)="formDialogOpen = false">Cancel</ui-button>
+            <ui-button variant="primary" size="sm" (clicked)="formDialogOpen = false">Save</ui-button>
+          </div>
+        </div>
+      </ui-dialog>
+    </div>
+
+    <div class="playground__subsection">
+      <h3 class="playground__label">Wide (lg)</h3>
+      <ui-button (clicked)="wideDialogOpen = true">
+        Open wide dialog
+      </ui-button>
+
+      <ui-dialog
+        [open]="wideDialogOpen"
+        [size]="'lg'"
+        ariaLabelledby="wide-title"
+        (close)="wideDialogOpen = false">
+        <div class="p-4">
+          <h5 id="wide-title" class="mb-2">Order details</h5>
+          <p class="text-muted mb-0">
+            A large content dialog. Press <kbd>Esc</kbd> or click the backdrop to emit a close request.
+          </p>
+          <div class="d-flex justify-content-end mt-4">
+            <ui-button variant="secondary" size="sm" (clicked)="wideDialogOpen = false">Close</ui-button>
+          </div>
+        </div>
+      </ui-dialog>
+    </div>
+  </section>
+
+  <!-- ============================================
        UI INPUT
        ============================================ -->
   <section class="playground__card">

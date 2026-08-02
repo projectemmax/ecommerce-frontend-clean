@@ -1,0 +1,30 @@
+@if (open()) {
+  <div
+    class="ui-dialog__backdrop"
+    (click)="onBackdropClick()"></div>
+
+  <div
+    #dialogPanel
+    class="ui-dialog__panel"
+    [ngClass]="'ui-dialog--' + size()"
+    [style.max-width]="maxWidth() || null"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="ariaLabelledby() || null"
+    tabindex="-1">
+
+    @if (showClose()) {
+      <button
+        type="button"
+        class="ui-dialog__close"
+        aria-label="Close dialog"
+        (click)="close.emit()">
+        <ui-icon name="close" size="sm"></ui-icon>
+      </button>
+    }
+
+    <div class="ui-dialog__content">
+      <ng-content />
+    </div>
+  </div>
+}

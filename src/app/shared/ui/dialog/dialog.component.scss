@@ -1,0 +1,71 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(15 23 42 / 0.5);
+  z-index: var(--sh-z-modal);
+}
+
+.ui-dialog__panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100% - 2rem);
+  max-width: var(--_dialog-max-width, 40rem);
+
+  background: var(--sh-color-surface);
+  color: var(--sh-color-text);
+  border-radius: var(--sh-radius-lg);
+  box-shadow: var(--sh-shadow-lg);
+  z-index: var(--sh-z-modal);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.ui-dialog__content {
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.ui-dialog__close {
+  position: absolute;
+  top: var(--sh-space-2);
+  right: var(--sh-space-2);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  border: 0;
+  border-radius: var(--sh-radius-sm);
+  background: transparent;
+  color: var(--sh-color-text-muted);
+
+  cursor: pointer;
+
+  &:hover {
+    background: var(--sh-color-surface-muted);
+    color: var(--sh-color-text);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.ui-dialog--sm { --_dialog-max-width: 30rem; }
+.ui-dialog--md { --_dialog-max-width: 40rem; }
+.ui-dialog--lg { --_dialog-max-width: 50rem; }

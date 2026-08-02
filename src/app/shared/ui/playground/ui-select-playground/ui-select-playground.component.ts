@@ -23,6 +23,7 @@ import { UiTableComponent } from '@app/shared/ui/table';
 import { UiTabsComponent } from '@app/shared/ui/tabs';
 import { UiTabComponent } from '@app/shared/ui/tabs';
 import { UiTabPanelComponent } from '@app/shared/ui/tabs';
+import { UiDialogComponent } from '@app/shared/ui/dialog';
 
 @Component({
   selector: 'app-ui-playground',
@@ -48,6 +49,7 @@ import { UiTabPanelComponent } from '@app/shared/ui/tabs';
     UiTabsComponent,
     UiTabComponent,
     UiTabPanelComponent,
+    UiDialogComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',
@@ -59,6 +61,11 @@ export class UiPlaygroundComponent {
   tabsFiveIndex = 0;
   tabsEightIndex = 0;
   tabsLongIndex = 0;
+
+  // --- Dialog ---
+  confirmDialogOpen = false;
+  formDialogOpen = false;
+  wideDialogOpen = false;
 
   // --- Button ---
   clickCount = 0;
