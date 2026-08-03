@@ -1,0 +1,43 @@
+@use '../../../../styles/abstracts/mixins';
+@use '../../../../styles/themes/css-variables';
+
+:host {
+  display: block;
+}
+
+.ui-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sh-space-2);
+
+  width: 100%;
+
+  padding: var(--sh-space-2) var(--sh-space-3);
+  border: 0;
+  background: transparent;
+  color: var(--sh-color-text);
+  font-size: var(--sh-font-size-sm);
+  font-family: inherit;
+  text-align: start;
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+.ui-menu-item:hover:not(:disabled),
+.ui-menu-item:focus-visible {
+  background: var(--sh-color-surface-muted);
+}
+
+.ui-menu-item:focus-visible {
+  @include mixins.focus-ring;
+}
+
+.ui-menu-item:disabled {
+  color: var(--sh-color-text-subtle);
+  cursor: default;
+}
+
+.ui-menu-item--destructive {
+  color: var(--sh-color-danger);
+}

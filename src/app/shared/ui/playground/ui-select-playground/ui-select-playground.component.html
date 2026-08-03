@@ -656,6 +656,96 @@
   </section>
 
   <!-- ============================================
+       UI MENU
+       ============================================ -->
+  <section class="playground__card">
+    <h2 class="playground__heading">ui-menu</h2>
+
+    <div class="playground__subsection playground__menu-demo">
+      <h3 class="playground__label">Account Menu (right-aligned)</h3>
+      <div class="playground__row">
+        <div style="position: relative; display: inline-block;">
+          <ui-button variant="secondary" ariaLabel="Open account menu" (clicked)="accountMenuOpen = true">
+            Account
+          </ui-button>
+          <ui-menu
+            style="position: absolute; top: calc(100% + 0.25rem); right: 0;"
+            [open]="accountMenuOpen"
+            (close)="accountMenuOpen = false">
+            <ui-menu-item (click)="menuAction('My Account'); accountMenuOpen = false">
+              <ui-icon name="user" size="sm"></ui-icon>
+              My Account
+            </ui-menu-item>
+            <ui-menu-item (click)="menuAction('Workspace'); accountMenuOpen = false">
+              <ui-icon name="settings" size="sm"></ui-icon>
+              Workspace
+            </ui-menu-item>
+            <ui-menu-item destructive (click)="menuAction('Logout'); accountMenuOpen = false">
+              Logout
+            </ui-menu-item>
+          </ui-menu>
+        </div>
+      </div>
+    </div>
+
+    <div class="playground__subsection playground__menu-demo">
+      <h3 class="playground__label">Kebab Action Menu (disabled + destructive)</h3>
+      <div class="playground__row">
+        <div style="position: relative; display: inline-block;">
+          <ui-button variant="secondary" ariaLabel="Open row actions" (clicked)="kebabMenuOpen = true">
+            Actions
+          </ui-button>
+          <ui-menu
+            style="position: absolute; top: calc(100% + 0.25rem); right: 0;"
+            [open]="kebabMenuOpen"
+            (close)="kebabMenuOpen = false">
+            <ui-menu-item (click)="menuAction('Edit'); kebabMenuOpen = false">Edit</ui-menu-item>
+            <ui-menu-item (click)="menuAction('Deactivate'); kebabMenuOpen = false">Deactivate</ui-menu-item>
+            <ui-menu-item disabled title="Cannot delete brand with products">Delete</ui-menu-item>
+          </ui-menu>
+        </div>
+      </div>
+    </div>
+
+    <div class="playground__subsection playground__menu-demo">
+      <h3 class="playground__label">Mixed Content Menu (icons + separators + destructive)</h3>
+      <div class="playground__row">
+        <div style="position: relative; display: inline-block;">
+          <ui-button variant="secondary" ariaLabel="Open user menu" (clicked)="mixedMenuOpen = true">
+            User Menu
+          </ui-button>
+          <ui-menu
+            style="position: absolute; top: calc(100% + 0.25rem); right: 0;"
+            [open]="mixedMenuOpen"
+            (close)="mixedMenuOpen = false">
+            <ui-menu-item (click)="menuAction('Profile'); mixedMenuOpen = false">
+              <ui-icon name="user" size="sm"></ui-icon>
+              Profile
+            </ui-menu-item>
+            <ui-divider></ui-divider>
+            <ui-menu-item (click)="menuAction('Settings'); mixedMenuOpen = false">
+              <ui-icon name="settings" size="sm"></ui-icon>
+              Settings
+            </ui-menu-item>
+            <ui-menu-item (click)="menuAction('Workspace'); mixedMenuOpen = false">
+              <ui-icon name="home" size="sm"></ui-icon>
+              Workspace
+            </ui-menu-item>
+            <ui-divider></ui-divider>
+            <ui-menu-item destructive (click)="menuAction('Logout'); mixedMenuOpen = false">
+              Logout
+            </ui-menu-item>
+          </ui-menu>
+        </div>
+      </div>
+    </div>
+
+    <p class="playground__value" *ngIf="menuClicked">
+      Last action: <code>{{ menuClicked }}</code>
+    </p>
+  </section>
+
+  <!-- ============================================
        UI INPUT
        ============================================ -->
   <section class="playground__card">

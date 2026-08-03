@@ -1,0 +1,12 @@
+<button
+  #itemButton
+  type="button"
+  role="menuitem"
+  class="ui-menu-item"
+  [class.ui-menu-item--destructive]="destructive()"
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+  [disabled]="disabled()"
+  tabindex="-1"
+  (click)="onClick()">
+  <ng-content />
+</button>

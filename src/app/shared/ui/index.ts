@@ -9,6 +9,7 @@ export * from './divider';
 export * from './field';
 export * from './icon';
 export * from './input';
+export * from './menu';
 export * from './radio';
 export * from './select';
 export * from './spinner';

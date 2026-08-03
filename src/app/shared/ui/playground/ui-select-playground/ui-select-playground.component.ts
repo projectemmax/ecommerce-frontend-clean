@@ -24,6 +24,8 @@ import { UiTabsComponent } from '@app/shared/ui/tabs';
 import { UiTabComponent } from '@app/shared/ui/tabs';
 import { UiTabPanelComponent } from '@app/shared/ui/tabs';
 import { UiDialogComponent } from '@app/shared/ui/dialog';
+import { UiMenuComponent } from '@app/shared/ui/menu';
+import { UiMenuItemComponent } from '@app/shared/ui/menu';
 
 @Component({
   selector: 'app-ui-playground',
@@ -50,6 +52,8 @@ import { UiDialogComponent } from '@app/shared/ui/dialog';
     UiTabComponent,
     UiTabPanelComponent,
     UiDialogComponent,
+    UiMenuComponent,
+    UiMenuItemComponent,
   ],
   templateUrl: './ui-select-playground.component.html',
   styleUrl: './ui-select-playground.component.scss',
@@ -66,6 +70,16 @@ export class UiPlaygroundComponent {
   confirmDialogOpen = false;
   formDialogOpen = false;
   wideDialogOpen = false;
+
+  // --- Menu ---
+  accountMenuOpen = false;
+  kebabMenuOpen = false;
+  mixedMenuOpen = false;
+  menuClicked = '';
+
+  menuAction(label: string): void {
+    this.menuClicked = label;
+  }
 
   // --- Button ---
   clickCount = 0;

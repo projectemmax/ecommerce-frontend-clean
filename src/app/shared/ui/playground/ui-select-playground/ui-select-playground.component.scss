@@ -99,6 +99,14 @@
   margin-block-end: 1rem;
 }
 
+.playground__menu-demo {
+  margin-block-end: 12rem;
+}
+
+.playground__menu-demo.playground__subsection:last-child {
+  margin-block-end: 12rem;
+}
+
 .playground__spacer {
   block-size: 0.75rem;
 }

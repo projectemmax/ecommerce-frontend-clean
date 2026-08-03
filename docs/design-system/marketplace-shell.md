@@ -60,7 +60,8 @@ Shared UI Primitives (presentation components)
 ├── ui-avatar
 ├── ui-table
 ├── ui-tabs (+ ui-tab, ui-tab-panel)
-└── ui-dialog
+├── ui-dialog
+└── ui-menu (+ ui-menu-item)
         │
         ▼
 Shared Form Foundation
@@ -525,6 +526,45 @@ The dialog uses inline overlay rendering rather than a portal; it must be render
 
 ---
 
+### ui-menu
+
+`ui-menu` is a two-primitive implementation of the WAI-ARIA Menu pattern for action and navigation popup menus.
+
+Composition:
+
+- `ui-menu` — the coordinator (menu surface, keyboard behavior, focus management, close requests)
+- `ui-menu-item` — an item that projects its label/icon content and participates in menu coordination
+
+The open state is fully controlled by the consumer. Pressing Escape, clicking outside, or activating an item emits a **close request** — the consumer decides whether to accept it. The component never closes itself.
+
+`ui-menu-item` supports:
+
+- `disabled` (skipped by keyboard navigation, sets `aria-disabled`)
+- `destructive` (destructive styling)
+
+`ui-menu` owns (intrinsic menu behavior):
+
+- Menu surface rendering (`role="menu"`)
+- Keyboard navigation (Arrow keys, Home, End) across enabled items
+- Focus management (open → first enabled item; close → restore to the previously focused element)
+- Escape detection → close request
+- Outside-click detection → close request
+- Item activation → close request
+- ARIA semantics (`role="menuitem"`, roving `tabindex`, `aria-disabled`) via `ui-menu-item`
+
+It does not own:
+
+- Open/close state (consumer-owned)
+- The trigger element and its `aria-haspopup`/`aria-expanded` (consumer-owned, derived from the consumer's open state)
+- Menu placement/positioning (consumer-coordinated within their relative wrapper)
+- Item actions, routing, navigation
+- Permissions, analytics, API requests
+- Whether a close request is accepted
+
+The trigger is consumer content, so its ARIA remains consumer-owned. Placement is coordinated by the consumer, and non-item content (such as a `ui-divider` separator) can be projected between items.
+
+---
+
 ### Shared UI Design Principles
 
 The Shared UI Library follows these architectural principles:
@@ -655,6 +695,7 @@ Completed Shared UI Library
 - ✅ ui-table
 - ✅ ui-tabs (+ ui-tab, ui-tab-panel)
 - ✅ ui-dialog
+- ✅ ui-menu (+ ui-menu-item)
 - ✅ ui-field
 - ✅ ui-input
 - ✅ ui-select
